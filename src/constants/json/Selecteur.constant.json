@@ -1,0 +1,4 @@
+[
+  { "nom": "Sans assistance", "estAssiste": false },
+  { "nom": "Avec assistance", "estAssiste": true }
+]

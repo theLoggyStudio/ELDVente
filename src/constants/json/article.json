@@ -1,0 +1,410 @@
+[
+  {
+    "urlImage": "https://i.pinimg.com/736x/78/79/1f/78791f95f5a7fff8fafd132e3b3adc8c.jpg",
+    "nom": "ArchiCAD",
+    "categorie": "BIM — conception architecturale",
+    "URL": "https://graphisoft.com",
+    "prix": 5000,
+    "description": "Licence logicielle ArchiCAD — livraison numérique",
+    "descriptionAvecAssistace": "Licence logicielle ArchiCAD — livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Livraison numérique (fichier ou accès en ligne)",
+      "Licence et droits d'activation",
+      "Documentation, tutoriel d'installation et ressource produit",
+      "Aucun accompagnement téléphonique"
+    ],
+    "elementsAvecAssistance": [
+      "Tout ce qui est inclus en mode sans assistance",
+      "Assistance par téléphone pour l'installation et le premier lancement",
+      "Appui en cas d'échec d'activation (dans la limite du forfait)",
+      "Ligne d'assistance : numéro indiqué sur la fiche produit"
+    ],
+    "urlDrive": "https://drive.google.com/file/d/1kNNOI-lF1hSR2Jj9M0Rr3F0n5Ul34Irb/view?usp=drive_link"
+  },
+  {
+    "urlImage": "https://i.pinimg.com/originals/58/6b/be/586bbe06de2d9896b8ef4dda71caa13c.png",
+    "nom": "AutoCAD",
+    "categorie": "CAO 2D/3D",
+    "URL": "https://www.autodesk.com/products/autocad",
+    "prix": 5000,
+    "description": "Licence AutoCAD — livraison numérique, pack logiciel, vidéos et tutoriel d’installation.",
+    "descriptionAvecAssistace": "Licence AutoCAD — livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Livraison numérique (fichier ou accès en ligne)",
+      "Licence et droits d'activation",
+      "Documentation, tutoriel d'installation et ressource produit",
+      "Aucun accompagnement téléphonique"
+    ],
+    "elementsAvecAssistance": [
+      "Tout ce qui est inclus en mode sans assistance",
+      "Assistance par téléphone pour l'installation et le premier lancement",
+      "Appui en cas d'échec d'activation (dans la limite du forfait)",
+      "Ligne d'assistance : numéro indiqué sur la fiche produit"
+    ],
+    "urlDrive": "https://drive.google.com/drive/folders/REMPLACER_PAR_VOTRE_LIEN_DRIVE"
+  },
+  {
+    "urlImage": "https://rochasoftwares.com/wp-content/uploads/2023/04/autocad-electrical-2024.png",
+    "nom": "AutoCAD Electrical",
+    "categorie": "Schémas électriques & automatisme",
+    "URL": "https://www.autodesk.com/products/autocad-electrical",
+    "prix": 5000,
+    "description": "Licence AutoCAD Electrical — livraison numérique, ressources logiciel et formation vidéo.",
+    "descriptionAvecAssistace": "Licence AutoCAD Electrical — livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Livraison numérique (fichier ou accès en ligne)",
+      "Licence et droits d'activation",
+      "Documentation, tutoriel d'installation et ressource produit",
+      "Aucun accompagnement téléphonique"
+    ],
+    "elementsAvecAssistance": [
+      "Tout ce qui est inclus en mode sans assistance",
+      "Assistance par téléphone pour l'installation et le premier lancement",
+      "Appui en cas d'échec d'activation (dans la limite du forfait)",
+      "Ligne d'assistance : numéro indiqué sur la fiche produit"
+    ],
+    "urlDrive": "https://drive.google.com/drive/folders/REMPLACER_PAR_VOTRE_LIEN_DRIVE"
+  },
+  {
+    "urlImage": "https://th.bing.com/th/id/OIP.q_gCvE7EFU2Gp8OZNiEfQwHaHa?o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3",
+    "nom": "Revit Architecture (versions 2018 à 2021)",
+    "categorie": "Architecture BIM",
+    "URL": "https://www.autodesk.com/products/revit",
+    "prix": 5000,
+    "description": "Revit Architecture pour versions 2018 à 2021 — livraison numérique.",
+    "descriptionAvecAssistace": "Revit Architecture (2018–2021) — livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Livraison numérique (fichier ou accès en ligne)",
+      "Licence et droits d'activation",
+      "Documentation, tutoriel d'installation et ressource produit",
+      "Aucun accompagnement téléphonique"
+    ],
+    "elementsAvecAssistance": [
+      "Tout ce qui est inclus en mode sans assistance",
+      "Assistance par téléphone pour l'installation et le premier lancement",
+      "Appui en cas d'échec d'activation (dans la limite du forfait)",
+      "Ligne d'assistance : numéro indiqué sur la fiche produit"
+    ],
+    "urlDrive": "https://drive.google.com/drive/folders/REMPLACER_PAR_VOTRE_LIEN_DRIVE"
+  },
+  {
+    "urlImage": "https://th.bing.com/th/id/OIP.q_gCvE7EFU2Gp8OZNiEfQwHaHa?o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3",
+    "nom": "Revit Architecture (versions 2022 à 2026)",
+    "categorie": "Architecture BIM",
+    "URL": "https://www.autodesk.com/products/revit",
+    "prix": 10000,
+    "description": "Revit Architecture pour versions 2022 à 2026 — livraison numérique.",
+    "descriptionAvecAssistace": "Revit Architecture (2022–2026) — livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Livraison numérique (fichier ou accès en ligne)",
+      "Licence et droits d'activation",
+      "Documentation, tutoriel d'installation et ressource produit",
+      "Aucun accompagnement téléphonique"
+    ],
+    "elementsAvecAssistance": [
+      "Tout ce qui est inclus en mode sans assistance",
+      "Assistance par téléphone pour l'installation et le premier lancement",
+      "Appui en cas d'échec d'activation (dans la limite du forfait)",
+      "Ligne d'assistance : numéro indiqué sur la fiche produit"
+    ],
+    "urlDrive": "https://drive.google.com/drive/folders/REMPLACER_PAR_VOTRE_LIEN_DRIVE"
+  },
+  {
+    "urlImage": "https://th.bing.com/th/id/OIP.q_gCvE7EFU2Gp8OZNiEfQwHaHa?o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3",
+    "nom": "Revit Structure (versions 2018 à 2021)",
+    "categorie": "Ingénierie structure BIM",
+    "URL": "https://www.autodesk.com/products/revit",
+    "prix": 5000,
+    "description": "Revit Structure pour versions 2018 à 2021 — livraison numérique.",
+    "descriptionAvecAssistace": "Revit Structure (2018–2021) — livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Livraison numérique (fichier ou accès en ligne)",
+      "Licence et droits d'activation",
+      "Documentation, tutoriel d'installation et ressource produit",
+      "Aucun accompagnement téléphonique"
+    ],
+    "elementsAvecAssistance": [
+      "Tout ce qui est inclus en mode sans assistance",
+      "Assistance par téléphone pour l'installation et le premier lancement",
+      "Appui en cas d'échec d'activation (dans la limite du forfait)",
+      "Ligne d'assistance : numéro indiqué sur la fiche produit"
+    ],
+    "urlDrive": "https://drive.google.com/drive/folders/REMPLACER_PAR_VOTRE_LIEN_DRIVE"
+  },
+  {
+    "urlImage": "https://th.bing.com/th/id/OIP.q_gCvE7EFU2Gp8OZNiEfQwHaHa?o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3",
+    "nom": "Revit Structure (versions 2022 à 2026)",
+    "categorie": "Ingénierie structure BIM",
+    "URL": "https://www.autodesk.com/products/revit",
+    "prix": 10000,
+    "description": "Revit Structure pour versions 2022 à 2026 — livraison numérique.",
+    "descriptionAvecAssistace": "Revit Structure (2022–2026) — livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Livraison numérique (fichier ou accès en ligne)",
+      "Licence et droits d'activation",
+      "Documentation, tutoriel d'installation et ressource produit",
+      "Aucun accompagnement téléphonique"
+    ],
+    "elementsAvecAssistance": [
+      "Tout ce qui est inclus en mode sans assistance",
+      "Assistance par téléphone pour l'installation et le premier lancement",
+      "Appui en cas d'échec d'activation (dans la limite du forfait)",
+      "Ligne d'assistance : numéro indiqué sur la fiche produit"
+    ],
+    "urlDrive": "https://drive.google.com/drive/folders/REMPLACER_PAR_VOTRE_LIEN_DRIVE"
+  },
+  {
+    "urlImage": "https://i.pinimg.com/1200x/0d/9c/14/0d9c147ce693bb180b9c7f0ed378516e.jpg",
+    "nom": "SketchUp",
+    "categorie": "Modélisation 3D",
+    "URL": "https://www.sketchup.com",
+    "prix": 5000,
+    "description": "Licence SketchUp — livraison numérique, tutoriels et vidéos de prise en main.",
+    "descriptionAvecAssistace": "Licence SketchUp — livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Livraison numérique (fichier ou accès en ligne)",
+      "Licence et droits d'activation",
+      "Documentation, tutoriel d'installation et ressource produit",
+      "Aucun accompagnement téléphonique"
+    ],
+    "elementsAvecAssistance": [
+      "Tout ce qui est inclus en mode sans assistance",
+      "Assistance par téléphone pour l'installation et le premier lancement",
+      "Appui en cas d'échec d'activation (dans la limite du forfait)",
+      "Ligne d'assistance : numéro indiqué sur la fiche produit"
+    ],
+    "urlDrive": "https://drive.google.com/drive/folders/REMPLACER_PAR_VOTRE_LIEN_DRIVE"
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.graitec.com/&size=256",
+    "nom": "Graitec OMD",
+    "categorie": "Métallerie & charpente",
+    "URL": "https://www.graitec.com",
+    "prix": 5000,
+    "description": "Logiciel Graitec OMD — livraison numérique et ressources d’installation.",
+    "descriptionAvecAssistace": "Graitec OMD — livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Livraison numérique (fichier ou accès en ligne)",
+      "Licence et droits d'activation",
+      "Documentation, tutoriel d'installation et ressource produit",
+      "Aucun accompagnement téléphonique"
+    ],
+    "elementsAvecAssistance": [
+      "Tout ce qui est inclus en mode sans assistance",
+      "Assistance par téléphone pour l'installation et le premier lancement",
+      "Appui en cas d'échec d'activation (dans la limite du forfait)",
+      "Ligne d'assistance : numéro indiqué sur la fiche produit"
+    ],
+    "urlDrive": "https://drive.google.com/drive/folders/REMPLACER_PAR_VOTRE_LIEN_DRIVE"
+  },
+  {
+    "urlImage": "https://tse3.mm.bing.net/th/id/OIP.ptyDuSX49cOEjauswiqM3QAAAA?w=300&h=225&rs=1&pid=ImgDetMain&o=7&rm=3",
+    "nom": "Robot DDC",
+    "categorie": "Calcul structurel",
+    "URL": "https://www.autodesk.com",
+    "prix": 5000,
+    "description": "Robot DDC — livraison numérique, pack logiciel et documentation.",
+    "descriptionAvecAssistace": "Robot DDC — livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Livraison numérique (fichier ou accès en ligne)",
+      "Licence et droits d'activation",
+      "Documentation, tutoriel d'installation et ressource produit",
+      "Aucun accompagnement téléphonique"
+    ],
+    "elementsAvecAssistance": [
+      "Tout ce qui est inclus en mode sans assistance",
+      "Assistance par téléphone pour l'installation et le premier lancement",
+      "Appui en cas d'échec d'activation (dans la limite du forfait)",
+      "Ligne d'assistance : numéro indiqué sur la fiche produit"
+    ],
+    "urlDrive": "https://drive.google.com/drive/folders/REMPLACER_PAR_VOTRE_LIEN_DRIVE"
+  },
+  {
+    "urlImage": "https://www.tekto.fr/uploads/images/logiciels/05.jpg",
+    "nom": "Robot Millennium",
+    "categorie": "Calcul structurel",
+    "URL": "https://www.autodesk.com",
+    "prix": 5000,
+    "description": "Robot Millennium — livraison numérique et tutoriels d’installation.",
+    "descriptionAvecAssistace": "Robot Millennium — livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Livraison numérique (fichier ou accès en ligne)",
+      "Licence et droits d'activation",
+      "Documentation, tutoriel d'installation et ressource produit",
+      "Aucun accompagnement téléphonique"
+    ],
+    "elementsAvecAssistance": [
+      "Tout ce qui est inclus en mode sans assistance",
+      "Assistance par téléphone pour l'installation et le premier lancement",
+      "Appui en cas d'échec d'activation (dans la limite du forfait)",
+      "Ligne d'assistance : numéro indiqué sur la fiche produit"
+    ],
+    "urlDrive": "https://drive.google.com/drive/folders/REMPLACER_PAR_VOTRE_LIEN_DRIVE"
+  },
+  {
+    "urlImage": "https://damassets.autodesk.net/content/dam/autodesk/www/products/responsive-imagery/responsive-badges-free-trial/2017/robot-structural-analysis-professional-badge-150x150.png",
+    "nom": "Robot Structural Analysis",
+    "categorie": "Calcul structurel",
+    "URL": "https://www.autodesk.com/products/robot-structural-analysis",
+    "prix": 5000,
+    "description": "Robot Structural Analysis — livraison numérique et ressources pédagogiques.",
+    "descriptionAvecAssistace": "Robot Structural Analysis — livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Livraison numérique (fichier ou accès en ligne)",
+      "Licence et droits d'activation",
+      "Documentation, tutoriel d'installation et ressource produit",
+      "Aucun accompagnement téléphonique"
+    ],
+    "elementsAvecAssistance": [
+      "Tout ce qui est inclus en mode sans assistance",
+      "Assistance par téléphone pour l'installation et le premier lancement",
+      "Appui en cas d'échec d'activation (dans la limite du forfait)",
+      "Ligne d'assistance : numéro indiqué sur la fiche produit"
+    ],
+    "urlDrive": "https://drive.google.com/drive/folders/REMPLACER_PAR_VOTRE_LIEN_DRIVE"
+  },
+  {
+    "urlImage": "https://upload.wikimedia.org/wikipedia/commons/a/a2/Dx_Logo.svg",
+    "nom": "Dialux",
+    "categorie": "Éclairage technique",
+    "URL": "https://www.dial.de",
+    "prix": 5000,
+    "description": "Dialux — livraison numérique, logiciel et guides d’installation.",
+    "descriptionAvecAssistace": "Dialux — livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Livraison numérique (fichier ou accès en ligne)",
+      "Licence et droits d'activation",
+      "Documentation, tutoriel d'installation et ressource produit",
+      "Aucun accompagnement téléphonique"
+    ],
+    "elementsAvecAssistance": [
+      "Tout ce qui est inclus en mode sans assistance",
+      "Assistance par téléphone pour l'installation et le premier lancement",
+      "Appui en cas d'échec d'activation (dans la limite du forfait)",
+      "Ligne d'assistance : numéro indiqué sur la fiche produit"
+    ],
+    "urlDrive": "https://drive.google.com/drive/folders/REMPLACER_PAR_VOTRE_LIEN_DRIVE"
+  },
+  {
+    "urlImage": "https://th.bing.com/th/id/OIP.VwFXGi5mBquqySoHk-LWAAHaFd?o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3",
+    "nom": "Caneco",
+    "categorie": "Études électriques",
+    "URL": "https://www.ige-xao.com",
+    "prix": 80000,
+    "description": "Caneco — livraison numérique et documentation produit.",
+    "descriptionAvecAssistace": "Caneco — livraison numérique.",
+    "prixAvecAssistace": 85000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Livraison numérique (fichier ou accès en ligne)",
+      "Licence et droits d'activation",
+      "Documentation, tutoriel d'installation et ressource produit",
+      "Aucun accompagnement téléphonique"
+    ],
+    "elementsAvecAssistance": [
+      "Tout ce qui est inclus en mode sans assistance",
+      "Assistance par téléphone pour l'installation et le premier lancement",
+      "Appui en cas d'échec d'activation (dans la limite du forfait)",
+      "Ligne d'assistance : numéro indiqué sur la fiche produit"
+    ],
+    "urlDrive": "https://drive.google.com/drive/folders/REMPLACER_PAR_VOTRE_LIEN_DRIVE"
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://lumion.com/&size=256",
+    "nom": "Lumion",
+    "categorie": "Visualisation architecturale",
+    "URL": "https://lumion.com",
+    "prix": 5000,
+    "description": "Lumion — livraison numérique, vidéos de formation et tutoriel d’installation.",
+    "descriptionAvecAssistace": "Lumion — livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Livraison numérique (fichier ou accès en ligne)",
+      "Licence et droits d'activation",
+      "Documentation, tutoriel d'installation et ressource produit",
+      "Aucun accompagnement téléphonique"
+    ],
+    "elementsAvecAssistance": [
+      "Tout ce qui est inclus en mode sans assistance",
+      "Assistance par téléphone pour l'installation et le premier lancement",
+      "Appui en cas d'échec d'activation (dans la limite du forfait)",
+      "Ligne d'assistance : numéro indiqué sur la fiche produit"
+    ],
+    "urlDrive": "https://drive.google.com/drive/folders/REMPLACER_PAR_VOTRE_LIEN_DRIVE"
+  },
+  {
+    "urlImage": "https://upload.wikimedia.org/wikipedia/commons/1/18/Enscape-logo-color-black-rgb.svg",
+    "nom": "Enscape",
+    "categorie": "Rendu temps réel",
+    "URL": "https://enscape3d.com",
+    "prix": 5000,
+    "description": "Enscape — livraison numérique et ressources vidéo.",
+    "descriptionAvecAssistace": "Enscape — livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Livraison numérique (fichier ou accès en ligne)",
+      "Licence et droits d'activation",
+      "Documentation, tutoriel d'installation et ressource produit",
+      "Aucun accompagnement téléphonique"
+    ],
+    "elementsAvecAssistance": [
+      "Tout ce qui est inclus en mode sans assistance",
+      "Assistance par téléphone pour l'installation et le premier lancement",
+      "Appui en cas d'échec d'activation (dans la limite du forfait)",
+      "Ligne d'assistance : numéro indiqué sur la fiche produit"
+    ],
+    "urlDrive": "https://drive.google.com/drive/folders/REMPLACER_PAR_VOTRE_LIEN_DRIVE"
+  },
+  {
+    "urlImage": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1-afrmYWVVGXl5EEoCZA4OL94HdtFuQkDHw&s",
+    "nom": "Covadis",
+    "categorie": "Topographie & VRD",
+    "URL": "https://www.covadis.fr",
+    "prix": 10000,
+    "description": "Covadis — livraison numérique et supports d’installation.",
+    "descriptionAvecAssistace": "Covadis — livraison numérique.",
+    "prixAvecAssistace": 15000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Livraison numérique (fichier ou accès en ligne)",
+      "Licence et droits d'activation",
+      "Documentation, tutoriel d'installation et ressource produit",
+      "Aucun accompagnement téléphonique"
+    ],
+    "elementsAvecAssistance": [
+      "Tout ce qui est inclus en mode sans assistance",
+      "Assistance par téléphone pour l'installation et le premier lancement",
+      "Appui en cas d'échec d'activation (dans la limite du forfait)",
+      "Ligne d'assistance : numéro indiqué sur la fiche produit"
+    ],
+    "urlDrive": "https://drive.google.com/drive/folders/REMPLACER_PAR_VOTRE_LIEN_DRIVE"
+  }
+]

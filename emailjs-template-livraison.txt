@@ -1,0 +1,145 @@
+Modèle HTML pour EmailJS — ELD Logiciel (livraison logiciel après paiement)
+================================================================================
+Collez la partie « MODÈLE HTML » ci-dessous dans le corps du modèle EmailJS (éditeur HTML).
+
+IMPORTANT — éviter l’erreur 422 « The recipients address is empty » :
+  Dans EmailJS → Email Templates → ouvrir votre modèle → champ « To Email » (ou « Recipients ») :
+  ne laissez PAS une adresse vide. Indiquez exactement :  {{to_email}}
+  (équivalent accepté : {{email}} ou {{user_email}} — l’app envoie les trois avec la même valeur).
+
+Variables envoyées par l’application (orderNotification.ts) :
+  to_email, email, user_email, reply_to, subject, message, article, url_drive, url_site,
+  assisted, assistance_tel, total, options
+
+Astuce : remplacez l’URL de l’image logo (attribut src du <img>) par votre logo en ligne,
+ou importez une pièce jointe dans EmailJS et référencez-la selon leur documentation.
+
+================================================================================
+MODÈLE HTML — copier à partir de la ligne suivante
+================================================================================
+
+<div
+  style="
+    font-family: system-ui, sans-serif, Arial;
+    font-size: 14px;
+    color: #333;
+    padding: 14px 8px;
+    background-color: #f5f5f5;
+  "
+>
+  <div style="max-width: 600px; margin: auto; background-color: #fff">
+    <div style="border-top: 6px solid #458500; padding: 16px">
+      <a
+        style="text-decoration: none; outline: none; margin-right: 8px; vertical-align: middle"
+        href="{{url_site}}"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img
+          style="height: 32px; vertical-align: middle"
+          height="32"
+          src="https://via.placeholder.com/120x32/458500/ffffff?text=ELD%20Logiciel"
+          alt="ELD Logiciel"
+        />
+      </a>
+      <span
+        style="
+          font-size: 16px;
+          vertical-align: middle;
+          border-left: 1px solid #333;
+          padding-left: 8px;
+        "
+      >
+        <strong>Merci pour votre commande</strong>
+      </span>
+    </div>
+    <div style="padding: 0 16px 16px 16px">
+      <p style="margin: 16px 0 8px 0">
+        Votre paiement a bien été enregistré. Vous trouverez ci-dessous le lien pour télécharger votre logiciel
+        et, le cas échéant, le numéro d’assistance téléphonique.
+      </p>
+      <div
+        style="
+          text-align: left;
+          font-size: 14px;
+          padding-bottom: 8px;
+          margin-top: 20px;
+          border-bottom: 2px solid #333;
+        "
+      >
+        <strong>{{subject}}</strong>
+      </div>
+      <table style="width: 100%; border-collapse: collapse; margin-top: 16px">
+        <tr style="vertical-align: top">
+          <td style="padding: 8px 8px 8px 4px; width: 48px">
+            <div
+              style="
+                width: 48px;
+                height: 48px;
+                background-color: #e8f4e0;
+                border-radius: 8px;
+                text-align: center;
+                line-height: 48px;
+                font-size: 20px;
+              "
+            >
+              📦
+            </div>
+          </td>
+          <td style="padding: 8px; width: 100%">
+            <div style="font-weight: 600">{{article}}</div>
+            <div style="font-size: 14px; color: #888; padding-top: 6px">
+              Formule : {{options}}
+            </div>
+            <div style="padding-top: 12px">
+              <a
+                href="{{url_drive}}"
+                style="color: #458500; font-weight: 600"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Télécharger (lien Google Drive)
+              </a>
+            </div>
+          </td>
+          <td style="padding: 8px 4px 8px 8px; white-space: nowrap; vertical-align: top">
+            <strong>{{total}}</strong>
+          </td>
+        </tr>
+      </table>
+      <div style="padding: 16px 0 8px 0">
+        <div style="border-top: 2px solid #333"></div>
+      </div>
+      <table style="border-collapse: collapse; width: 100%; text-align: left">
+        <tr>
+          <td style="padding: 8px 0; color: #555">Assistance téléphonique incluse</td>
+          <td style="padding: 8px 0; text-align: right; white-space: nowrap">{{assisted}}</td>
+        </tr>
+        <tr>
+          <td colspan="2" style="padding: 4px 0 12px 0; font-size: 13px; color: #666">
+            Numéro (si formule « avec assistance ») : <strong>{{assistance_tel}}</strong>
+          </td>
+        </tr>
+      </table>
+      <div
+        style="
+          margin-top: 12px;
+          padding: 12px;
+          background-color: #fafafa;
+          border-left: 4px solid #458500;
+          font-size: 13px;
+          line-height: 1.5;
+          white-space: pre-wrap;
+        "
+      >
+        {{message}}
+      </div>
+    </div>
+  </div>
+  <div style="max-width: 600px; margin: auto; padding-top: 12px">
+    <p style="color: #999; font-size: 12px; line-height: 1.5">
+      Cet e-mail a été envoyé à {{to_email}}.<br />
+      Vous recevez ce message parce que vous avez passé commande sur ELD Logiciel.
+    </p>
+  </div>
+</div>

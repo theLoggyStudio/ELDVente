@@ -1,0 +1,197 @@
+/**
+ * Animations (CSS uniquement) : apparition au montage + états hover pour les composants `src/items`.
+ */
+
+@keyframes el-item-appear {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes el-item-appear-soft {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes el-item-li-appear {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.el-item {
+  --el-item-dur: 0.45s;
+  --el-item-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  animation: el-item-appear var(--el-item-dur) var(--el-item-ease) both;
+  transition:
+    transform 0.3s var(--el-item-ease),
+    box-shadow 0.3s var(--el-item-ease),
+    filter 0.3s var(--el-item-ease);
+}
+
+/* Listes dans FormuleComparaison : apparition échelonnée */
+.el-item ul li {
+  opacity: 0;
+  animation: el-item-li-appear 0.4s var(--el-item-ease) forwards;
+}
+.el-item ul li:nth-child(1) {
+  animation-delay: 0.05s;
+}
+.el-item ul li:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.el-item ul li:nth-child(3) {
+  animation-delay: 0.15s;
+}
+.el-item ul li:nth-child(4) {
+  animation-delay: 0.2s;
+}
+.el-item ul li:nth-child(5) {
+  animation-delay: 0.25s;
+}
+.el-item ul li:nth-child(6) {
+  animation-delay: 0.3s;
+}
+.el-item ul li:nth-child(7) {
+  animation-delay: 0.35s;
+}
+.el-item ul li:nth-child(8) {
+  animation-delay: 0.4s;
+}
+.el-item ul li:nth-child(9) {
+  animation-delay: 0.45s;
+}
+.el-item ul li:nth-child(n + 10) {
+  animation-delay: 0.5s;
+}
+
+/* Hover — bouton Item */
+button.el-item:hover:not(:disabled) {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+  filter: brightness(1.03);
+}
+
+button.el-item:active:not(:disabled) {
+  transform: translateY(0) scale(0.99);
+  transition-duration: 0.12s;
+}
+
+/* Carte cliquable */
+div.el-item[role='button']:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.16) !important;
+}
+
+div.el-item[role='button']:active {
+  transform: translateY(-1px);
+  transition-duration: 0.12s;
+}
+
+/* Champs */
+input.el-item:hover {
+  transform: none;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.1);
+}
+
+input.el-item:focus-visible {
+  transform: none;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.12);
+  outline: none;
+}
+
+/* Sélecteur segmenté */
+.position-relative.overflow-hidden.rounded-pill.el-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.14);
+}
+
+/* Cases à cocher */
+.form-check.el-item:hover .form-check-input {
+  transform: scale(1.06);
+  transition: transform 0.2s var(--el-item-ease);
+}
+
+.form-check.el-item:hover .form-check-label {
+  opacity: 0.92;
+  transition: opacity 0.2s ease;
+}
+
+/* Bloc comparaison (racine `mb-3 el-item`) */
+.mb-3.el-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.12);
+}
+
+/* En-tête & pied */
+header.el-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12) !important;
+}
+
+footer.el-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 -6px 18px rgba(0, 0, 0, 0.08);
+}
+
+/* Alerte fixe */
+.el-item[role='alert'] {
+  animation: el-item-appear-soft 0.4s var(--el-item-ease) both;
+}
+
+.el-item[role='alert']:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Panneau latéral : pas de translation verticale (glisse déjà) */
+.offcanvas.el-item {
+  animation: el-item-appear-soft 0.35s var(--el-item-ease) both;
+}
+
+.offcanvas.el-item:hover {
+  transform: none;
+  box-shadow: 6px 0 28px rgba(0, 0, 0, 0.12);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .el-item,
+  .el-item ul li {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .el-item {
+    transition: none !important;
+  }
+
+  .el-item:hover,
+  button.el-item:hover,
+  div.el-item[role='button']:hover,
+  input.el-item:hover,
+  .position-relative.overflow-hidden.rounded-pill.el-item:hover,
+  .mb-3.el-item:hover,
+  header.el-item:hover,
+  footer.el-item:hover,
+  .el-item[role='alert']:hover,
+  .offcanvas.el-item:hover {
+    transform: none !important;
+    box-shadow: none !important;
+    filter: none !important;
+  }
+}
