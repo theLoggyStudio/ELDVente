@@ -5,7 +5,7 @@ type InputProps = {
   onChange: (value: string) => void;
   placeholder: string;
   ariaLabel: string;
-  type?: 'search' | 'email' | 'text';
+  type?: 'search' | 'email' | 'text' | 'password';
   autoComplete?: string;
 };
 
@@ -20,12 +20,8 @@ export const Input = ({
   return (
     <input
       type={type}
-      className="el-item form-control border-2 rounded-pill px-3"
-      style={{
-        backgroundColor: COULEUR_BLANC,
-        color: COULEUR_NOIR,
-        borderColor: COULEUR_NOIR,
-      }}
+      className="el-item form-control rounded-pill px-3 shadow-sm"
+      style={{ backgroundColor: COULEUR_BLANC, color: COULEUR_NOIR, borderColor: COULEUR_NOIR }}
       value={value}
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}

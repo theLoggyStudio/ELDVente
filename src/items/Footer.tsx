@@ -9,11 +9,7 @@ export const Footer = ({ lineLeft, lineRight }: FooterProps) => {
   return (
     <footer
       className="el-item mt-auto border-top py-4"
-      style={{
-        backgroundColor: COULEUR_PRINCIPALE,
-        borderColor: COULEUR_NOIR,
-        color: COULEUR_NOIR,
-      }}
+      style={{ backgroundColor: COULEUR_PRINCIPALE, borderColor: COULEUR_NOIR, color: COULEUR_NOIR }}
     >
       <div className="container d-flex flex-column flex-md-row justify-content-between gap-2 small">
         <span>{lineLeft}</span>

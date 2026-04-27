@@ -9,11 +9,8 @@ type HeaderProps = {
 export const Header = ({ title, children }: HeaderProps) => {
   return (
     <header
-      className="el-item shadow-sm border-bottom"
-      style={{
-        backgroundColor: COULEUR_PRINCIPALE,
-        borderColor: `${COULEUR_NOIR} !important`,
-      }}
+      className="el-item navbar navbar-expand-md shadow-sm border-bottom"
+      style={{ backgroundColor: COULEUR_PRINCIPALE, borderColor: COULEUR_NOIR }}
     >
       <div className="container py-3">
         <div className="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">

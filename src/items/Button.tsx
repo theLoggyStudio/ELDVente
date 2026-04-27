@@ -13,24 +13,16 @@ export const Button = ({
   style,
   ...rest
 }: ButtonProps) => {
-  const base =
+  const baseStyle =
     variant === 'pay'
-      ? {
-          backgroundColor: COULEUR_NOIR,
-          color: COULEUR_BLANC,
-          borderColor: COULEUR_NOIR,
-        }
-      : {
-          backgroundColor: COULEUR_PRINCIPALE,
-          color: COULEUR_NOIR,
-          borderColor: COULEUR_NOIR,
-        };
+      ? { backgroundColor: COULEUR_NOIR, borderColor: COULEUR_NOIR, color: COULEUR_BLANC }
+      : { backgroundColor: COULEUR_PRINCIPALE, borderColor: COULEUR_NOIR, color: COULEUR_NOIR };
 
   return (
     <button
       type="button"
-      className={`btn border-2 fw-semibold el-item ${className}`}
-      style={{ ...base, ...style }}
+      className={`btn fw-semibold el-item ${className}`}
+      style={{ ...baseStyle, ...style }}
       {...rest}
     >
       {children}

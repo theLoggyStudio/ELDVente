@@ -16,55 +16,37 @@ type SelecteurProps = {
 export const Selecteur = ({ options, assisted, onChange, variant = 'default' }: SelecteurProps) => {
   const left = options[0];
   const right = options[1];
-  const track = variant === 'embed' ? COULEUR_BLANC : COULEUR_PRINCIPALE;
+  const wrapperClass = variant === 'embed' ? 'bg-light border rounded p-1' : '';
+  const wrapperStyle = variant === 'embed' ? { backgroundColor: COULEUR_BLANC, borderColor: COULEUR_NOIR } : undefined;
 
   return (
-    <div
-      className="el-item position-relative overflow-hidden rounded-pill border border-2"
-      style={{
-        borderColor: COULEUR_NOIR,
-        backgroundColor: track,
-        minHeight: 48,
-      }}
-    >
-      <div
-        className="position-absolute top-0 start-0 h-100 rounded-pill transition-transform"
+    <div className={`el-item btn-group w-100 ${wrapperClass}`} style={wrapperStyle} role="group" aria-label="Choix de formule">
+      <button
+        type="button"
+        className="btn"
         style={{
-          width: '50%',
-          backgroundColor: COULEUR_NOIR,
-          transform: assisted ? 'translateX(100%)' : 'translateX(0)',
-          transition: 'transform 0.25s ease',
+          backgroundColor: !assisted ? COULEUR_NOIR : 'transparent',
+          color: !assisted ? COULEUR_BLANC : COULEUR_NOIR,
+          borderColor: COULEUR_NOIR,
         }}
-        aria-hidden
-      />
-      <div className="position-relative d-flex h-100">
-        <button
-          type="button"
-          className="btn border-0 flex-fill rounded-0 py-2 px-2 fw-semibold text-center"
-          style={{
-            backgroundColor: 'transparent',
-            color: !assisted ? COULEUR_BLANC : COULEUR_NOIR,
-            zIndex: 1,
-          }}
-          onClick={() => onChange(false)}
-          aria-pressed={!assisted}
-        >
-          {left.nom}
-        </button>
-        <button
-          type="button"
-          className="btn border-0 flex-fill rounded-0 py-2 px-2 fw-semibold text-center"
-          style={{
-            backgroundColor: 'transparent',
-            color: assisted ? COULEUR_BLANC : COULEUR_NOIR,
-            zIndex: 1,
-          }}
-          onClick={() => onChange(true)}
-          aria-pressed={assisted}
-        >
-          {right.nom}
-        </button>
-      </div>
+        onClick={() => onChange(false)}
+        aria-pressed={!assisted}
+      >
+        {left.nom}
+      </button>
+      <button
+        type="button"
+        className="btn"
+        style={{
+          backgroundColor: assisted ? COULEUR_PRINCIPALE : 'transparent',
+          color: assisted ? COULEUR_BLANC : COULEUR_NOIR,
+          borderColor: COULEUR_NOIR,
+        }}
+        onClick={() => onChange(true)}
+        aria-pressed={assisted}
+      >
+        {right.nom}
+      </button>
     </div>
   );
 };

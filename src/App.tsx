@@ -55,12 +55,15 @@ function App() {
     autoCloseMs?: number;
   } | null>(null);
   const [apiError, setApiError] = useState('');
-  const [token, setToken] = useState(authApi.getToken());
+  const [token, setToken] = useState('');
   const [adminEmail, setAdminEmail] = useState('');
   const [adminPassword, setAdminPassword] = useState('');
   const [users, setUsers] = useState<Array<UserItem & { id: number }>>([]);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showAdminModal, setShowAdminModal] = useState(false);
   const [showArticleModal, setShowArticleModal] = useState(false);
   const [showUserModal, setShowUserModal] = useState(false);
+  const [openAdminSection, setOpenAdminSection] = useState<'articles' | 'users' | 'password' | null>(null);
   const [editingArticleId, setEditingArticleId] = useState<number | null>(null);
   const [editingUserId, setEditingUserId] = useState<number | null>(null);
   const [oldPassword, setOldPassword] = useState('');
@@ -360,6 +363,8 @@ function App() {
       setAdminPassword('');
       setApiError('');
       await loadUsers();
+      setShowAuthModal(false);
+      setShowAdminModal(true);
     } catch (error) {
       setApiError(`${vente[PAGE_VENTE.adminApiErrorPrefix]}${(error as Error).message}`);
     }
@@ -369,6 +374,7 @@ function App() {
     authApi.clearToken();
     setToken('');
     setUsers([]);
+    setShowAdminModal(false);
   };
 
   const handleChangePassword = async () => {
@@ -381,6 +387,13 @@ function App() {
     } catch (error) {
       setApiError(`${vente[PAGE_VENTE.adminApiErrorPrefix]}${(error as Error).message}`);
     }
+  };
+
+  const openAdminModal = () => {
+    setApiError('');
+    setOpenAdminSection(null);
+    setShowAdminModal(false);
+    setShowAuthModal(true);
   };
 
   return (
@@ -396,12 +409,24 @@ function App() {
       ) : null}
 
       <Header title={vente[PAGE_VENTE.brand]}>
-        <Input
-          value={query}
-          onChange={setQuery}
-          placeholder={vente[PAGE_VENTE.searchPlaceholder]}
-          ariaLabel={vente[PAGE_VENTE.searchPlaceholder]}
-        />
+        <div className="d-flex align-items-center gap-2">
+          <div className="flex-grow-1">
+            <Input
+              value={query}
+              onChange={setQuery}
+              placeholder={vente[PAGE_VENTE.searchPlaceholder]}
+              ariaLabel={vente[PAGE_VENTE.searchPlaceholder]}
+            />
+          </div>
+          <Button
+            onClick={openAdminModal}
+            className="px-3"
+            aria-label={vente[PAGE_VENTE.adminTitle]}
+            title={vente[PAGE_VENTE.adminTitle]}
+          >
+            👤
+          </Button>
+        </div>
       </Header>
 
       <main className="container py-4 flex-grow-1">
@@ -434,111 +459,6 @@ function App() {
           </div>
         )}
 
-        <div className="mt-5 border-top pt-4">
-          <h3 className="h5 fw-bold mb-3">{vente[PAGE_VENTE.adminTitle]}</h3>
-          {apiError ? (
-            <p className="small mb-3" style={{ color: COULEUR_NOIR }}>
-              {apiError}
-            </p>
-          ) : null}
-
-          {!token ? (
-            <div className="row g-2">
-              <div className="col-md-4">
-                <Input
-                  type="email"
-                  value={adminEmail}
-                  onChange={setAdminEmail}
-                  placeholder={vente[PAGE_VENTE.adminEmailLabel]}
-                  ariaLabel={vente[PAGE_VENTE.adminEmailLabel]}
-                />
-              </div>
-              <div className="col-md-4">
-                <Input
-                  type="text"
-                  value={adminPassword}
-                  onChange={setAdminPassword}
-                  placeholder={vente[PAGE_VENTE.adminPasswordLabel]}
-                  ariaLabel={vente[PAGE_VENTE.adminPasswordLabel]}
-                />
-              </div>
-              <div className="col-md-4 d-flex gap-2">
-                <Button onClick={() => void handleLogin()}>{vente[PAGE_VENTE.adminLoginButton]}</Button>
-                <Button onClick={() => void loadArticles()}>{vente[PAGE_VENTE.adminRefreshButton]}</Button>
-              </div>
-            </div>
-          ) : (
-            <div className="d-flex flex-column gap-3">
-              <div className="d-flex gap-2 flex-wrap">
-                <Button onClick={handleLogout}>{vente[PAGE_VENTE.adminLogoutButton]}</Button>
-                <Button onClick={openNewArticleModal}>{vente[PAGE_VENTE.adminAddArticleButton]}</Button>
-                <Button onClick={openNewUserModal}>{vente[PAGE_VENTE.adminAddUserButton]}</Button>
-                <Button
-                  onClick={() => {
-                    void loadArticles();
-                    void loadUsers();
-                  }}
-                >
-                  {vente[PAGE_VENTE.adminRefreshButton]}
-                </Button>
-              </div>
-
-              <div className="row g-2">
-                <div className="col-md-4">
-                  <Input
-                    type="text"
-                    value={oldPassword}
-                    onChange={setOldPassword}
-                    placeholder={vente[PAGE_VENTE.adminOldPasswordLabel]}
-                    ariaLabel={vente[PAGE_VENTE.adminOldPasswordLabel]}
-                  />
-                </div>
-                <div className="col-md-4">
-                  <Input
-                    type="text"
-                    value={newPassword}
-                    onChange={setNewPassword}
-                    placeholder={vente[PAGE_VENTE.adminNewPasswordLabel]}
-                    ariaLabel={vente[PAGE_VENTE.adminNewPasswordLabel]}
-                  />
-                </div>
-                <div className="col-md-4">
-                  <Button onClick={() => void handleChangePassword()}>{vente[PAGE_VENTE.adminChangePasswordButton]}</Button>
-                </div>
-              </div>
-
-              <div>
-                <p className="fw-semibold mb-2">{vente[PAGE_VENTE.adminArticlesSection]}</p>
-                <div className="d-flex flex-column gap-2">
-                  {list.map((a) => (
-                    <div key={`${a.nom}-${a.URL}`} className="d-flex justify-content-between align-items-center border rounded p-2">
-                      <span>{a.nom}</span>
-                      <div className="d-flex gap-2">
-                        <Button onClick={() => openEditArticleModal(a)}>{vente[PAGE_VENTE.adminEditButton]}</Button>
-                        <Button onClick={() => void deleteArticle(a.id)}>{vente[PAGE_VENTE.adminDeleteButton]}</Button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <p className="fw-semibold mb-2">{vente[PAGE_VENTE.adminUsersSection]}</p>
-                <div className="d-flex flex-column gap-2">
-                  {users.map((u) => (
-                    <div key={u.id} className="d-flex justify-content-between align-items-center border rounded p-2">
-                      <span>{u.nom}</span>
-                      <div className="d-flex gap-2">
-                        <Button onClick={() => openEditUserModal(u)}>{vente[PAGE_VENTE.adminEditButton]}</Button>
-                        <Button onClick={() => void deleteUser(u.id!)}>{vente[PAGE_VENTE.adminDeleteButton]}</Button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
       </main>
 
       <Footer lineLeft={vente[PAGE_VENTE.footerLeft]} lineRight={vente[PAGE_VENTE.footerRight]} />
@@ -603,6 +523,206 @@ function App() {
           </>
         ) : null}
       </Offcanvas>
+
+      <Modal
+        show={showAuthModal}
+        title={vente[PAGE_VENTE.adminTitle]}
+        closeLabel={vente[PAGE_VENTE.adminCloseButton]}
+        onClose={() => setShowAuthModal(false)}
+      >
+        {apiError ? (
+          <p className="small mb-3" style={{ color: COULEUR_NOIR }}>
+            {apiError}
+          </p>
+        ) : null}
+        <div className="row g-2">
+          <div className="col-md-6">
+            <Input
+              type="email"
+              value={adminEmail}
+              onChange={setAdminEmail}
+              placeholder={vente[PAGE_VENTE.adminEmailLabel]}
+              ariaLabel={vente[PAGE_VENTE.adminEmailLabel]}
+            />
+          </div>
+          <div className="col-md-6">
+            <Input
+              type="password"
+              value={adminPassword}
+              onChange={setAdminPassword}
+              placeholder={vente[PAGE_VENTE.adminPasswordLabel]}
+              ariaLabel={vente[PAGE_VENTE.adminPasswordLabel]}
+            />
+          </div>
+          <div className="col-12 d-flex gap-2">
+            <Button onClick={() => void handleLogin()}>{vente[PAGE_VENTE.adminLoginButton]}</Button>
+            <Button onClick={() => setShowAuthModal(false)}>{vente[PAGE_VENTE.adminCloseButton]}</Button>
+          </div>
+        </div>
+      </Modal>
+
+      <Modal
+        show={showAdminModal}
+        title={vente[PAGE_VENTE.adminTitle]}
+        closeLabel={vente[PAGE_VENTE.adminCloseButton]}
+        onClose={() => setShowAdminModal(false)}
+      >
+        {apiError ? (
+          <p className="small mb-3" style={{ color: COULEUR_NOIR }}>
+            {apiError}
+          </p>
+        ) : null}
+        {!token ? (
+          <p className="mb-0">{vente[PAGE_VENTE.adminLoginButton]}</p>
+        ) : (
+          <div className="d-flex flex-column gap-3">
+            <div className="d-flex gap-2 flex-wrap">
+              <Button onClick={handleLogout}>{vente[PAGE_VENTE.adminLogoutButton]}</Button>
+              <Button
+                onClick={() => {
+                  void loadArticles();
+                  void loadUsers();
+                }}
+              >
+                {vente[PAGE_VENTE.adminRefreshButton]}
+              </Button>
+            </div>
+
+            <div className="accordion" id="adminAccordion">
+              <div className="accordion-item">
+                <h2 className="accordion-header">
+                  <button
+                    type="button"
+                    className={`accordion-button ${openAdminSection === 'articles' ? '' : 'collapsed'}`}
+                    onClick={() => setOpenAdminSection((prev) => (prev === 'articles' ? null : 'articles'))}
+                  >
+                    {vente[PAGE_VENTE.adminArticlesSection]}
+                  </button>
+                </h2>
+                <div className={`accordion-collapse collapse ${openAdminSection === 'articles' ? 'show' : ''}`}>
+                  <div className="accordion-body">
+                    <div className="d-flex justify-content-end mb-3">
+                      <Button onClick={openNewArticleModal}>{vente[PAGE_VENTE.adminAddArticleButton]}</Button>
+                    </div>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-hover align-middle">
+                        <thead>
+                          <tr>
+                            <th>Nom</th>
+                            <th>Categorie</th>
+                            <th className="text-end">Prix</th>
+                            <th className="text-end">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {list.map((a) => (
+                            <tr key={`${a.nom}-${a.URL}`}>
+                              <td>{a.nom}</td>
+                              <td>{a.categorie}</td>
+                              <td className="text-end">{formatPrice(a.prix)}</td>
+                              <td className="text-end">
+                                <div className="d-inline-flex gap-2">
+                                  <Button onClick={() => openEditArticleModal(a)}>{vente[PAGE_VENTE.adminEditButton]}</Button>
+                                  <Button onClick={() => void deleteArticle(a.id)}>{vente[PAGE_VENTE.adminDeleteButton]}</Button>
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="accordion-item">
+                <h2 className="accordion-header">
+                  <button
+                    type="button"
+                    className={`accordion-button ${openAdminSection === 'users' ? '' : 'collapsed'}`}
+                    onClick={() => setOpenAdminSection((prev) => (prev === 'users' ? null : 'users'))}
+                  >
+                    {vente[PAGE_VENTE.adminUsersSection]}
+                  </button>
+                </h2>
+                <div className={`accordion-collapse collapse ${openAdminSection === 'users' ? 'show' : ''}`}>
+                  <div className="accordion-body">
+                    <div className="d-flex justify-content-end mb-3">
+                      <Button onClick={openNewUserModal}>{vente[PAGE_VENTE.adminAddUserButton]}</Button>
+                    </div>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-hover align-middle">
+                        <thead>
+                          <tr>
+                            <th>Administrateur</th>
+                            <th>Email</th>
+                            <th>Telephone</th>
+                            <th className="text-end">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {users.map((u) => (
+                            <tr key={u.id}>
+                              <td>{u.nom}</td>
+                              <td>{u.email}</td>
+                              <td>{u.tel}</td>
+                              <td className="text-end">
+                                <div className="d-inline-flex gap-2">
+                                  <Button onClick={() => openEditUserModal(u)}>{vente[PAGE_VENTE.adminEditButton]}</Button>
+                                  <Button onClick={() => void deleteUser(u.id)}>{vente[PAGE_VENTE.adminDeleteButton]}</Button>
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="accordion-item">
+                <h2 className="accordion-header">
+                  <button
+                    type="button"
+                    className={`accordion-button ${openAdminSection === 'password' ? '' : 'collapsed'}`}
+                    onClick={() => setOpenAdminSection((prev) => (prev === 'password' ? null : 'password'))}
+                  >
+                    {vente[PAGE_VENTE.adminChangePasswordButton]}
+                  </button>
+                </h2>
+                <div className={`accordion-collapse collapse ${openAdminSection === 'password' ? 'show' : ''}`}>
+                  <div className="accordion-body">
+                    <div className="row g-2">
+                      <div className="col-md-5">
+                        <Input
+                          type="password"
+                          value={oldPassword}
+                          onChange={setOldPassword}
+                          placeholder={vente[PAGE_VENTE.adminOldPasswordLabel]}
+                          ariaLabel={vente[PAGE_VENTE.adminOldPasswordLabel]}
+                        />
+                      </div>
+                      <div className="col-md-5">
+                        <Input
+                          type="password"
+                          value={newPassword}
+                          onChange={setNewPassword}
+                          placeholder={vente[PAGE_VENTE.adminNewPasswordLabel]}
+                          ariaLabel={vente[PAGE_VENTE.adminNewPasswordLabel]}
+                        />
+                      </div>
+                      <div className="col-md-2 d-grid">
+                        <Button onClick={() => void handleChangePassword()}>{vente[PAGE_VENTE.adminSaveButton]}</Button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </Modal>
 
       <Modal
         show={showArticleModal}
@@ -670,7 +790,7 @@ function App() {
           </div>
           {!editingUserId ? (
             <div className="col-md-6">
-              <Input value={userForm.motDePasse ?? ''} onChange={(v) => setUserForm((p) => ({ ...p, motDePasse: v }))} placeholder={vente[PAGE_VENTE.adminPasswordLabel]} ariaLabel={vente[PAGE_VENTE.adminPasswordLabel]} type="text" />
+              <Input value={userForm.motDePasse ?? ''} onChange={(v) => setUserForm((p) => ({ ...p, motDePasse: v }))} placeholder={vente[PAGE_VENTE.adminPasswordLabel]} ariaLabel={vente[PAGE_VENTE.adminPasswordLabel]} type="password" />
             </div>
           ) : null}
         </div>

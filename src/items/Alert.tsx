@@ -1,10 +1,5 @@
 import { useEffect } from 'react';
-import {
-  COULEUR_BLANC,
-  COULEUR_NOIR,
-  COULEUR_PRINCIPALE,
-  Z_INDEX_ALERT,
-} from '../constants/ts/Couleur.constant';
+import { COULEUR_BLANC, COULEUR_NOIR, COULEUR_PRINCIPALE, Z_INDEX_ALERT } from '../constants/ts/Couleur.constant';
 
 export type AlertVariant = 'error' | 'success';
 
@@ -24,34 +19,28 @@ export const Alert = ({ variant, message, closeLabel, onClose, autoCloseMs }: Al
     return () => window.clearTimeout(t);
   }, [autoCloseMs, onClose]);
 
-  const bg = variant === 'success' ? COULEUR_PRINCIPALE : COULEUR_BLANC;
-  const fg = COULEUR_NOIR;
+  const bgColor = variant === 'success' ? COULEUR_PRINCIPALE : COULEUR_BLANC;
 
   return (
     <div
-      className="el-item position-fixed start-50 translate-middle-x border border-2 rounded-3 shadow px-3 py-2 d-flex align-items-start gap-2"
+      className="el-item alert alert-dismissible fade show position-fixed start-50 translate-middle-x shadow px-3 py-2 mb-0"
       style={{
         top: '1rem',
         zIndex: Z_INDEX_ALERT,
         maxWidth: 'min(90vw, 28rem)',
-        backgroundColor: bg,
-        borderColor: COULEUR_NOIR,
-        color: fg,
+        backgroundColor: bgColor,
+        color: COULEUR_NOIR,
+        border: `2px solid ${COULEUR_NOIR}`,
       }}
       role="alert"
     >
-      <p className="mb-0 small flex-grow-1" style={{ color: fg }}>
-        {message}
-      </p>
+      <p className="mb-0 small pe-4">{message}</p>
       <button
         type="button"
-        className="btn btn-sm border-0 bg-transparent flex-shrink-0 lh-1 px-1"
-        style={{ color: fg }}
+        className="btn-close"
         aria-label={closeLabel}
         onClick={onClose}
-      >
-        ×
-      </button>
+      />
     </div>
   );
 };
