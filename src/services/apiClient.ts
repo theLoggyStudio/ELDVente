@@ -1,6 +1,6 @@
-import { API_BASE_URL } from '../constants/ts/Couleur.constant';
+import { API_BASE_URL } from '../constants/ts/Keys.constant';
 
-const baseUrl = API_BASE_URL || 'http://localhost:4000/api';
+const baseUrl = API_BASE_URL ;
 
 export const apiRequest = async <T>(path: string, init?: RequestInit): Promise<T> => {
   const res = await fetch(`${baseUrl}${path}`, init);
