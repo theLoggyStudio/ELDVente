@@ -14,7 +14,7 @@ import { formatPrice } from '../utils/formatPrice';
 const vente = pages.vente;
 
 /** Données stockées avant redirection PayDunya, consommées au retour `?paiement=ok`. */
-export const POST_PAY_DELIVERY_STORAGE_KEY = 'eld_logiciel_post_pay_delivery';
+export const POST_PAY_DELIVERY_STORAGE_KEY = 'elladarie_post_pay_delivery';
 
 export type OrderNotificationPayload = {
   article: ArticleItem;

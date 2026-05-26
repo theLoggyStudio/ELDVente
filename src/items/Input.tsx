@@ -5,7 +5,7 @@ type InputProps = {
   onChange: (value: string) => void;
   placeholder: string;
   ariaLabel: string;
-  type?: 'search' | 'email' | 'text' | 'password';
+  type?: 'search' | 'email' | 'text' | 'password' | 'tel';
   autoComplete?: string;
 };
 

@@ -5,15 +5,10 @@ interface ImportMetaEnv {
    * `false` = URL absolue sandbox/prod (`.env`). Par défaut ou toute autre valeur = chemins `/paydunya-*-api` (proxy Vite dev/preview).
    */
   readonly VITE_PAYDUNYA_USE_RELATIVE_PROXY?: string;
-  readonly PAYDUNIA_STORE_NOM: string;
-  readonly PAYDUNIA_STORE_TAG: string;
-  readonly PAYDUNIA_STORE_BP: string;
-  readonly PAYDUNIA_STORE_TELEPHONE: string;
-  readonly PAYDUNIA_VENDEUR_NOM: string;
-  readonly PAYDUNIA_VENDEUR_EMAIL: string;
-  readonly PAYDUNIA_PRODUIT_NOM: string;
-  readonly PAYDUNIA_PRODUIT_PRIX_DEFFAUT: string;
-  readonly PAYDUNIA_PRODUIT_MONNAIE: string;
+  /** Optionnel : surcharge du nom boutique PayDunya (défaut dans le code : « EllaDarie »). */
+  readonly PAYDUNIA_STORE_NOM?: string;
+  /** Optionnel : préfixe description facture (défaut : « Commande EllaDarie »). */
+  readonly PAYDUNIA_PRODUIT_NOM?: string;
   readonly PAYDUNIA_MASTER_KEY: string;
   readonly PAYDUNIA_TEST_URL: string;
   readonly PAYDUNIA_TEST_PUBLIC_KEY: string;

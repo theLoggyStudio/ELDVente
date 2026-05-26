@@ -1,6 +1,6 @@
 /**
  * Devise et format d’affichage.
- * Variables PayDunya : valeurs lues depuis l’environnement (fichier `.env`, préfixe PAYDUNIA_).
+ * PayDunya : clés / URLs via `.env` ; nom boutique et libellé facture ont des valeurs par défaut dans le code.
  */
 
 export const DEVISE_SYMBOLE = 'FCFA';
@@ -12,20 +12,17 @@ export const SUPPLEMENT_ASSISTANCE_FCFA = 5000;
 
 const env = import.meta.env;
 
-export const PAYDUNIA_STORE_NOM = (env.PAYDUNIA_STORE_NOM as string | undefined) ?? '';
-export const PAYDUNIA_STORE_TAG = (env.PAYDUNIA_STORE_TAG as string | undefined) ?? '';
-export const PAYDUNIA_STORE_BP = (env.PAYDUNIA_STORE_BP as string | undefined) ?? '';
-export const PAYDUNIA_STORE_TELEPHONE = (env.PAYDUNIA_STORE_TELEPHONE as string | undefined) ?? '';
+const trimStr = (v: string | undefined): string => (typeof v === 'string' ? v.trim() : '');
 
-export const PAYDUNIA_VENDEUR_NOM = (env.PAYDUNIA_VENDEUR_NOM as string | undefined) ?? '';
-export const PAYDUNIA_VENDEUR_EMAIL = (env.PAYDUNIA_VENDEUR_EMAIL as string | undefined) ?? '';
+/** Nom affiché côté PayDunya (magasin). */
+export const PAYDUNIA_STORE_NOM = trimStr(env.PAYDUNIA_STORE_NOM as string | undefined) || 'EllaDarie';
+
+/** Préfixe de la description de ligne sur la facture (concaténé avec l’article choisi). */
+export const PAYDUNIA_PRODUIT_NOM =
+  trimStr(env.PAYDUNIA_PRODUIT_NOM as string | undefined) || 'Commande EllaDarie';
 
 /** POST JSON optionnel (backend qui envoie l’e-mail). Si vide, utilisation de `mailto:` vers le vendeur. */
 export const PAYDUNIA_NOTIFICATION_URL = (env.PAYDUNIA_NOTIFICATION_URL as string | undefined)?.trim() ?? '';
-
-export const PAYDUNIA_PRODUIT_NOM = (env.PAYDUNIA_PRODUIT_NOM as string | undefined) ?? '';
-export const PAYDUNIA_PRODUIT_PRIX_DEFFAUT = Number(env.PAYDUNIA_PRODUIT_PRIX_DEFFAUT ?? 10_000);
-export const PAYDUNIA_PRODUIT_MONNAIE = (env.PAYDUNIA_PRODUIT_MONNAIE as string | undefined) ?? 'XOF';
 
 export const PAYDUNIA_MASTER_KEY = (env.PAYDUNIA_MASTER_KEY as string | undefined) ?? '';
 

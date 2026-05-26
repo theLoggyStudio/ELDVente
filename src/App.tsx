@@ -4,7 +4,7 @@ import pages from './constants/json/Pages.constant.json';
 import selecteurOptions from './constants/json/Selecteur.constant.json';
 import staticArticles from './constants/json/article.json';
 import { PAGE_VENTE } from './constants/ts/PagesVente.index';
-import { COULEUR_BLANC, COULEUR_NOIR } from './constants/ts/Couleur.constant';
+import { COULEUR_BLANC, COULEUR_NOIR, COULEUR_PRINCIPALE } from './constants/ts/Couleur.constant';
 import { PAYDUNIA_PRODUIT_NOM, SUPPLEMENT_ASSISTANCE_FCFA } from './constants/ts/Payement.constant';
 import { Alert } from './items/Alert';
 import { Button } from './items/Button';
@@ -16,7 +16,6 @@ import { FormuleComparaison } from './items/FormuleComparaison';
 import { Offcanvas } from './items/Offcanvas';
 import { Selecteur } from './items/Selecteur';
 import { Modal } from './items/Modal';
-import { createPaydunyaCheckoutInvoice } from './services/paydunyaCheckout';
 import {
   clearPendingDeliveryEmail,
   POST_PAY_DELIVERY_STORAGE_KEY,
@@ -24,14 +23,27 @@ import {
   sendOrderNotificationEmail,
   type OrderNotificationPayload,
 } from './services/orderNotification';
+import { paymentApi } from './services/paymentApi';
 import { articleApi } from './services/articleApi';
 import { authApi } from './services/authApi';
 import { userApi } from './services/userApi';
+import {
+  ELEMENTS_AVEC_ASSISTANCE_DEFAUT,
+  ELEMENTS_SANS_ASSISTANCE_DEFAUT,
+} from './constants/ts/ArticleFormulesDefault.constant';
 import type { ArticleItem } from './types/Article';
 import type { UserItem } from './types/User';
+import {
+  type BillingCurrency,
+  isDohoneCountry,
+  paymentCountryFromBilling,
+} from './constants/ts/DohoneCountries.constant';
+import { PAYS_CHECKOUT_OFFCANVAS } from './constants/ts/OffcanvasPaysCheckout.constant';
+import { isPaydunyaCountry } from './constants/ts/PaydunyaCountries.constant';
+import { formatCatalogPriceFromFcfa } from './utils/catalogCurrencyFromFcfa';
 import { formatPrice } from './utils/formatPrice';
 
-const OFFCANVAS_ID = 'eld-logiciel-article-offcanvas';
+const OFFCANVAS_ID = 'elladarie-article-offcanvas';
 
 const vente = pages.vente;
 
@@ -42,12 +54,52 @@ const selecteurTuple = selecteurOptions as [
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+const CATALOG_ARTICLES_PER_PAGE = 6;
+
+const BILLING_CURRENCY_STORAGE_KEY = 'eld_billing_currency';
+const LEGACY_BILLING_COUNTRY_KEY = 'eld_billing_country';
+const CHECKOUT_COUNTRY_STORAGE_KEY = 'eld_checkout_country';
+
+const readStoredCheckoutCountry = (): string | null => {
+  try {
+    const raw = localStorage.getItem(CHECKOUT_COUNTRY_STORAGE_KEY)?.trim().toUpperCase();
+    if (raw && /^[A-Z]{2}$/u.test(raw)) return raw;
+  } catch {
+    /* stockage indisponible */
+  }
+  return null;
+};
+
+const readStoredCurrency = (): BillingCurrency => {
+  try {
+    const cur = localStorage.getItem(BILLING_CURRENCY_STORAGE_KEY)?.trim().toUpperCase();
+    if (cur === 'EUR' || cur === 'USD' || cur === 'XOF') return cur;
+    const legacy = localStorage.getItem(LEGACY_BILLING_COUNTRY_KEY)?.trim().toUpperCase();
+    if (legacy === 'FR') return 'EUR';
+    if (legacy === 'US') return 'USD';
+  } catch {
+    /* navigation privée, etc. */
+  }
+  return 'XOF';
+};
+
+const compareArticleNomFr = (a: Pick<ArticleItem, 'nom'>, b: Pick<ArticleItem, 'nom'>): number =>
+  a.nom.localeCompare(b.nom, 'fr', { sensitivity: 'base' });
+
 function App() {
   const [query, setQuery] = useState('');
+  const [catalogPage, setCatalogPage] = useState(1);
   const [list, setList] = useState<Array<ArticleItem & { id?: number }>>([]);
   const [selected, setSelected] = useState<ArticleItem | null>(null);
   const [assisted, setAssisted] = useState(false);
   const [buyerEmail, setBuyerEmail] = useState('');
+  const [buyerPhone, setBuyerPhone] = useState('');
+  const [billingCurrency, setBillingCurrency] = useState<BillingCurrency>(() => readStoredCurrency());
+  const [checkoutCountryCode, setCheckoutCountryCode] = useState(() => {
+    const stored = readStoredCheckoutCountry();
+    if (stored) return stored;
+    return paymentCountryFromBilling(readStoredCurrency());
+  });
   const [payBusy, setPayBusy] = useState(false);
   const [toast, setToast] = useState<{
     variant: 'error' | 'success';
@@ -79,8 +131,8 @@ function App() {
     descriptionAvecAssistace: '',
     prixAvecAssistace: 0,
     tel: '',
-    elementsSansAssistance: [],
-    elementsAvecAssistance: [],
+    elementsSansAssistance: [...ELEMENTS_SANS_ASSISTANCE_DEFAUT],
+    elementsAvecAssistance: [...ELEMENTS_AVEC_ASSISTANCE_DEFAUT],
   });
   const [userForm, setUserForm] = useState<UserItem>({
     nom: '',
@@ -88,14 +140,44 @@ function App() {
     tel: '',
     motDePasse: '',
   });
+  const [articleImagePreviewError, setArticleImagePreviewError] = useState(false);
   const offcanvasRef = useRef<HTMLDivElement | null>(null);
   const dismissToast = useCallback(() => setToast(null), []);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    if (!q) return list;
-    return list.filter((a) => a.nom.toLowerCase().includes(q));
+    const base = !q ? list : list.filter((a) => a.nom.toLowerCase().includes(q));
+    return [...base].sort(compareArticleNomFr);
   }, [query, list]);
+
+  const articlesSortedByNom = useMemo(() => [...list].sort(compareArticleNomFr), [list]);
+
+  const catalogTotalPages = Math.max(1, Math.ceil(filtered.length / CATALOG_ARTICLES_PER_PAGE));
+  const paginatedCatalog = useMemo(() => {
+    const start = (catalogPage - 1) * CATALOG_ARTICLES_PER_PAGE;
+    return filtered.slice(start, start + CATALOG_ARTICLES_PER_PAGE);
+  }, [filtered, catalogPage]);
+
+  useEffect(() => {
+    setArticleImagePreviewError(false);
+  }, [articleForm.urlImage]);
+
+  useEffect(() => {
+    setCatalogPage(1);
+  }, [query]);
+
+  useEffect(() => {
+    setCatalogPage((p: number) => Math.min(Math.max(1, p), catalogTotalPages));
+  }, [catalogTotalPages]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    try {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch {
+      window.scrollTo(0, 0);
+    }
+  }, [catalogPage]);
 
   const loadArticles = useCallback(async () => {
     try {
@@ -137,6 +219,7 @@ function App() {
       setSelected(null);
       setAssisted(false);
       setBuyerEmail('');
+      setBuyerPhone('');
     };
     el.addEventListener('hidden.bs.offcanvas', onHidden);
     return () => el.removeEventListener('hidden.bs.offcanvas', onHidden);
@@ -144,6 +227,15 @@ function App() {
 
   useEffect(() => {
     setBuyerEmail('');
+    setBuyerPhone('');
+  }, [selected]);
+
+  /** Pays de paiement : au choix d’un article, reprendre la mémorisation ou la devise affichée. */
+  useEffect(() => {
+    if (!selected) return;
+    const stored = readStoredCheckoutCountry();
+    setCheckoutCountryCode(stored ?? paymentCountryFromBilling(billingCurrency));
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- uniquement à l’ouverture d’un article (ne pas écraser le pays si l’utilisateur change Euro/CFA après)
   }, [selected]);
 
   useEffect(() => {
@@ -152,7 +244,7 @@ function App() {
     }
   }, [selected, showOffcanvas]);
 
-  /** Après paiement PayDunya : retour `?paiement=ok` → ouverture mail / POST avec lien Drive (+ téléphone si assistance). */
+  /** Retour `?paiement=ok` apres paiement (PayDunya ou CinetPay) puis envoi e-mail livraison. */
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const status = params.get('paiement');
@@ -160,11 +252,33 @@ function App() {
       window.history.replaceState({}, '', `${window.location.pathname}${window.location.hash || ''}`);
     };
 
+    const finishWithMail = (payload: OrderNotificationPayload) => {
+      void (async () => {
+        const mailRes = await sendOrderNotificationEmail(payload);
+        clearQuery();
+        if (mailRes.ok) {
+          const mailAcheteur = payload.buyerEmail.trim();
+          setToast({
+            variant: 'success',
+            message: `${vente[PAGE_VENTE.toastPaymentSuccess]}${mailAcheteur}`,
+            autoCloseMs: 6000,
+          });
+        } else if (mailRes.reason === 'popup_blocked') {
+          setToast({ variant: 'error', message: vente[PAGE_VENTE.toastMailBlocked] });
+        } else if (mailRes.reason === 'network') {
+          setToast({ variant: 'error', message: vente[PAGE_VENTE.mailDeliveryError] });
+        } else {
+          setToast({ variant: 'error', message: vente[PAGE_VENTE.mailMissingRecipient] });
+        }
+      })();
+    };
+
     if (status === 'annule') {
       clearPendingDeliveryEmail();
       clearQuery();
       return;
     }
+
     if (status !== 'ok') return;
 
     const raw = sessionStorage.getItem(POST_PAY_DELIVERY_STORAGE_KEY);
@@ -182,24 +296,7 @@ function App() {
       return;
     }
 
-    void (async () => {
-      const mailRes = await sendOrderNotificationEmail(payload);
-      clearQuery();
-      if (mailRes.ok) {
-        const mailAcheteur = payload.buyerEmail.trim();
-        setToast({
-          variant: 'success',
-          message: `${vente[PAGE_VENTE.toastPaymentSuccess]}${mailAcheteur}`,
-          autoCloseMs: 6000,
-        });
-      } else if (mailRes.reason === 'popup_blocked') {
-        setToast({ variant: 'error', message: vente[PAGE_VENTE.toastMailBlocked] });
-      } else if (mailRes.reason === 'network') {
-        setToast({ variant: 'error', message: vente[PAGE_VENTE.mailDeliveryError] });
-      } else {
-        setToast({ variant: 'error', message: vente[PAGE_VENTE.mailMissingRecipient] });
-      }
-    })();
+    finishWithMail(payload);
   }, []);
 
   const currentPrice = selected
@@ -208,11 +305,44 @@ function App() {
       : selected.prix
     : 0;
 
-  const description = selected
-    ? assisted
-      ? selected.descriptionAvecAssistace
-      : selected.description
-    : '';
+  /**
+   * Euro / Dollar / CFA : chaque colonne garde sa devise d’affichage.
+   * Le CFA utilise toujours la zone FCFA (`XOF` → SN ou VITE_XOF_PAYMENT_COUNTRY), pas la cellule sélectionnée
+   * (sinon avec Euro sélectionné on formatte en EUR dans la colonne « CFA »).
+   */
+  const currencyTableCells = useMemo(() => {
+    if (currentPrice <= 0) return [] as Array<{ currency: BillingCurrency; label: string; amount: string }>;
+    const paysCfaAffichage = paymentCountryFromBilling('XOF');
+    return [
+      { currency: 'EUR' as const, label: 'Euro', amount: formatCatalogPriceFromFcfa(currentPrice, 'FR').main },
+      { currency: 'USD' as const, label: 'Dollar', amount: formatCatalogPriceFromFcfa(currentPrice, 'US').main },
+      {
+        currency: 'XOF' as const,
+        label: 'CFA',
+        amount: formatCatalogPriceFromFcfa(currentPrice, paysCfaAffichage).main,
+      },
+    ];
+  }, [currentPrice]);
+
+  const paysCheckoutOptions = useMemo(() => {
+    const codes = new Set(PAYS_CHECKOUT_OFFCANVAS.map((p) => p.code));
+    if (checkoutCountryCode && !codes.has(checkoutCountryCode)) {
+      return [
+        ...PAYS_CHECKOUT_OFFCANVAS,
+        { code: checkoutCountryCode, libelle: checkoutCountryCode },
+      ].sort((a, b) => a.libelle.localeCompare(b.libelle, 'fr'));
+    }
+    return PAYS_CHECKOUT_OFFCANVAS;
+  }, [checkoutCountryCode]);
+
+  const setBillingCurrencyPersist = useCallback((v: BillingCurrency) => {
+    setBillingCurrency(v);
+    try {
+      localStorage.setItem(BILLING_CURRENCY_STORAGE_KEY, v);
+    } catch {
+      /* stockage indisponible */
+    }
+  }, []);
 
   const offcanvasTitle = selected
     ? `${vente[PAGE_VENTE.offcanvasTitlePrefix]} — ${selected.nom}`
@@ -234,38 +364,49 @@ function App() {
       setToast({ variant: 'error', message: vente[PAGE_VENTE.deliveryEmailInvalid] });
       return;
     }
+    if (isDohoneCountry(checkoutCountryCode) && !buyerPhone.trim()) {
+      setToast({ variant: 'error', message: vente[PAGE_VENTE.deliveryPhoneRequired] });
+      return;
+    }
     setToast(null);
     setPayBusy(true);
     const desc = `${PAYDUNIA_PRODUIT_NOM} — ${selected.nom} (${vente[PAGE_VENTE.formuleLabel]} : ${
       assisted ? selecteurTuple[1].nom : selecteurTuple[0].nom
     })`;
-    const result = await createPaydunyaCheckoutInvoice({
-      totalAmount: currentPrice,
-      description: desc,
-    });
-    setPayBusy(false);
+    const path = window.location.pathname || '/';
+    const normalized = path.startsWith('/') ? path : `/${path}`;
+    const base = `${window.location.origin}${normalized.split('?')[0]}`;
+    const returnUrl = `${base}?paiement=ok`;
+    const cancelUrl = `${base}?paiement=annule`;
 
-    if (!result.ok) {
+    try {
+      const result = await paymentApi.checkout({
+        amountFcfa: currentPrice,
+        countryCode: checkoutCountryCode,
+        description: desc,
+        returnUrl,
+        cancelUrl,
+        phone: buyerPhone.trim() || undefined,
+      });
+      const optionsSummary = `${vente[PAGE_VENTE.formuleLabel]}: ${
+        assisted ? selecteurTuple[1].nom : selecteurTuple[0].nom
+      }`;
+      savePendingDeliveryEmail({
+        article: selected,
+        assisted,
+        totalAmount: currentPrice,
+        optionsSummary,
+        buyerEmail: mail,
+      });
+      window.location.assign(result.checkoutUrl);
+    } catch (error) {
       setToast({
         variant: 'error',
-        message: `${vente[PAGE_VENTE.paymentError]}${result.message ? ` (${result.message})` : ''}`.trim(),
+        message: `${vente[PAGE_VENTE.paymentError]}${(error as Error).message ? ` (${(error as Error).message})` : ''}`.trim(),
       });
-      return;
+    } finally {
+      setPayBusy(false);
     }
-
-    const optionsSummary = `${vente[PAGE_VENTE.formuleLabel]}: ${
-      assisted ? selecteurTuple[1].nom : selecteurTuple[0].nom
-    }`;
-
-    savePendingDeliveryEmail({
-      article: selected,
-      assisted,
-      totalAmount: currentPrice,
-      optionsSummary,
-      buyerEmail: mail,
-    });
-
-    window.location.assign(result.checkoutUrl);
   };
 
   const openNewArticleModal = () => {
@@ -281,8 +422,8 @@ function App() {
       descriptionAvecAssistace: '',
       prixAvecAssistace: 0,
       tel: '',
-      elementsSansAssistance: [],
-      elementsAvecAssistance: [],
+      elementsSansAssistance: [...ELEMENTS_SANS_ASSISTANCE_DEFAUT],
+      elementsAvecAssistance: [...ELEMENTS_AVEC_ASSISTANCE_DEFAUT],
     });
     setShowArticleModal(true);
   };
@@ -409,8 +550,8 @@ function App() {
       ) : null}
 
       <Header title={vente[PAGE_VENTE.brand]}>
-        <div className="d-flex align-items-center gap-2">
-          <div className="flex-grow-1">
+        <div className="d-flex align-items-center gap-2 justify-content-end ms-auto w-100">
+          <div style={{ width: '100%', maxWidth: 340 }}>
             <Input
               value={query}
               onChange={setQuery}
@@ -430,33 +571,60 @@ function App() {
       </Header>
 
       <main className="container py-4 flex-grow-1">
-        <h2 className="h5 fw-bold mb-4" style={{ color: COULEUR_NOIR }}>
-          {vente[PAGE_VENTE.sectionTitle]}
-        </h2>
         {filtered.length === 0 ? (
           <p className="mb-0" style={{ color: COULEUR_NOIR }}>
             {vente[PAGE_VENTE.noResults]}
           </p>
         ) : (
-          <div className="row g-4">
-            {filtered.map((article) => (
-              <div className="col-12 col-md-6" key={`${article.nom}-${article.URL}`}>
-                <Card
-                  title={article.nom}
-                  category={article.categorie}
-                  subtitle={article.description}
-                  priceLine={formatPrice(article.prix)}
-                  imageUrl={article.urlImage}
-                  imageAlt={article.nom}
-                  triggerLabel={vente[PAGE_VENTE.articleCardAction]}
-                  onOpen={() => {
-                    setSelected(article);
-                    setAssisted(false);
-                  }}
-                />
-              </div>
-            ))}
-          </div>
+          <>
+            <div className="row g-4">
+              {paginatedCatalog.map((article) => (
+                <div className="col-12 col-sm-6 col-lg-4" key={`${article.nom}-${article.URL}`}>
+                  <Card
+                    title={article.nom}
+                    category={article.categorie}
+                    subtitle={article.description}
+                    imageUrl={article.urlImage}
+                    imageAlt={article.nom}
+                    triggerLabel={vente[PAGE_VENTE.articleCardAction]}
+                    onOpen={() => {
+                      setSelected(article);
+                      setAssisted(false);
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
+            {catalogTotalPages > 1 ? (
+              <nav
+                className="d-flex align-items-center justify-content-center gap-2 flex-wrap mt-4"
+                aria-label="Pagination du catalogue"
+              >
+                <Button
+                  type="button"
+                  variant="primary"
+                  className="px-3"
+                  disabled={catalogPage <= 1}
+                  onClick={() => setCatalogPage((p: number) => Math.max(1, p - 1))}
+                >
+                  {vente[PAGE_VENTE.catalogPaginationPrev]}
+                </Button>
+                <span className="small px-2" style={{ color: COULEUR_NOIR }}>
+                  {vente[PAGE_VENTE.catalogPaginationPage]} {catalogPage} {vente[PAGE_VENTE.catalogPaginationOn]}{' '}
+                  {catalogTotalPages}
+                </span>
+                <Button
+                  type="button"
+                  variant="primary"
+                  className="px-3"
+                  disabled={catalogPage >= catalogTotalPages}
+                  onClick={() => setCatalogPage((p: number) => Math.min(catalogTotalPages, p + 1))}
+                >
+                  {vente[PAGE_VENTE.catalogPaginationNext]}
+                </Button>
+              </nav>
+            ) : null}
+          </>
         )}
 
       </main>
@@ -469,22 +637,21 @@ function App() {
         title={offcanvasTitle}
         closeLabel={vente[PAGE_VENTE.closeAria]}
         footer={
-          <Button
-            variant="pay"
-            className="w-100 py-2"
-            type="button"
-            disabled={payBusy}
-            onClick={() => void handlePay()}
-          >
-            {payBusy ? vente[PAGE_VENTE.paymentRedirecting] : `${vente[PAGE_VENTE.payButton]} — ${formatPrice(currentPrice)}`}
-          </Button>
+          <div className="d-flex flex-column gap-2 w-100">
+            <Button
+              variant="pay"
+              className="w-100 py-2"
+              type="button"
+              disabled={payBusy}
+              onClick={() => void handlePay()}
+            >
+              {payBusy ? vente[PAGE_VENTE.paymentRedirecting] : vente[PAGE_VENTE.payButton]}
+            </Button>
+          </div>
         }
       >
         {selected ? (
           <>
-            <p className="mb-3" style={{ color: COULEUR_NOIR }}>
-              {description}
-            </p>
             <p className="small mb-3">
               <a
                 href={selected.URL}
@@ -509,6 +676,107 @@ function App() {
               lignesAvec={selected.elementsAvecAssistance}
               assisted={assisted}
             />
+            <div className="mb-3">
+              <label
+                className="form-label small fw-semibold mb-1"
+                htmlFor="eld-offcanvas-checkout-country"
+                style={{ color: COULEUR_NOIR }}
+              >
+                {vente[PAGE_VENTE.countryBillingLabel]}
+              </label>
+              <select
+                id="eld-offcanvas-checkout-country"
+                className="form-select border-2"
+                style={{ color: COULEUR_NOIR, borderColor: COULEUR_NOIR, backgroundColor: COULEUR_BLANC }}
+                value={checkoutCountryCode}
+                onChange={(e) => {
+                  const code = e.target.value;
+                  setCheckoutCountryCode(code);
+                  try {
+                    localStorage.setItem(CHECKOUT_COUNTRY_STORAGE_KEY, code);
+                  } catch {
+                    /* stockage indisponible */
+                  }
+                }}
+                aria-label={vente[PAGE_VENTE.countryBillingLabel]}
+              >
+                {paysCheckoutOptions.map((p) => (
+                  <option key={p.code} value={p.code}>
+                    {p.libelle}
+                  </option>
+                ))}
+              </select>
+              <p className="small mt-2 mb-0" style={{ color: COULEUR_NOIR }}>
+                {isDohoneCountry(checkoutCountryCode)
+                  ? vente[PAGE_VENTE.paymentRedirectDohoneHint]
+                  : isPaydunyaCountry(checkoutCountryCode)
+                    ? vente[PAGE_VENTE.paymentRedirectPaydunyaHint]
+                    : vente[PAGE_VENTE.paymentCountryUnavailableHint]}
+              </p>
+            </div>
+            {currencyTableCells.length > 0 ? (
+              <div className="mb-3">
+                <p className="small fw-semibold mb-2 mb-md-1" style={{ color: COULEUR_NOIR }}>
+                  {vente[PAGE_VENTE.offcanvasCurrencyLabel]}
+                </p>
+                <div className="table-responsive">
+                  <table
+                    className="table table-bordered table-sm mb-0 text-center align-middle"
+                    style={{ color: COULEUR_NOIR, borderColor: COULEUR_NOIR, tableLayout: 'fixed' }}
+                  >
+                    <caption className="visually-hidden">
+                      {vente[PAGE_VENTE.offcanvasCurrencyLabel]} — équivalents indicatifs du montant
+                    </caption>
+                    <colgroup>
+                      <col style={{ width: '33.33%' }} />
+                      <col style={{ width: '33.33%' }} />
+                      <col style={{ width: '33.33%' }} />
+                    </colgroup>
+                    <thead>
+                      <tr style={{ backgroundColor: COULEUR_BLANC }}>
+                        {currencyTableCells.map((c) => (
+                          <th key={c.currency} scope="col" className="small py-2 px-1">
+                            {c.label}
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        {currencyTableCells.map((c) => {
+                          const selected = billingCurrency === c.currency;
+                          return (
+                            <td
+                              key={c.currency}
+                              role="button"
+                              tabIndex={0}
+                              className="small py-2 px-1 fw-semibold user-select-none"
+                              style={{
+                                cursor: 'pointer',
+                                backgroundColor: selected ? COULEUR_PRINCIPALE : COULEUR_BLANC,
+                                color: selected ? COULEUR_BLANC : COULEUR_NOIR,
+                                borderColor: COULEUR_NOIR,
+                              }}
+                              onClick={() => setBillingCurrencyPersist(c.currency)}
+                              onKeyDown={(e) => {
+                                if (e.key === 'Enter' || e.key === ' ') {
+                                  e.preventDefault();
+                                  setBillingCurrencyPersist(c.currency);
+                                }
+                              }}
+                              aria-pressed={selected}
+                              aria-label={`${c.label}, ${c.amount}${selected ? ' — sélectionné' : ''}`}
+                            >
+                              {c.amount}
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            ) : null}
             <div className="mb-2 small fw-semibold" style={{ color: COULEUR_NOIR }}>
               {vente[PAGE_VENTE.deliveryEmailLabel]}
             </div>
@@ -520,6 +788,21 @@ function App() {
               placeholder={vente[PAGE_VENTE.deliveryEmailPlaceholder]}
               ariaLabel={vente[PAGE_VENTE.deliveryEmailLabel]}
             />
+            {isDohoneCountry(checkoutCountryCode) ? (
+              <>
+                <div className="mb-2 mt-3 small fw-semibold" style={{ color: COULEUR_NOIR }}>
+                  {vente[PAGE_VENTE.deliveryPhoneDohoneLabel]}
+                </div>
+                <Input
+                  type="tel"
+                  autoComplete="tel"
+                  value={buyerPhone}
+                  onChange={setBuyerPhone}
+                  placeholder="+241 …"
+                  ariaLabel={vente[PAGE_VENTE.deliveryPhoneDohoneLabel]}
+                />
+              </>
+            ) : null}
           </>
         ) : null}
       </Offcanvas>
@@ -615,7 +898,7 @@ function App() {
                           </tr>
                         </thead>
                         <tbody>
-                          {list.map((a) => (
+                          {articlesSortedByNom.map((a) => (
                             <tr key={`${a.nom}-${a.URL}`}>
                               <td>{a.nom}</td>
                               <td>{a.categorie}</td>
@@ -747,20 +1030,43 @@ function App() {
           <div className="col-md-6">
             <Input value={articleForm.urlImage} onChange={(v) => setArticleForm((p) => ({ ...p, urlImage: v }))} placeholder={vente[PAGE_VENTE.adminImageUrlLabel]} ariaLabel={vente[PAGE_VENTE.adminImageUrlLabel]} type="text" />
           </div>
-          <div className="col-md-6">
-            <Input value={articleForm.URL} onChange={(v) => setArticleForm((p) => ({ ...p, URL: v }))} placeholder={vente[PAGE_VENTE.adminSiteUrlLabel]} ariaLabel={vente[PAGE_VENTE.adminSiteUrlLabel]} type="text" />
+          <div className="col-md-6 d-flex flex-column">
+            <span className="small fw-semibold mb-1" style={{ color: COULEUR_NOIR }}>
+              Aperçu
+            </span>
+            <div
+              className="border border-2 rounded-3 p-2 flex-grow-1 d-flex align-items-center justify-content-center"
+              style={{
+                borderColor: COULEUR_NOIR,
+                minHeight: 120,
+                backgroundColor: COULEUR_BLANC,
+              }}
+            >
+              {articleForm.urlImage.trim() ? (
+                articleImagePreviewError ? (
+                  <span className="small text-center px-1" style={{ color: COULEUR_NOIR }}>
+                    Impossible de charger l’image. Vérifiez l’URL.
+                  </span>
+                ) : (
+                  <img
+                    src={articleForm.urlImage.trim()}
+                    alt="Aperçu de l’illustration de l’article"
+                    className="img-fluid"
+                    style={{ maxHeight: 160, maxWidth: '100%', objectFit: 'contain' }}
+                    onLoad={() => setArticleImagePreviewError(false)}
+                    onError={() => setArticleImagePreviewError(true)}
+                  />
+                )
+              ) : (
+                <span className="small text-center text-muted">Saisissez une URL d’image à gauche.</span>
+              )}
+            </div>
           </div>
           <div className="col-md-6">
             <Input value={articleForm.urlDrive} onChange={(v) => setArticleForm((p) => ({ ...p, urlDrive: v }))} placeholder={vente[PAGE_VENTE.adminDriveUrlLabel]} ariaLabel={vente[PAGE_VENTE.adminDriveUrlLabel]} type="text" />
           </div>
           <div className="col-md-6">
             <Input value={articleForm.tel} onChange={(v) => setArticleForm((p) => ({ ...p, tel: v }))} placeholder={vente[PAGE_VENTE.adminPhoneLabel]} ariaLabel={vente[PAGE_VENTE.adminPhoneLabel]} type="text" />
-          </div>
-          <div className="col-md-12">
-            <Input value={articleForm.description} onChange={(v) => setArticleForm((p) => ({ ...p, description: v }))} placeholder={vente[PAGE_VENTE.adminDescriptionLabel]} ariaLabel={vente[PAGE_VENTE.adminDescriptionLabel]} type="text" />
-          </div>
-          <div className="col-md-12">
-            <Input value={articleForm.descriptionAvecAssistace} onChange={(v) => setArticleForm((p) => ({ ...p, descriptionAvecAssistace: v }))} placeholder={vente[PAGE_VENTE.adminDescriptionAssistLabel]} ariaLabel={vente[PAGE_VENTE.adminDescriptionAssistLabel]} type="text" />
           </div>
           <div className="col-md-12">
             <Input value={articleForm.elementsSansAssistance.join('|')} onChange={(v) => setArticleForm((p) => ({ ...p, elementsSansAssistance: v.split('|').map((x) => x.trim()).filter(Boolean) }))} placeholder={vente[PAGE_VENTE.adminElementsSansLabel]} ariaLabel={vente[PAGE_VENTE.adminElementsSansLabel]} type="text" />

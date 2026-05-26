@@ -1,4 +1,4 @@
-Modèle HTML pour EmailJS — ELD Logiciel (livraison logiciel après paiement)
+Modèle HTML pour EmailJS — EllaDarie (livraison logiciel après paiement)
 ================================================================================
 Collez la partie « MODÈLE HTML » ci-dessous dans le corps du modèle EmailJS (éditeur HTML).
 
@@ -38,8 +38,8 @@ MODÈLE HTML — copier à partir de la ligne suivante
         <img
           style="height: 32px; vertical-align: middle"
           height="32"
-          src="https://via.placeholder.com/120x32/458500/ffffff?text=ELD%20Logiciel"
-          alt="ELD Logiciel"
+          src="https://via.placeholder.com/120x32/458500/ffffff?text=EllaDarie"
+          alt="EllaDarie"
         />
       </a>
       <span
@@ -139,7 +139,7 @@ MODÈLE HTML — copier à partir de la ligne suivante
   <div style="max-width: 600px; margin: auto; padding-top: 12px">
     <p style="color: #999; font-size: 12px; line-height: 1.5">
       Cet e-mail a été envoyé à {{to_email}}.<br />
-      Vous recevez ce message parce que vous avez passé commande sur ELD Logiciel.
+      Vous recevez ce message parce que vous avez passé commande sur EllaDarie.
     </p>
   </div>
 </div>

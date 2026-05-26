@@ -1,4 +1,4 @@
 [
-  { "nom": "Sans assistance", "estAssiste": false },
-  { "nom": "Avec assistance", "estAssiste": true }
+  { "nom": "Sans assistance à l'installation", "estAssiste": false },
+  { "nom": "Avec assistance à l'installation", "estAssiste": true }
 ]

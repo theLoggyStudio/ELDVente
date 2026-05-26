@@ -1,0 +1,86 @@
+{
+  "disclaimerFr": "Montants indicatifs : conversion à partir du FCFA (référence catalogue). Les taux « fcfaPerUnit » sont approximatifs et modifiables ; ce ne sont pas les cours officiels en temps réel.",
+  "paymentDisclaimerFr": "Moyens de paiement indicatifs par pays. L’activation réelle dépend de la configuration backend (.env) et des comptes marchands.",
+  "fallbackCountry": "US",
+  "paymentProviders": {
+    "paydunya": {
+      "label": "PayDunya",
+      "supportsXofSettlement": true,
+      "supportsXafSettlement": true,
+      "requiresConversionFromXof": false,
+      "envKeys": [
+        "PAYDUNYA_MODE",
+        "PAYDUNIA_MASTER_KEY",
+        "PAYDUNIA_TEST_PRIVATE_KEY",
+        "PAYDUNIA_TEST_TOKEN",
+        "PAYDUNIA_PRODUCTION_PRIVATE_KEY",
+        "PAYDUNIA_PRODUCTION_TOKEN"
+      ]
+    },
+    "paypal": {
+      "label": "PayPal",
+      "supportsXofSettlement": false,
+      "supportsXafSettlement": false,
+      "requiresConversionFromXof": true,
+      "conversionCurrency": "USD",
+      "envKeys": ["PAYPAL_MODE", "PAYPAL_CLIENT_ID", "PAYPAL_CLIENT_SECRET", "PAYPAL_COUNTRY_CODES"]
+    },
+    "stripe": {
+      "label": "Stripe (carte)",
+      "supportsXofSettlement": true,
+      "supportsXafSettlement": true,
+      "requiresConversionFromXof": false,
+      "envKeys": ["STRIPE_MODE", "STRIPE_SECRET_KEY", "STRIPE_WEBHOOK_SECRET", "STRIPE_COUNTRY_CODES"]
+    },
+    "flutterwave": {
+      "label": "Flutterwave",
+      "supportsXofSettlement": true,
+      "supportsXafSettlement": true,
+      "requiresConversionFromXof": false,
+      "envKeys": ["FLUTTERWAVE_MODE", "FLUTTERWAVE_SECRET_KEY", "FLUTTERWAVE_PUBLIC_KEY", "FLUTTERWAVE_COUNTRY_CODES"]
+    },
+    "cinetpay": {
+      "label": "CinetPay",
+      "supportsXofSettlement": true,
+      "supportsXafSettlement": true,
+      "requiresConversionFromXof": false,
+      "envKeys": ["CINETPAY_API_KEY", "CINETPAY_SITE_ID", "CINETPAY_NOTIFY_URL", "CINETPAY_RETURN_URL", "CINETPAY_COUNTRY_CODES"]
+    },
+    "card_international": {
+      "label": "Carte internationale",
+      "supportsXofSettlement": false,
+      "supportsXafSettlement": false,
+      "requiresConversionFromXof": true,
+      "conversionCurrency": "USD",
+      "envKeys": ["INTERNATIONAL_CARD_CHECKOUT_URL"]
+    }
+  },
+  "countries": {
+    "SN": { "currency": "XOF", "fcfaPerUnit": 1, "paymentMethods": ["paydunya", "flutterwave", "cinetpay", "card_international"] },
+    "CI": { "currency": "XOF", "fcfaPerUnit": 1, "paymentMethods": ["paydunya", "flutterwave", "cinetpay", "card_international"] },
+    "ML": { "currency": "XOF", "fcfaPerUnit": 1, "paymentMethods": ["paydunya", "card_international"] },
+    "BF": { "currency": "XOF", "fcfaPerUnit": 1, "paymentMethods": ["paydunya", "flutterwave", "card_international"] },
+    "BJ": { "currency": "XOF", "fcfaPerUnit": 1, "paymentMethods": ["paydunya", "card_international"] },
+    "TG": { "currency": "XOF", "fcfaPerUnit": 1, "paymentMethods": ["paydunya", "card_international"] },
+    "NE": { "currency": "XOF", "fcfaPerUnit": 1, "paymentMethods": ["paydunya", "card_international"] },
+    "GN": { "currency": "XOF", "fcfaPerUnit": 1, "paymentMethods": ["paydunya", "card_international"] },
+    "GH": { "currency": "GHS", "fcfaPerUnit": 45, "paymentMethods": ["paydunya", "flutterwave", "card_international"] },
+    "NG": { "currency": "NGN", "fcfaPerUnit": 3.704, "paymentMethods": ["paydunya", "flutterwave", "card_international"] },
+    "CM": { "currency": "XAF", "fcfaPerUnit": 1, "paymentMethods": ["paydunya", "flutterwave", "cinetpay", "card_international"] },
+    "GA": { "currency": "XAF", "fcfaPerUnit": 1, "paymentMethods": ["paydunya", "card_international"] },
+    "MA": { "currency": "MAD", "fcfaPerUnit": 60, "paymentMethods": ["paypal", "stripe", "card_international"] },
+    "DZ": { "currency": "DZD", "fcfaPerUnit": 4.5, "paymentMethods": ["paypal", "stripe", "card_international"] },
+    "TN": { "currency": "TND", "fcfaPerUnit": 200, "paymentMethods": ["paypal", "stripe", "card_international"] },
+    "FR": { "currency": "EUR", "fcfaPerUnit": 656, "paymentMethods": ["paypal", "stripe", "card_international"] },
+    "BE": { "currency": "EUR", "fcfaPerUnit": 656, "paymentMethods": ["paypal", "stripe", "card_international"] },
+    "CH": { "currency": "CHF", "fcfaPerUnit": 700, "paymentMethods": ["paypal", "stripe", "card_international"] },
+    "DE": { "currency": "EUR", "fcfaPerUnit": 656, "paymentMethods": ["paypal", "stripe", "card_international"] },
+    "IT": { "currency": "EUR", "fcfaPerUnit": 656, "paymentMethods": ["paypal", "stripe", "card_international"] },
+    "ES": { "currency": "EUR", "fcfaPerUnit": 656, "paymentMethods": ["paypal", "stripe", "card_international"] },
+    "PT": { "currency": "EUR", "fcfaPerUnit": 656, "paymentMethods": ["paypal", "stripe", "card_international"] },
+    "GB": { "currency": "GBP", "fcfaPerUnit": 780, "paymentMethods": ["paypal", "stripe", "card_international"] },
+    "US": { "currency": "USD", "fcfaPerUnit": 620, "paymentMethods": ["paypal", "stripe", "card_international"] },
+    "CA": { "currency": "CAD", "fcfaPerUnit": 450, "paymentMethods": ["paypal", "stripe", "card_international"] },
+    "NL": { "currency": "EUR", "fcfaPerUnit": 656, "paymentMethods": ["paypal", "stripe", "card_international"] }
+  }
+}

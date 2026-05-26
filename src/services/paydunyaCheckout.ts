@@ -3,10 +3,7 @@ import {
   PAYDUNIA_PRODUCTION_PRIVATE_KEY,
   PAYDUNIA_PRODUCTION_TOKEN,
   PAYDUNIA_PRODUCTION_URL,
-  PAYDUNIA_STORE_BP,
   PAYDUNIA_STORE_NOM,
-  PAYDUNIA_STORE_TAG,
-  PAYDUNIA_STORE_TELEPHONE,
   PAYDUNIA_TEST_PRIVATE_KEY,
   PAYDUNIA_TEST_TOKEN,
   PAYDUNIA_TEST_URL,
@@ -52,10 +49,10 @@ export const createPaydunyaCheckoutInvoice = async ({
   const privateKey = prod ? PAYDUNIA_PRODUCTION_PRIVATE_KEY : PAYDUNIA_TEST_PRIVATE_KEY;
   const token = prod ? PAYDUNIA_PRODUCTION_TOKEN : PAYDUNIA_TEST_TOKEN;
 
-  if (!PAYDUNIA_MASTER_KEY || !privateKey || !token || !PAYDUNIA_STORE_NOM) {
+  if (!PAYDUNIA_MASTER_KEY || !privateKey || !token) {
     return {
       ok: false,
-      message: 'Configuration PayDunya incomplète (clés ou nom de magasin).',
+      message: 'Configuration PayDunya incomplète (master key, clé privée et token).',
     };
   }
 
@@ -75,9 +72,6 @@ export const createPaydunyaCheckoutInvoice = async ({
     },
     store: {
       name: PAYDUNIA_STORE_NOM,
-      ...(PAYDUNIA_STORE_TAG ? { tagline: PAYDUNIA_STORE_TAG } : {}),
-      ...(PAYDUNIA_STORE_BP ? { postal_address: PAYDUNIA_STORE_BP } : {}),
-      ...(PAYDUNIA_STORE_TELEPHONE ? { phone: PAYDUNIA_STORE_TELEPHONE } : {}),
     },
     ...(origin
       ? {
