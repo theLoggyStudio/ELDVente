@@ -116,6 +116,6 @@ export const createPaydunyaCheckoutInvoice = async ({
   const hint = messageForPaydunyaCode(code, data.response_text) ?? data.response_text;
   return {
     ok: false,
-    message: hint || data.description || `Erreur PayDunya (HTTP ${res.status}, code ${code || '—'}).`,
+    message: hint || data.description || `Erreur PayDunya (HTTP ${res.status}, code ${code || 'n/d'}).`,
   };
 };

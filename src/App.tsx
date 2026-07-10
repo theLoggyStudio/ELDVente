@@ -5,7 +5,8 @@ import selecteurOptions from './constants/json/Selecteur.constant.json';
 import staticArticles from './constants/json/article.json';
 import { PAGE_VENTE } from './constants/ts/PagesVente.index';
 import { COULEUR_BLANC, COULEUR_NOIR, COULEUR_PRINCIPALE } from './constants/ts/Couleur.constant';
-import { PAYDUNIA_PRODUIT_NOM, SUPPLEMENT_ASSISTANCE_FCFA } from './constants/ts/Payement.constant';
+import { ELLADARIE_DEFAULT_LOGO, resolveArticleImageUrl } from './constants/ts/Brand.constant';
+import { PAYDUNIA_PRODUIT_NOM, PAYDUNIA_STORE_NOM, SUPPLEMENT_ASSISTANCE_FCFA } from './constants/ts/Payement.constant';
 import { Alert } from './items/Alert';
 import { Button } from './items/Button';
 import { Card } from './items/Card';
@@ -17,13 +18,13 @@ import { Offcanvas } from './items/Offcanvas';
 import { Selecteur } from './items/Selecteur';
 import { Modal } from './items/Modal';
 import {
-  clearPendingDeliveryEmail,
-  POST_PAY_DELIVERY_STORAGE_KEY,
-  savePendingDeliveryEmail,
-  sendOrderNotificationEmail,
-  type OrderNotificationPayload,
+  clearPendingDelivery,
+  readPendingDelivery,
+  savePendingDelivery,
+  type PendingDeliveryPayload,
 } from './services/orderNotification';
 import { paymentApi } from './services/paymentApi';
+import { purchaseApi } from './services/purchaseApi';
 import { articleApi } from './services/articleApi';
 import { authApi } from './services/authApi';
 import { userApi } from './services/userApi';
@@ -32,6 +33,7 @@ import {
   ELEMENTS_SANS_ASSISTANCE_DEFAUT,
 } from './constants/ts/ArticleFormulesDefault.constant';
 import type { ArticleItem } from './types/Article';
+import type { PurchaseItem } from './types/Purchase';
 import type { UserItem } from './types/User';
 import {
   type BillingCurrency,
@@ -42,6 +44,7 @@ import { PAYS_CHECKOUT_OFFCANVAS } from './constants/ts/OffcanvasPaysCheckout.co
 import { isPaydunyaCountry } from './constants/ts/PaydunyaCountries.constant';
 import { formatCatalogPriceFromFcfa } from './utils/catalogCurrencyFromFcfa';
 import { formatPrice } from './utils/formatPrice';
+import { downloadReceiptPdf } from './utils/receiptPdf';
 
 const OFFCANVAS_ID = 'elladarie-article-offcanvas';
 
@@ -52,9 +55,22 @@ const selecteurTuple = selecteurOptions as [
   { nom: string; estAssiste: boolean },
 ];
 
+const CATALOG_ARTICLES_PER_PAGE = 6;
+const HISTORY_ROWS_PER_PAGE = 10;
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-const CATALOG_ARTICLES_PER_PAGE = 6;
+type HistorySortKey = 'receiptId' | 'buyerEmail' | 'applicationName' | 'purchasedAt';
+type HistorySortDir = 'asc' | 'desc';
+
+const formatPurchaseDate = (iso: string): string => {
+  const d = new Date(iso);
+  return Number.isNaN(d.getTime()) ? iso : d.toLocaleString('fr-FR');
+};
+
+const historySortIndicator = (active: boolean, dir: HistorySortDir): string => {
+  if (!active) return ' ↕';
+  return dir === 'asc' ? ' ↑' : ' ↓';
+};
 
 const BILLING_CURRENCY_STORAGE_KEY = 'eld_billing_currency';
 const LEGACY_BILLING_COUNTRY_KEY = 'eld_billing_country';
@@ -83,8 +99,12 @@ const readStoredCurrency = (): BillingCurrency => {
   return 'XOF';
 };
 
-const compareArticleNomFr = (a: Pick<ArticleItem, 'nom'>, b: Pick<ArticleItem, 'nom'>): number =>
-  a.nom.localeCompare(b.nom, 'fr', { sensitivity: 'base' });
+const compareArticleNomFr = (a: Pick<ArticleItem, 'nom' | 'version'>, b: Pick<ArticleItem, 'nom' | 'version'>): number =>
+  a.nom.localeCompare(b.nom, 'fr', { sensitivity: 'base' }) ||
+  (a.version ?? '').localeCompare(b.version ?? '', 'fr', { numeric: true });
+
+const articleDisplayTitle = (article: Pick<ArticleItem, 'nom' | 'version'>): string =>
+  article.version?.trim() ? `${article.nom} (${article.version})` : article.nom;
 
 function App() {
   const [query, setQuery] = useState('');
@@ -94,6 +114,8 @@ function App() {
   const [assisted, setAssisted] = useState(false);
   const [buyerEmail, setBuyerEmail] = useState('');
   const [buyerPhone, setBuyerPhone] = useState('');
+  const [deliveryResult, setDeliveryResult] = useState<PendingDeliveryPayload | null>(null);
+  const [driveLinkCopied, setDriveLinkCopied] = useState(false);
   const [billingCurrency, setBillingCurrency] = useState<BillingCurrency>(() => readStoredCurrency());
   const [checkoutCountryCode, setCheckoutCountryCode] = useState(() => {
     const stored = readStoredCheckoutCountry();
@@ -108,14 +130,20 @@ function App() {
   } | null>(null);
   const [apiError, setApiError] = useState('');
   const [token, setToken] = useState('');
-  const [adminEmail, setAdminEmail] = useState('');
-  const [adminPassword, setAdminPassword] = useState('');
+  const [adminEmail, setAdminEmail] = useState('admin');
+  const [adminPassword, setAdminPassword] = useState('admin');
   const [users, setUsers] = useState<Array<UserItem & { id: number }>>([]);
+  const [purchases, setPurchases] = useState<PurchaseItem[]>([]);
+  const [historySort, setHistorySort] = useState<{ key: HistorySortKey; dir: HistorySortDir }>({
+    key: 'purchasedAt',
+    dir: 'desc',
+  });
+  const [historyPage, setHistoryPage] = useState(1);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showAdminModal, setShowAdminModal] = useState(false);
   const [showArticleModal, setShowArticleModal] = useState(false);
   const [showUserModal, setShowUserModal] = useState(false);
-  const [openAdminSection, setOpenAdminSection] = useState<'articles' | 'users' | 'password' | null>(null);
+  const [openAdminSection, setOpenAdminSection] = useState<'articles' | 'users' | 'password' | 'history' | null>(null);
   const [editingArticleId, setEditingArticleId] = useState<number | null>(null);
   const [editingUserId, setEditingUserId] = useState<number | null>(null);
   const [oldPassword, setOldPassword] = useState('');
@@ -123,6 +151,7 @@ function App() {
   const [articleForm, setArticleForm] = useState<ArticleItem>({
     urlImage: '',
     nom: '',
+    version: '',
     categorie: '',
     URL: '',
     urlDrive: '',
@@ -142,11 +171,19 @@ function App() {
   });
   const [articleImagePreviewError, setArticleImagePreviewError] = useState(false);
   const offcanvasRef = useRef<HTMLDivElement | null>(null);
+  const postPayHandledRef = useRef(false);
   const dismissToast = useCallback(() => setToast(null), []);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    const base = !q ? list : list.filter((a) => a.nom.toLowerCase().includes(q));
+    const base = !q
+      ? list
+      : list.filter(
+          (a) =>
+            a.nom.toLowerCase().includes(q) ||
+            (a.version ?? '').toLowerCase().includes(q) ||
+            a.categorie.toLowerCase().includes(q),
+        );
     return [...base].sort(compareArticleNomFr);
   }, [query, list]);
 
@@ -201,9 +238,60 @@ function App() {
     }
   }, [token]);
 
+  const loadPurchases = useCallback(async () => {
+    if (!token) return;
+    try {
+      const rows = await purchaseApi.list(token);
+      setPurchases(rows);
+      setApiError('');
+    } catch (error) {
+      setApiError(`${vente[PAGE_VENTE.adminApiErrorPrefix]}${(error as Error).message}`);
+    }
+  }, [token]);
+
   useEffect(() => {
     void loadArticles();
   }, [loadArticles]);
+
+  useEffect(() => {
+    if (openAdminSection === 'history' && token) {
+      void loadPurchases();
+    }
+  }, [openAdminSection, token, loadPurchases]);
+
+  const sortedPurchases = useMemo(() => {
+    const rows = [...purchases];
+    rows.sort((a, b) => {
+      let cmp = 0;
+      if (historySort.key === 'purchasedAt') {
+        cmp = new Date(a.purchasedAt).getTime() - new Date(b.purchasedAt).getTime();
+      } else {
+        cmp = a[historySort.key].localeCompare(b[historySort.key], 'fr', { sensitivity: 'base' });
+      }
+      return historySort.dir === 'asc' ? cmp : -cmp;
+    });
+    return rows;
+  }, [purchases, historySort]);
+
+  const historyTotalPages = Math.max(1, Math.ceil(sortedPurchases.length / HISTORY_ROWS_PER_PAGE));
+  const paginatedPurchases = useMemo(() => {
+    const start = (historyPage - 1) * HISTORY_ROWS_PER_PAGE;
+    return sortedPurchases.slice(start, start + HISTORY_ROWS_PER_PAGE);
+  }, [sortedPurchases, historyPage]);
+
+  useEffect(() => {
+    setHistoryPage(1);
+  }, [historySort]);
+
+  useEffect(() => {
+    setHistoryPage((p) => Math.min(Math.max(1, p), historyTotalPages));
+  }, [historyTotalPages]);
+
+  const toggleHistorySort = (key: HistorySortKey) => {
+    setHistorySort((prev) =>
+      prev.key === key ? { key, dir: prev.dir === 'asc' ? 'desc' : 'asc' } : { key, dir: 'asc' },
+    );
+  };
 
   const showOffcanvas = useCallback(() => {
     const el = offcanvasRef.current;
@@ -226,8 +314,8 @@ function App() {
   }, []);
 
   useEffect(() => {
-    setBuyerEmail('');
     setBuyerPhone('');
+    setBuyerEmail('');
   }, [selected]);
 
   /** Pays de paiement : au choix d’un article, reprendre la mémorisation ou la devise affichée. */
@@ -244,7 +332,7 @@ function App() {
     }
   }, [selected, showOffcanvas]);
 
-  /** Retour `?paiement=ok` apres paiement (PayDunya ou CinetPay) puis envoi e-mail livraison. */
+  /** Retour `?paiement=ok` après PayDunya / Dohone : reçu PDF puis popup avec lien Drive. */
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const status = params.get('paiement');
@@ -252,52 +340,81 @@ function App() {
       window.history.replaceState({}, '', `${window.location.pathname}${window.location.hash || ''}`);
     };
 
-    const finishWithMail = (payload: OrderNotificationPayload) => {
-      void (async () => {
-        const mailRes = await sendOrderNotificationEmail(payload);
-        clearQuery();
-        if (mailRes.ok) {
-          const mailAcheteur = payload.buyerEmail.trim();
-          setToast({
-            variant: 'success',
-            message: `${vente[PAGE_VENTE.toastPaymentSuccess]}${mailAcheteur}`,
-            autoCloseMs: 6000,
-          });
-        } else if (mailRes.reason === 'popup_blocked') {
-          setToast({ variant: 'error', message: vente[PAGE_VENTE.toastMailBlocked] });
-        } else if (mailRes.reason === 'network') {
-          setToast({ variant: 'error', message: vente[PAGE_VENTE.mailDeliveryError] });
-        } else {
-          setToast({ variant: 'error', message: vente[PAGE_VENTE.mailMissingRecipient] });
-        }
-      })();
-    };
-
     if (status === 'annule') {
-      clearPendingDeliveryEmail();
+      clearPendingDelivery();
       clearQuery();
       return;
     }
 
-    if (status !== 'ok') return;
+    if (status !== 'ok' || postPayHandledRef.current) return;
+    postPayHandledRef.current = true;
 
-    const raw = sessionStorage.getItem(POST_PAY_DELIVERY_STORAGE_KEY);
-    if (!raw) {
-      clearQuery();
-      return;
-    }
-    sessionStorage.removeItem(POST_PAY_DELIVERY_STORAGE_KEY);
+    const payload = readPendingDelivery();
+    clearPendingDelivery();
+    clearQuery();
 
-    let payload: OrderNotificationPayload;
-    try {
-      payload = JSON.parse(raw) as OrderNotificationPayload;
-    } catch {
-      clearQuery();
-      return;
-    }
+    if (!payload) return;
 
-    finishWithMail(payload);
+    void (async () => {
+      const email = payload.buyerEmail?.trim() ?? '';
+      let receiptId = '';
+
+      if (email && emailPattern.test(email)) {
+        try {
+          const purchase = await purchaseApi.create({
+            buyerEmail: email,
+            applicationName: articleDisplayTitle(payload.article),
+          });
+          receiptId = purchase.receiptId;
+        } catch {
+          /* historique non bloquant pour la livraison */
+        }
+      }
+
+      if (receiptId) {
+        try {
+          downloadReceiptPdf({
+            receiptId,
+            brandName: PAYDUNIA_STORE_NOM,
+            buyerEmail: email,
+            applicationName: articleDisplayTitle(payload.article),
+            purchasedAt: new Date(),
+            totalAmount: payload.totalAmount,
+            optionsSummary: payload.optionsSummary,
+            labels: {
+              title: vente[PAGE_VENTE.receiptPdfTitle],
+              thanks: vente[PAGE_VENTE.receiptPdfThanks],
+              id: vente[PAGE_VENTE.receiptPdfIdLabel],
+              email: vente[PAGE_VENTE.receiptPdfEmailLabel],
+              application: vente[PAGE_VENTE.receiptPdfAppLabel],
+              date: vente[PAGE_VENTE.receiptPdfDateLabel],
+              amount: vente[PAGE_VENTE.receiptPdfAmountLabel],
+              options: vente[PAGE_VENTE.receiptPdfOptionsLabel],
+            },
+          });
+        } catch {
+          /* PDF non bloquant pour la livraison */
+        }
+      }
+
+      setDriveLinkCopied(false);
+      setDeliveryResult(payload);
+    })();
   }, []);
+
+  const closeDeliveryModal = () => {
+    setDeliveryResult(null);
+    setDriveLinkCopied(false);
+  };
+
+  const copyDriveLink = async (url: string) => {
+    try {
+      await navigator.clipboard.writeText(url);
+      setDriveLinkCopied(true);
+    } catch {
+      setDriveLinkCopied(false);
+    }
+  };
 
   const currentPrice = selected
     ? assisted
@@ -345,7 +462,7 @@ function App() {
   }, []);
 
   const offcanvasTitle = selected
-    ? `${vente[PAGE_VENTE.offcanvasTitlePrefix]} — ${selected.nom}`
+    ? `${vente[PAGE_VENTE.offcanvasTitlePrefix]} : ${articleDisplayTitle(selected)}`
     : vente[PAGE_VENTE.offcanvasTitlePrefix];
 
   const handlePay = async () => {
@@ -355,22 +472,22 @@ function App() {
       setToast({ variant: 'error', message: vente[PAGE_VENTE.deliveryDriveMissing] });
       return;
     }
-    const mail = buyerEmail.trim();
-    if (!mail) {
-      setToast({ variant: 'error', message: vente[PAGE_VENTE.deliveryEmailRequired] });
-      return;
-    }
-    if (!emailPattern.test(mail)) {
-      setToast({ variant: 'error', message: vente[PAGE_VENTE.deliveryEmailInvalid] });
-      return;
-    }
     if (isDohoneCountry(checkoutCountryCode) && !buyerPhone.trim()) {
       setToast({ variant: 'error', message: vente[PAGE_VENTE.deliveryPhoneRequired] });
       return;
     }
+    const email = buyerEmail.trim();
+    if (!email) {
+      setToast({ variant: 'error', message: vente[PAGE_VENTE.deliveryEmailRequired] });
+      return;
+    }
+    if (!emailPattern.test(email)) {
+      setToast({ variant: 'error', message: vente[PAGE_VENTE.deliveryEmailInvalid] });
+      return;
+    }
     setToast(null);
     setPayBusy(true);
-    const desc = `${PAYDUNIA_PRODUIT_NOM} — ${selected.nom} (${vente[PAGE_VENTE.formuleLabel]} : ${
+    const desc = `${PAYDUNIA_PRODUIT_NOM} : ${articleDisplayTitle(selected)} (${vente[PAGE_VENTE.formuleLabel]} : ${
       assisted ? selecteurTuple[1].nom : selecteurTuple[0].nom
     })`;
     const path = window.location.pathname || '/';
@@ -391,12 +508,12 @@ function App() {
       const optionsSummary = `${vente[PAGE_VENTE.formuleLabel]}: ${
         assisted ? selecteurTuple[1].nom : selecteurTuple[0].nom
       }`;
-      savePendingDeliveryEmail({
+      savePendingDelivery({
         article: selected,
         assisted,
         totalAmount: currentPrice,
         optionsSummary,
-        buyerEmail: mail,
+        buyerEmail: email,
       });
       window.location.assign(result.checkoutUrl);
     } catch (error) {
@@ -414,6 +531,7 @@ function App() {
     setArticleForm({
       urlImage: '',
       nom: '',
+      version: '',
       categorie: '',
       URL: '',
       urlDrive: '',
@@ -515,6 +633,7 @@ function App() {
     authApi.clearToken();
     setToken('');
     setUsers([]);
+    setPurchases([]);
     setShowAdminModal(false);
   };
 
@@ -577,14 +696,14 @@ function App() {
           </p>
         ) : (
           <>
-            <div className="row g-4">
+            <div className="el-item-catalog-grid">
               {paginatedCatalog.map((article) => (
-                <div className="col-12 col-sm-6 col-lg-4" key={`${article.nom}-${article.URL}`}>
+                <div className="el-item-catalog-col" key={`${article.nom}-${article.version ?? ''}-${article.URL}`}>
                   <Card
-                    title={article.nom}
+                    title={articleDisplayTitle(article)}
                     category={article.categorie}
                     subtitle={article.description}
-                    imageUrl={article.urlImage}
+                    imageUrl={resolveArticleImageUrl(article.urlImage)}
                     imageAlt={article.nom}
                     triggerLabel={vente[PAGE_VENTE.articleCardAction]}
                     onOpen={() => {
@@ -677,6 +796,19 @@ function App() {
               assisted={assisted}
             />
             <div className="mb-3">
+              <div className="mb-2 small fw-semibold" style={{ color: COULEUR_NOIR }}>
+                {vente[PAGE_VENTE.deliveryEmailLabel]}
+              </div>
+              <Input
+                type="email"
+                autoComplete="email"
+                value={buyerEmail}
+                onChange={setBuyerEmail}
+                placeholder={vente[PAGE_VENTE.deliveryEmailPlaceholder]}
+                ariaLabel={vente[PAGE_VENTE.deliveryEmailLabel]}
+              />
+            </div>
+            <div className="mb-3">
               <label
                 className="form-label small fw-semibold mb-1"
                 htmlFor="eld-offcanvas-checkout-country"
@@ -725,7 +857,7 @@ function App() {
                     style={{ color: COULEUR_NOIR, borderColor: COULEUR_NOIR, tableLayout: 'fixed' }}
                   >
                     <caption className="visually-hidden">
-                      {vente[PAGE_VENTE.offcanvasCurrencyLabel]} — équivalents indicatifs du montant
+                      {vente[PAGE_VENTE.offcanvasCurrencyLabel]} : équivalents indicatifs du montant
                     </caption>
                     <colgroup>
                       <col style={{ width: '33.33%' }} />
@@ -765,7 +897,7 @@ function App() {
                                 }
                               }}
                               aria-pressed={selected}
-                              aria-label={`${c.label}, ${c.amount}${selected ? ' — sélectionné' : ''}`}
+                              aria-label={`${c.label}, ${c.amount}${selected ? ' : sélectionné' : ''}`}
                             >
                               {c.amount}
                             </td>
@@ -777,17 +909,6 @@ function App() {
                 </div>
               </div>
             ) : null}
-            <div className="mb-2 small fw-semibold" style={{ color: COULEUR_NOIR }}>
-              {vente[PAGE_VENTE.deliveryEmailLabel]}
-            </div>
-            <Input
-              type="email"
-              autoComplete="email"
-              value={buyerEmail}
-              onChange={setBuyerEmail}
-              placeholder={vente[PAGE_VENTE.deliveryEmailPlaceholder]}
-              ariaLabel={vente[PAGE_VENTE.deliveryEmailLabel]}
-            />
             {isDohoneCountry(checkoutCountryCode) ? (
               <>
                 <div className="mb-2 mt-3 small fw-semibold" style={{ color: COULEUR_NOIR }}>
@@ -808,6 +929,61 @@ function App() {
       </Offcanvas>
 
       <Modal
+        show={deliveryResult !== null}
+        title={vente[PAGE_VENTE.deliveryModalTitle]}
+        closeLabel={vente[PAGE_VENTE.adminCloseButton]}
+        onClose={closeDeliveryModal}
+        footer={
+          <Button onClick={closeDeliveryModal}>{vente[PAGE_VENTE.adminCloseButton]}</Button>
+        }
+      >
+        {deliveryResult ? (
+          <div className="d-flex flex-column gap-3">
+            <p className="mb-0" style={{ color: COULEUR_NOIR }}>
+              {vente[PAGE_VENTE.mailBuyerThanks]}
+            </p>
+            <p className="mb-0 fw-semibold" style={{ color: COULEUR_NOIR }}>
+              {articleDisplayTitle(deliveryResult.article)}
+            </p>
+            <p className="mb-0 small" style={{ color: COULEUR_NOIR }}>
+              {vente[PAGE_VENTE.deliveryModalIntro]}
+            </p>
+            <div className="d-flex flex-column flex-sm-row gap-2">
+              <a
+                href={deliveryResult.article.urlDrive.trim()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn fw-semibold text-decoration-none"
+                style={{ backgroundColor: COULEUR_PRINCIPALE, color: COULEUR_NOIR, border: `2px solid ${COULEUR_NOIR}` }}
+              >
+                {vente[PAGE_VENTE.deliveryModalOpenDrive]}
+              </a>
+              <Button
+                type="button"
+                onClick={() => void copyDriveLink(deliveryResult.article.urlDrive.trim())}
+              >
+                {vente[PAGE_VENTE.deliveryModalCopyDrive]}
+              </Button>
+            </div>
+            {driveLinkCopied ? (
+              <p className="mb-0 small fw-semibold" style={{ color: COULEUR_NOIR }}>
+                {vente[PAGE_VENTE.deliveryModalCopyDone]}
+              </p>
+            ) : null}
+            {deliveryResult.assisted ? (
+              <p className="mb-0 small" style={{ color: COULEUR_NOIR }}>
+                {vente[PAGE_VENTE.mailLineAssistanceTel]}
+                {deliveryResult.article.tel}
+              </p>
+            ) : null}
+            <p className="mb-0 small text-break" style={{ color: COULEUR_NOIR, wordBreak: 'break-all' }}>
+              {deliveryResult.article.urlDrive.trim()}
+            </p>
+          </div>
+        ) : null}
+      </Modal>
+
+      <Modal
         show={showAuthModal}
         title={vente[PAGE_VENTE.adminTitle]}
         closeLabel={vente[PAGE_VENTE.adminCloseButton]}
@@ -821,7 +997,7 @@ function App() {
         <div className="row g-2">
           <div className="col-md-6">
             <Input
-              type="email"
+              type="text"
               value={adminEmail}
               onChange={setAdminEmail}
               placeholder={vente[PAGE_VENTE.adminEmailLabel]}
@@ -865,6 +1041,7 @@ function App() {
                 onClick={() => {
                   void loadArticles();
                   void loadUsers();
+                  void loadPurchases();
                 }}
               >
                 {vente[PAGE_VENTE.adminRefreshButton]}
@@ -892,6 +1069,7 @@ function App() {
                         <thead>
                           <tr>
                             <th>Nom</th>
+                            <th>{vente[PAGE_VENTE.adminVersionLabel]}</th>
                             <th>Categorie</th>
                             <th className="text-end">Prix</th>
                             <th className="text-end">Actions</th>
@@ -899,8 +1077,9 @@ function App() {
                         </thead>
                         <tbody>
                           {articlesSortedByNom.map((a) => (
-                            <tr key={`${a.nom}-${a.URL}`}>
+                            <tr key={`${a.nom}-${a.version ?? ''}-${a.id ?? a.URL}`}>
                               <td>{a.nom}</td>
+                              <td>{a.version || '-'}</td>
                               <td>{a.categorie}</td>
                               <td className="text-end">{formatPrice(a.prix)}</td>
                               <td className="text-end">
@@ -968,6 +1147,121 @@ function App() {
                 <h2 className="accordion-header">
                   <button
                     type="button"
+                    className={`accordion-button ${openAdminSection === 'history' ? '' : 'collapsed'}`}
+                    onClick={() => setOpenAdminSection((prev) => (prev === 'history' ? null : 'history'))}
+                  >
+                    {vente[PAGE_VENTE.adminHistorySection]}
+                  </button>
+                </h2>
+                <div className={`accordion-collapse collapse ${openAdminSection === 'history' ? 'show' : ''}`}>
+                  <div className="accordion-body">
+                    <div className="table-responsive">
+                      <table className="table table-striped table-hover align-middle">
+                        <thead>
+                          <tr>
+                            <th>
+                              <button
+                                type="button"
+                                className="btn btn-link p-0 text-decoration-none fw-semibold"
+                                style={{ color: COULEUR_NOIR }}
+                                onClick={() => toggleHistorySort('receiptId')}
+                              >
+                                {vente[PAGE_VENTE.adminHistoryReceiptIdCol]}
+                                {historySortIndicator(historySort.key === 'receiptId', historySort.dir)}
+                              </button>
+                            </th>
+                            <th>
+                              <button
+                                type="button"
+                                className="btn btn-link p-0 text-decoration-none fw-semibold"
+                                style={{ color: COULEUR_NOIR }}
+                                onClick={() => toggleHistorySort('buyerEmail')}
+                              >
+                                {vente[PAGE_VENTE.adminHistoryEmailCol]}
+                                {historySortIndicator(historySort.key === 'buyerEmail', historySort.dir)}
+                              </button>
+                            </th>
+                            <th>
+                              <button
+                                type="button"
+                                className="btn btn-link p-0 text-decoration-none fw-semibold"
+                                style={{ color: COULEUR_NOIR }}
+                                onClick={() => toggleHistorySort('applicationName')}
+                              >
+                                {vente[PAGE_VENTE.adminHistoryAppCol]}
+                                {historySortIndicator(historySort.key === 'applicationName', historySort.dir)}
+                              </button>
+                            </th>
+                            <th>
+                              <button
+                                type="button"
+                                className="btn btn-link p-0 text-decoration-none fw-semibold"
+                                style={{ color: COULEUR_NOIR }}
+                                onClick={() => toggleHistorySort('purchasedAt')}
+                              >
+                                {vente[PAGE_VENTE.adminHistoryDateCol]}
+                                {historySortIndicator(historySort.key === 'purchasedAt', historySort.dir)}
+                              </button>
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {sortedPurchases.length === 0 ? (
+                            <tr>
+                              <td colSpan={4} className="text-center text-muted">
+                                —
+                              </td>
+                            </tr>
+                          ) : (
+                            paginatedPurchases.map((p) => (
+                              <tr key={p.id}>
+                                <td className="small font-monospace">{p.receiptId || '—'}</td>
+                                <td>{p.buyerEmail}</td>
+                                <td>{p.applicationName}</td>
+                                <td>{formatPurchaseDate(p.purchasedAt)}</td>
+                              </tr>
+                            ))
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
+                    {historyTotalPages > 1 ? (
+                      <nav
+                        className="d-flex align-items-center justify-content-center gap-2 flex-wrap mt-3"
+                        aria-label="Pagination de l’historique des achats"
+                      >
+                        <Button
+                          type="button"
+                          variant="primary"
+                          className="px-3"
+                          disabled={historyPage <= 1}
+                          onClick={() => setHistoryPage((p) => Math.max(1, p - 1))}
+                        >
+                          {vente[PAGE_VENTE.catalogPaginationPrev]}
+                        </Button>
+                        <span className="small px-2" style={{ color: COULEUR_NOIR }}>
+                          {vente[PAGE_VENTE.catalogPaginationPage]} {historyPage}{' '}
+                          {vente[PAGE_VENTE.catalogPaginationOn]} {historyTotalPages}
+                        </span>
+                        <Button
+                          type="button"
+                          variant="primary"
+                          className="px-3"
+                          disabled={historyPage >= historyTotalPages}
+                          onClick={() => setHistoryPage((p) => Math.min(historyTotalPages, p + 1))}
+                        >
+                          {vente[PAGE_VENTE.catalogPaginationNext]}
+                        </Button>
+                      </nav>
+                    ) : null}
+                  </div>
+                </div>
+              </div>
+
+              <div className="accordion-item">
+                <h2 className="accordion-header">
+                  <button
+                    type="button"
                     className={`accordion-button ${openAdminSection === 'password' ? '' : 'collapsed'}`}
                     onClick={() => setOpenAdminSection((prev) => (prev === 'password' ? null : 'password'))}
                   >
@@ -1018,6 +1312,9 @@ function App() {
           <div className="col-md-6">
             <Input value={articleForm.nom} onChange={(v) => setArticleForm((p) => ({ ...p, nom: v }))} placeholder={vente[PAGE_VENTE.adminNameLabel]} ariaLabel={vente[PAGE_VENTE.adminNameLabel]} type="text" />
           </div>
+          <div className="col-12 col-md-6">
+            <Input value={articleForm.version} onChange={(v) => setArticleForm((p) => ({ ...p, version: v }))} placeholder={vente[PAGE_VENTE.adminVersionLabel]} ariaLabel={vente[PAGE_VENTE.adminVersionLabel]} type="text" />
+          </div>
           <div className="col-md-6">
             <Input value={articleForm.categorie} onChange={(v) => setArticleForm((p) => ({ ...p, categorie: v }))} placeholder={vente[PAGE_VENTE.adminCategoryLabel]} ariaLabel={vente[PAGE_VENTE.adminCategoryLabel]} type="text" />
           </div>
@@ -1044,9 +1341,12 @@ function App() {
             >
               {articleForm.urlImage.trim() ? (
                 articleImagePreviewError ? (
-                  <span className="small text-center px-1" style={{ color: COULEUR_NOIR }}>
-                    Impossible de charger l’image. Vérifiez l’URL.
-                  </span>
+                  <img
+                    src={ELLADARIE_DEFAULT_LOGO}
+                    alt="Logo EllaDarie par défaut"
+                    className="img-fluid"
+                    style={{ maxHeight: 160, maxWidth: '100%', objectFit: 'contain' }}
+                  />
                 ) : (
                   <img
                     src={articleForm.urlImage.trim()}
@@ -1058,7 +1358,12 @@ function App() {
                   />
                 )
               ) : (
-                <span className="small text-center text-muted">Saisissez une URL d’image à gauche.</span>
+                <img
+                  src={ELLADARIE_DEFAULT_LOGO}
+                  alt="Logo EllaDarie par défaut"
+                  className="img-fluid"
+                  style={{ maxHeight: 160, maxWidth: '100%', objectFit: 'contain' }}
+                />
               )}
             </div>
           </div>

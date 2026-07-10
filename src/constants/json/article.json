@@ -1,12 +1,14 @@
 [
   {
-    "urlImage": "https://i.pinimg.com/736x/78/79/1f/78791f95f5a7fff8fafd132e3b3adc8c.jpg",
-    "nom": "ArchiCAD",
-    "categorie": "BIM — conception architecturale",
-    "URL": "https://graphisoft.com",
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fwww.autodesk.com%2Fproducts%2F3ds-max&size=256",
+    "nom": "3ds Max",
+    "version": "2025",
+    "categorie": "Modélisation 3D",
+    "URL": "https://www.autodesk.com/products/3ds-max",
+    "urlDrive": "https://drive.google.com/drive/folders/1wc61p6VtAgo0Ba3H7sCGe6KwDPhEe8wn?usp=sharing",
     "prix": 5000,
-    "description": "Licence logicielle ArchiCAD — livraison numérique",
-    "descriptionAvecAssistace": "Licence logicielle ArchiCAD — livraison numérique.",
+    "description": "Licence 3ds Max 2025 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence 3ds Max 2025 : livraison numérique.",
     "prixAvecAssistace": 10000,
     "tel": "+225 05 00 00 00 01",
     "elementsSansAssistance": [
@@ -16,17 +18,18 @@
     "elementsAvecAssistance": [
       "Téléchargement du logiciel",
       "Assistance téléphonique pour installation du logiciel"
-    ],
-    "urlDrive": "https://drive.google.com/file/d/1kNNOI-lF1hSR2Jj9M0Rr3F0n5Ul34Irb/view?usp=drive_link"
+    ]
   },
   {
-    "urlImage": "https://i.pinimg.com/originals/58/6b/be/586bbe06de2d9896b8ef4dda71caa13c.png",
+    "urlImage": "https://upload.wikimedia.org/wikipedia/commons/0/08/AutoCad_logo.svg",
     "nom": "AutoCAD",
+    "version": "2024",
     "categorie": "CAO 2D/3D",
     "URL": "https://www.autodesk.com/products/autocad",
+    "urlDrive": "https://drive.google.com/drive/folders/1zjJHyDE6HE99G9zf_JaDydKfLarvL-Cd?usp=sharing",
     "prix": 5000,
-    "description": "Licence AutoCAD — livraison numérique, pack logiciel, vidéos et tutoriel d’installation.",
-    "descriptionAvecAssistace": "Licence AutoCAD — livraison numérique.",
+    "description": "Licence AutoCAD 2024 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence AutoCAD 2024 : livraison numérique.",
     "prixAvecAssistace": 10000,
     "tel": "+225 05 00 00 00 01",
     "elementsSansAssistance": [
@@ -36,17 +39,18 @@
     "elementsAvecAssistance": [
       "Téléchargement du logiciel",
       "Assistance téléphonique pour installation du logiciel"
-    ],
-    "urlDrive": "https://drive.google.com/drive/folders/REMPLACER_PAR_VOTRE_LIEN_DRIVE"
+    ]
   },
   {
-    "urlImage": "https://rochasoftwares.com/wp-content/uploads/2023/04/autocad-electrical-2024.png",
-    "nom": "AutoCAD Electrical",
-    "categorie": "Schémas électriques & automatisme",
-    "URL": "https://www.autodesk.com/products/autocad-electrical",
+    "urlImage": "https://upload.wikimedia.org/wikipedia/commons/0/08/AutoCad_logo.svg",
+    "nom": "AutoCAD",
+    "version": "2026",
+    "categorie": "CAO 2D/3D",
+    "URL": "https://www.autodesk.com/products/autocad",
+    "urlDrive": "https://drive.google.com/drive/folders/18PFrjQ5HxVskm_6Bk-u-fYmK3n81sw69?usp=sharing",
     "prix": 5000,
-    "description": "Licence AutoCAD Electrical — livraison numérique, ressources logiciel et formation vidéo.",
-    "descriptionAvecAssistace": "Licence AutoCAD Electrical — livraison numérique.",
+    "description": "Licence AutoCAD 2026 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence AutoCAD 2026 : livraison numérique.",
     "prixAvecAssistace": 10000,
     "tel": "+225 05 00 00 00 01",
     "elementsSansAssistance": [
@@ -56,277 +60,18 @@
     "elementsAvecAssistance": [
       "Téléchargement du logiciel",
       "Assistance téléphonique pour installation du logiciel"
-    ],
-    "urlDrive": "https://drive.google.com/drive/folders/REMPLACER_PAR_VOTRE_LIEN_DRIVE"
+    ]
   },
   {
-    "urlImage": "https://th.bing.com/th/id/OIP.q_gCvE7EFU2Gp8OZNiEfQwHaHa?o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3",
-    "nom": "Revit Architecture (versions 2018 à 2021)",
-    "categorie": "Architecture BIM",
-    "URL": "https://www.autodesk.com/products/revit",
-    "prix": 5000,
-    "description": "Revit Architecture pour versions 2018 à 2021 — livraison numérique.",
-    "descriptionAvecAssistace": "Revit Architecture (2018–2021) — livraison numérique.",
-    "prixAvecAssistace": 10000,
-    "tel": "+225 05 00 00 00 01",
-    "elementsSansAssistance": [
-      "Téléchargement du logiciel",
-      "Pas d'assistance à l'installation"
-    ],
-    "elementsAvecAssistance": [
-      "Téléchargement du logiciel",
-      "Assistance téléphonique pour installation du logiciel"
-    ],
-    "urlDrive": "https://drive.google.com/drive/folders/REMPLACER_PAR_VOTRE_LIEN_DRIVE"
-  },
-  {
-    "urlImage": "https://th.bing.com/th/id/OIP.q_gCvE7EFU2Gp8OZNiEfQwHaHa?o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3",
-    "nom": "Revit Architecture (versions 2022 à 2026)",
-    "categorie": "Architecture BIM",
-    "URL": "https://www.autodesk.com/products/revit",
-    "prix": 10000,
-    "description": "Revit Architecture pour versions 2022 à 2026 — livraison numérique.",
-    "descriptionAvecAssistace": "Revit Architecture (2022–2026) — livraison numérique.",
-    "prixAvecAssistace": 10000,
-    "tel": "+225 05 00 00 00 01",
-    "elementsSansAssistance": [
-      "Téléchargement du logiciel",
-      "Pas d'assistance à l'installation"
-    ],
-    "elementsAvecAssistance": [
-      "Téléchargement du logiciel",
-      "Assistance téléphonique pour installation du logiciel"
-    ],
-    "urlDrive": "https://drive.google.com/drive/folders/REMPLACER_PAR_VOTRE_LIEN_DRIVE"
-  },
-  {
-    "urlImage": "https://th.bing.com/th/id/OIP.q_gCvE7EFU2Gp8OZNiEfQwHaHa?o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3",
-    "nom": "Revit Structure (versions 2018 à 2021)",
-    "categorie": "Ingénierie structure BIM",
-    "URL": "https://www.autodesk.com/products/revit",
-    "prix": 5000,
-    "description": "Revit Structure pour versions 2018 à 2021 — livraison numérique.",
-    "descriptionAvecAssistace": "Revit Structure (2018–2021) — livraison numérique.",
-    "prixAvecAssistace": 10000,
-    "tel": "+225 05 00 00 00 01",
-    "elementsSansAssistance": [
-      "Téléchargement du logiciel",
-      "Pas d'assistance à l'installation"
-    ],
-    "elementsAvecAssistance": [
-      "Téléchargement du logiciel",
-      "Assistance téléphonique pour installation du logiciel"
-    ],
-    "urlDrive": "https://drive.google.com/drive/folders/REMPLACER_PAR_VOTRE_LIEN_DRIVE"
-  },
-  {
-    "urlImage": "https://th.bing.com/th/id/OIP.q_gCvE7EFU2Gp8OZNiEfQwHaHa?o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3",
-    "nom": "Revit Structure (versions 2022 à 2026)",
-    "categorie": "Ingénierie structure BIM",
-    "URL": "https://www.autodesk.com/products/revit",
-    "prix": 10000,
-    "description": "Revit Structure pour versions 2022 à 2026 — livraison numérique.",
-    "descriptionAvecAssistace": "Revit Structure (2022–2026) — livraison numérique.",
-    "prixAvecAssistace": 10000,
-    "tel": "+225 05 00 00 00 01",
-    "elementsSansAssistance": [
-      "Téléchargement du logiciel",
-      "Pas d'assistance à l'installation"
-    ],
-    "elementsAvecAssistance": [
-      "Téléchargement du logiciel",
-      "Assistance téléphonique pour installation du logiciel"
-    ],
-    "urlDrive": "https://drive.google.com/drive/folders/REMPLACER_PAR_VOTRE_LIEN_DRIVE"
-  },
-  {
-    "urlImage": "https://i.pinimg.com/1200x/0d/9c/14/0d9c147ce693bb180b9c7f0ed378516e.jpg",
-    "nom": "SketchUp",
-    "categorie": "Modélisation 3D",
-    "URL": "https://www.sketchup.com",
-    "prix": 5000,
-    "description": "Licence SketchUp — livraison numérique, tutoriels et vidéos de prise en main.",
-    "descriptionAvecAssistace": "Licence SketchUp — livraison numérique.",
-    "prixAvecAssistace": 10000,
-    "tel": "+225 05 00 00 00 01",
-    "elementsSansAssistance": [
-      "Téléchargement du logiciel",
-      "Pas d'assistance à l'installation"
-    ],
-    "elementsAvecAssistance": [
-      "Téléchargement du logiciel",
-      "Assistance téléphonique pour installation du logiciel"
-    ],
-    "urlDrive": "https://drive.google.com/drive/folders/REMPLACER_PAR_VOTRE_LIEN_DRIVE"
-  },
-  {
-    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.graitec.com/&size=256",
-    "nom": "Graitec OMD",
-    "categorie": "Métallerie & charpente",
-    "URL": "https://www.graitec.com",
-    "prix": 5000,
-    "description": "Logiciel Graitec OMD — livraison numérique et ressources d’installation.",
-    "descriptionAvecAssistace": "Graitec OMD — livraison numérique.",
-    "prixAvecAssistace": 10000,
-    "tel": "+225 05 00 00 00 01",
-    "elementsSansAssistance": [
-      "Téléchargement du logiciel",
-      "Pas d'assistance à l'installation"
-    ],
-    "elementsAvecAssistance": [
-      "Téléchargement du logiciel",
-      "Assistance téléphonique pour installation du logiciel"
-    ],
-    "urlDrive": "https://drive.google.com/drive/folders/REMPLACER_PAR_VOTRE_LIEN_DRIVE"
-  },
-  {
-    "urlImage": "https://tse3.mm.bing.net/th/id/OIP.ptyDuSX49cOEjauswiqM3QAAAA?w=300&h=225&rs=1&pid=ImgDetMain&o=7&rm=3",
-    "nom": "Robot DDC",
-    "categorie": "Calcul structurel",
-    "URL": "https://www.autodesk.com",
-    "prix": 5000,
-    "description": "Robot DDC — livraison numérique, pack logiciel et documentation.",
-    "descriptionAvecAssistace": "Robot DDC — livraison numérique.",
-    "prixAvecAssistace": 10000,
-    "tel": "+225 05 00 00 00 01",
-    "elementsSansAssistance": [
-      "Téléchargement du logiciel",
-      "Pas d'assistance à l'installation"
-    ],
-    "elementsAvecAssistance": [
-      "Téléchargement du logiciel",
-      "Assistance téléphonique pour installation du logiciel"
-    ],
-    "urlDrive": "https://drive.google.com/drive/folders/REMPLACER_PAR_VOTRE_LIEN_DRIVE"
-  },
-  {
-    "urlImage": "https://www.tekto.fr/uploads/images/logiciels/05.jpg",
-    "nom": "Robot Millennium",
-    "categorie": "Calcul structurel",
-    "URL": "https://www.autodesk.com",
-    "prix": 5000,
-    "description": "Robot Millennium — livraison numérique et tutoriels d’installation.",
-    "descriptionAvecAssistace": "Robot Millennium — livraison numérique.",
-    "prixAvecAssistace": 10000,
-    "tel": "+225 05 00 00 00 01",
-    "elementsSansAssistance": [
-      "Téléchargement du logiciel",
-      "Pas d'assistance à l'installation"
-    ],
-    "elementsAvecAssistance": [
-      "Téléchargement du logiciel",
-      "Assistance téléphonique pour installation du logiciel"
-    ],
-    "urlDrive": "https://drive.google.com/drive/folders/REMPLACER_PAR_VOTRE_LIEN_DRIVE"
-  },
-  {
-    "urlImage": "https://damassets.autodesk.net/content/dam/autodesk/www/products/responsive-imagery/responsive-badges-free-trial/2017/robot-structural-analysis-professional-badge-150x150.png",
-    "nom": "Robot Structural Analysis",
-    "categorie": "Calcul structurel",
-    "URL": "https://www.autodesk.com/products/robot-structural-analysis",
-    "prix": 5000,
-    "description": "Robot Structural Analysis — livraison numérique et ressources pédagogiques.",
-    "descriptionAvecAssistace": "Robot Structural Analysis — livraison numérique.",
-    "prixAvecAssistace": 10000,
-    "tel": "+225 05 00 00 00 01",
-    "elementsSansAssistance": [
-      "Téléchargement du logiciel",
-      "Pas d'assistance à l'installation"
-    ],
-    "elementsAvecAssistance": [
-      "Téléchargement du logiciel",
-      "Assistance téléphonique pour installation du logiciel"
-    ],
-    "urlDrive": "https://drive.google.com/drive/folders/REMPLACER_PAR_VOTRE_LIEN_DRIVE"
-  },
-  {
-    "urlImage": "https://upload.wikimedia.org/wikipedia/commons/a/a2/Dx_Logo.svg",
-    "nom": "Dialux",
-    "categorie": "Éclairage technique",
-    "URL": "https://www.dial.de",
-    "prix": 5000,
-    "description": "Dialux — livraison numérique, logiciel et guides d’installation.",
-    "descriptionAvecAssistace": "Dialux — livraison numérique.",
-    "prixAvecAssistace": 10000,
-    "tel": "+225 05 00 00 00 01",
-    "elementsSansAssistance": [
-      "Téléchargement du logiciel",
-      "Pas d'assistance à l'installation"
-    ],
-    "elementsAvecAssistance": [
-      "Téléchargement du logiciel",
-      "Assistance téléphonique pour installation du logiciel"
-    ],
-    "urlDrive": "https://drive.google.com/drive/folders/REMPLACER_PAR_VOTRE_LIEN_DRIVE"
-  },
-  {
-    "urlImage": "https://th.bing.com/th/id/OIP.VwFXGi5mBquqySoHk-LWAAHaFd?o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3",
-    "nom": "Caneco",
-    "categorie": "Études électriques",
-    "URL": "https://www.ige-xao.com",
-    "prix": 80000,
-    "description": "Caneco — livraison numérique et documentation produit.",
-    "descriptionAvecAssistace": "Caneco — livraison numérique.",
-    "prixAvecAssistace": 85000,
-    "tel": "+225 05 00 00 00 01",
-    "elementsSansAssistance": [
-      "Téléchargement du logiciel",
-      "Pas d'assistance à l'installation"
-    ],
-    "elementsAvecAssistance": [
-      "Téléchargement du logiciel",
-      "Assistance téléphonique pour installation du logiciel"
-    ],
-    "urlDrive": "https://drive.google.com/drive/folders/REMPLACER_PAR_VOTRE_LIEN_DRIVE"
-  },
-  {
-    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://lumion.com/&size=256",
-    "nom": "Lumion",
-    "categorie": "Visualisation architecturale",
-    "URL": "https://lumion.com",
-    "prix": 5000,
-    "description": "Lumion — livraison numérique, vidéos de formation et tutoriel d’installation.",
-    "descriptionAvecAssistace": "Lumion — livraison numérique.",
-    "prixAvecAssistace": 10000,
-    "tel": "+225 05 00 00 00 01",
-    "elementsSansAssistance": [
-      "Téléchargement du logiciel",
-      "Pas d'assistance à l'installation"
-    ],
-    "elementsAvecAssistance": [
-      "Téléchargement du logiciel",
-      "Assistance téléphonique pour installation du logiciel"
-    ],
-    "urlDrive": "https://drive.google.com/drive/folders/REMPLACER_PAR_VOTRE_LIEN_DRIVE"
-  },
-  {
-    "urlImage": "https://upload.wikimedia.org/wikipedia/commons/1/18/Enscape-logo-color-black-rgb.svg",
-    "nom": "Enscape",
-    "categorie": "Rendu temps réel",
-    "URL": "https://enscape3d.com",
-    "prix": 5000,
-    "description": "Enscape — livraison numérique et ressources vidéo.",
-    "descriptionAvecAssistace": "Enscape — livraison numérique.",
-    "prixAvecAssistace": 10000,
-    "tel": "+225 05 00 00 00 01",
-    "elementsSansAssistance": [
-      "Téléchargement du logiciel",
-      "Pas d'assistance à l'installation"
-    ],
-    "elementsAvecAssistance": [
-      "Téléchargement du logiciel",
-      "Assistance téléphonique pour installation du logiciel"
-    ],
-    "urlDrive": "https://drive.google.com/drive/folders/REMPLACER_PAR_VOTRE_LIEN_DRIVE"
-  },
-  {
-    "urlImage": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1-afrmYWVVGXl5EEoCZA4OL94HdtFuQkDHw&s",
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fwww.covadis.fr&size=256",
     "nom": "Covadis",
+    "version": "17",
     "categorie": "Topographie & VRD",
     "URL": "https://www.covadis.fr",
+    "urlDrive": "https://drive.google.com/file/d/1RdXXvInCW4DdOgHlDIEsIgwoeh-VEuVW/view?usp=sharing",
     "prix": 10000,
-    "description": "Covadis — livraison numérique et supports d’installation.",
-    "descriptionAvecAssistace": "Covadis — livraison numérique.",
+    "description": "Licence Covadis 17 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence Covadis 17 : livraison numérique.",
     "prixAvecAssistace": 15000,
     "tel": "+225 05 00 00 00 01",
     "elementsSansAssistance": [
@@ -336,7 +81,1329 @@
     "elementsAvecAssistance": [
       "Téléchargement du logiciel",
       "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://upload.wikimedia.org/wikipedia/commons/1/18/Enscape-logo-color-black-rgb.svg",
+    "nom": "Enscape",
+    "version": "",
+    "categorie": "Rendu temps réel",
+    "URL": "https://enscape3d.com",
+    "urlDrive": "https://drive.google.com/drive/folders/1ApbrDt1AokIVP0Cr9IwS6XiXlT56GKS6?usp=sharing",
+    "prix": 5000,
+    "description": "Licence Enscape : livraison numérique.",
+    "descriptionAvecAssistace": "Licence Enscape : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
     ],
-    "urlDrive": "https://drive.google.com/drive/folders/REMPLACER_PAR_VOTRE_LIEN_DRIVE"
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fwww.graitec.com&size=256",
+    "nom": "Graitec OMD",
+    "version": "2022",
+    "categorie": "Métallerie & charpente",
+    "URL": "https://www.graitec.com",
+    "urlDrive": "https://drive.google.com/drive/folders/1fq6mQy4hRxAEJF7tieYBqC88l3RuBnfJ?usp=sharing",
+    "prix": 5000,
+    "description": "Licence Graitec OMD 2022 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence Graitec OMD 2022 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fwww.graitec.com&size=256",
+    "nom": "Graitec OMD",
+    "version": "2024",
+    "categorie": "Métallerie & charpente",
+    "URL": "https://www.graitec.com",
+    "urlDrive": "https://drive.google.com/drive/folders/1g58qN89uEQvQ8qJ2QfhP6QSAXjC3XfFY?usp=sharing",
+    "prix": 5000,
+    "description": "Licence Graitec OMD 2024 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence Graitec OMD 2024 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fwww.microsoft.com%2Fmicrosoft-365&size=256",
+    "nom": "Office et MS Project",
+    "version": "2016",
+    "categorie": "Bureautique & gestion de projet",
+    "URL": "https://www.microsoft.com",
+    "urlDrive": "https://drive.google.com/drive/folders/1JjAMGXEkppy9gR-_8mJ5T_gBJxF3koAy?usp=sharing",
+    "prix": 5000,
+    "description": "Licence Office et MS Project 2016 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence Office et MS Project 2016 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fwww.autodesk.com%2Fproducts%2Frevit&size=256",
+    "nom": "Revit",
+    "version": "2020",
+    "categorie": "Architecture BIM",
+    "URL": "https://www.autodesk.com/products/revit",
+    "urlDrive": "https://drive.google.com/drive/folders/1ucETPEdKDdtytUJT-6iDgddAUJFn89d4?usp=sharing",
+    "prix": 5000,
+    "description": "Licence Revit 2020 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence Revit 2020 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fwww.autodesk.com%2Fproducts%2Frevit&size=256",
+    "nom": "Revit",
+    "version": "2025",
+    "categorie": "Architecture BIM",
+    "URL": "https://www.autodesk.com/products/revit",
+    "urlDrive": "https://drive.google.com/drive/folders/1gPuaRGHLP0HqOwFWnkCZpIhSYYZzrbo3?usp=sharing",
+    "prix": 5000,
+    "description": "Licence Revit 2025 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence Revit 2025 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fwww.rhino3d.com&size=256",
+    "nom": "Rhino",
+    "version": "7",
+    "categorie": "Modélisation 3D",
+    "URL": "https://www.rhino3d.com",
+    "urlDrive": "https://drive.google.com/drive/folders/1sDvdJTI_U4x2gTZQH0d5QAsP4-DYcLpn?usp=sharing",
+    "prix": 5000,
+    "description": "Licence Rhino 7 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence Rhino 7 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fwww.autodesk.com%2Fproducts%2Frobot-structural-analysis&size=256",
+    "nom": "Robot DDC / Millennium",
+    "version": "",
+    "categorie": "Calcul structurel",
+    "URL": "https://www.autodesk.com",
+    "urlDrive": "https://drive.google.com/drive/folders/16LQCo9CslzDt_s7IhcgwO9dVEPv9uxMc?usp=sharing",
+    "prix": 5000,
+    "description": "Licence Robot DDC / Millennium : livraison numérique.",
+    "descriptionAvecAssistace": "Licence Robot DDC / Millennium : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://damassets.autodesk.net/content/dam/autodesk/www/products/responsive-imagery/responsive-badges-free-trial/2017/robot-structural-analysis-professional-badge-150x150.png",
+    "nom": "Robot Structural Analysis",
+    "version": "2020",
+    "categorie": "Calcul structurel",
+    "URL": "https://www.autodesk.com/products/robot-structural-analysis",
+    "urlDrive": "https://drive.google.com/drive/folders/10NZnfFVyL6G6TSwW0ng-NgoNssh2Xls4?usp=sharing",
+    "prix": 5000,
+    "description": "Licence Robot Structural Analysis 2020 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence Robot Structural Analysis 2020 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://damassets.autodesk.net/content/dam/autodesk/www/products/responsive-imagery/responsive-badges-free-trial/2017/robot-structural-analysis-professional-badge-150x150.png",
+    "nom": "Robot Structural Analysis",
+    "version": "2023-2024",
+    "categorie": "Calcul structurel",
+    "URL": "https://www.autodesk.com/products/robot-structural-analysis",
+    "urlDrive": "https://drive.google.com/drive/folders/1TNzxFncwvMxsxZkPCc3N-oLvQj7lEZ7b?usp=sharing",
+    "prix": 5000,
+    "description": "Licence Robot Structural Analysis 2023-2024 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence Robot Structural Analysis 2023-2024 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://damassets.autodesk.net/content/dam/autodesk/www/products/responsive-imagery/responsive-badges-free-trial/2017/robot-structural-analysis-professional-badge-150x150.png",
+    "nom": "Robot Structural Analysis",
+    "version": "2025",
+    "categorie": "Calcul structurel",
+    "URL": "https://www.autodesk.com/products/robot-structural-analysis",
+    "urlDrive": "https://drive.google.com/drive/folders/1jJtI9C5FJLsCx1DpbxHxJAaGDU6UpaTg?usp=sharing",
+    "prix": 5000,
+    "description": "Licence Robot Structural Analysis 2025 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence Robot Structural Analysis 2025 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fgraphisoft.com&size=256",
+    "nom": "ArchiCAD",
+    "version": "29",
+    "categorie": "BIM : conception architecturale",
+    "URL": "https://graphisoft.com",
+    "urlDrive": "https://drive.google.com/file/d/1Zb9FLyrJGX6kAQuSCF52tvFDJFn3qbRc/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence ArchiCAD 29 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence ArchiCAD 29 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://upload.wikimedia.org/wikipedia/commons/f/fb/Adobe_Illustrator_CC_icon.svg",
+    "nom": "Adobe Illustrator",
+    "version": "2021",
+    "categorie": "PAO",
+    "URL": "https://www.adobe.com/products/illustrator.html",
+    "urlDrive": "https://drive.google.com/file/d/1BjFdgcpADXFtwRJpQjxOCMW1HvcFt2HB/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence Adobe Illustrator 2021 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence Adobe Illustrator 2021 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://upload.wikimedia.org/wikipedia/commons/a/a2/Dx_Logo.svg",
+    "nom": "Dialux",
+    "version": "6.1",
+    "categorie": "Éclairage technique",
+    "URL": "https://www.dial.de",
+    "urlDrive": "https://drive.google.com/file/d/1-jRbOvOaX_oCwa9owusfGLSUVuVK5cHN/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence Dialux 6.1 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence Dialux 6.1 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fartlantis.com&size=256",
+    "nom": "Artlantis",
+    "version": "5",
+    "categorie": "Visualisation architecturale",
+    "URL": "https://artlantis.com",
+    "urlDrive": "https://drive.google.com/file/d/1hfJBC7uV2YJguNtFOnXWMD1BoJjbpDIU/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence Artlantis 5 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence Artlantis 5 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fwww.bois.com&size=256",
+    "nom": "Alizé LPC",
+    "version": "",
+    "categorie": "Calcul structure bois",
+    "URL": "https://www.bois.com",
+    "urlDrive": "https://drive.google.com/file/d/1RiJzcr6jKw_0aJvXkmiWYg5FwrG6m5Fm/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence Alizé LPC : livraison numérique.",
+    "descriptionAvecAssistace": "Licence Alizé LPC : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fwww.allplan.com&size=256",
+    "nom": "Allplan",
+    "version": "2024",
+    "categorie": "BIM : conception architecturale",
+    "URL": "https://www.allplan.com",
+    "urlDrive": "https://drive.google.com/file/d/1A_jDVSH555zK3bFTEvkGk4uFoP3DQoah/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence Allplan 2024 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence Allplan 2024 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fgraphisoft.com&size=256",
+    "nom": "ArchiCAD",
+    "version": "28",
+    "categorie": "BIM : conception architecturale",
+    "URL": "https://graphisoft.com",
+    "urlDrive": "https://drive.google.com/file/d/1cU8_6FoazlpHMw3TEvhB4Jq2HzMBd419/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence ArchiCAD 28 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence ArchiCAD 28 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fgraphisoft.com&size=256",
+    "nom": "ArchiCAD",
+    "version": "19",
+    "categorie": "BIM : conception architecturale",
+    "URL": "https://graphisoft.com",
+    "urlDrive": "https://drive.google.com/file/d/1V5i4mEnTF3rVtaoCoQoSYCU-eO7Py6UJ/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence ArchiCAD 19 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence ArchiCAD 19 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fgraphisoft.com&size=256",
+    "nom": "ArchiCAD",
+    "version": "24",
+    "categorie": "BIM : conception architecturale",
+    "URL": "https://graphisoft.com",
+    "urlDrive": "https://drive.google.com/file/d/1lMF-J2_LXZ7toe9IvHmgik9ZeQn12Rzk/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence ArchiCAD 24 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence ArchiCAD 24 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fgraphisoft.com&size=256",
+    "nom": "ArchiCAD",
+    "version": "26",
+    "categorie": "BIM : conception architecturale",
+    "URL": "https://graphisoft.com",
+    "urlDrive": "https://drive.google.com/file/d/1h9b_y7KQNRz75LWnoHkrgg660RPla2W4/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence ArchiCAD 26 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence ArchiCAD 26 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fartlantis.com&size=256",
+    "nom": "Artlantis",
+    "version": "2021",
+    "categorie": "Visualisation architecturale",
+    "URL": "https://artlantis.com",
+    "urlDrive": "https://drive.google.com/file/d/1mYt3lqC0tKssezigqWwfksKqGWMft76h/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence Artlantis 2021 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence Artlantis 2021 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://upload.wikimedia.org/wikipedia/commons/0/08/AutoCad_logo.svg",
+    "nom": "AutoCAD",
+    "version": "2018",
+    "categorie": "CAO 2D/3D",
+    "URL": "https://www.autodesk.com/products/autocad",
+    "urlDrive": "https://drive.google.com/file/d/1cfc59DyJzHUJ03uVLLfr5kyb4NzFCqdX/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence AutoCAD 2018 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence AutoCAD 2018 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://upload.wikimedia.org/wikipedia/commons/0/08/AutoCad_logo.svg",
+    "nom": "AutoCAD",
+    "version": "2019",
+    "categorie": "CAO 2D/3D",
+    "URL": "https://www.autodesk.com/products/autocad",
+    "urlDrive": "https://drive.google.com/file/d/1Bk6V4us1djT15QHFu-iBJRbrZi8EBFfA/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence AutoCAD 2019 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence AutoCAD 2019 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://upload.wikimedia.org/wikipedia/commons/0/08/AutoCad_logo.svg",
+    "nom": "AutoCAD",
+    "version": "2020",
+    "categorie": "CAO 2D/3D",
+    "URL": "https://www.autodesk.com/products/autocad",
+    "urlDrive": "https://drive.google.com/file/d/1suDBi6jNhDMtAcmHlZC8PWlhQh6UGScY/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence AutoCAD 2020 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence AutoCAD 2020 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://upload.wikimedia.org/wikipedia/commons/0/08/AutoCad_logo.svg",
+    "nom": "AutoCAD",
+    "version": "2021",
+    "categorie": "CAO 2D/3D",
+    "URL": "https://www.autodesk.com/products/autocad",
+    "urlDrive": "https://drive.google.com/file/d/1Cu39x9-uEB6DACkVqIhwy30O3BgQRD-l/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence AutoCAD 2021 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence AutoCAD 2021 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fwww.autodesk.com%2Fproducts%2Fcivil-3d&size=256",
+    "nom": "Civil 3D",
+    "version": "2025",
+    "categorie": "Génie civil & VRD",
+    "URL": "https://www.autodesk.com/products/civil-3d",
+    "urlDrive": "https://drive.google.com/file/d/101ZgrDTA06iMOdM2IK9q6njFHcK4_jaf/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence Civil 3D 2025 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence Civil 3D 2025 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fwww.autodesk.com%2Fproducts%2Fautocad-electrical&size=256",
+    "nom": "AutoCAD Electrical",
+    "version": "2018",
+    "categorie": "Schémas électriques & automatisme",
+    "URL": "https://www.autodesk.com/products/autocad-electrical",
+    "urlDrive": "https://drive.google.com/file/d/1c9VicVhmOv6QejEe8Ag6cC0CW6sxQ1wj/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence AutoCAD Electrical 2018 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence AutoCAD Electrical 2018 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fwww.autodesk.com&size=256",
+    "nom": "AutoCAD Structural Detailing",
+    "version": "2015",
+    "categorie": "Calcul structurel",
+    "URL": "https://www.autodesk.com",
+    "urlDrive": "https://drive.google.com/file/d/1vWENsd1r43ecMio0ci7A2iUoUUMFSkD-/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence AutoCAD Structural Detailing 2015 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence AutoCAD Structural Detailing 2015 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://upload.wikimedia.org/wikipedia/commons/9/90/DaVinci_Resolve_17_logo.svg",
+    "nom": "DaVinci Resolve",
+    "version": "19",
+    "categorie": "Montage vidéo",
+    "URL": "https://www.blackmagicdesign.com/products/davinciresolve",
+    "urlDrive": "https://drive.google.com/file/d/10xQ5SrG51Nn00WcvzzXWN_aOli1ASRaA/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence DaVinci Resolve 19 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence DaVinci Resolve 19 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://upload.wikimedia.org/wikipedia/commons/0/0c/Blender_logo_no_text.svg",
+    "nom": "Blender",
+    "version": "3",
+    "categorie": "Modélisation 3D",
+    "URL": "https://www.blender.org",
+    "urlDrive": "https://drive.google.com/file/d/1xub2ZlYVEDh5j9sLjqw_wV4g2d1E2p9x/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence Blender 3 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence Blender 3 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fwww.cadwork.com&size=256",
+    "nom": "Cadwork",
+    "version": "2019",
+    "categorie": "BIM charpente bois",
+    "URL": "https://www.cadwork.com",
+    "urlDrive": "https://drive.google.com/file/d/10usdNon3xXx0obcLrPYxlSD9koCHSn6k/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence Cadwork 2019 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence Cadwork 2019 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fwww.autodesk.com%2Fproducts%2Frobot-structural-analysis&size=256",
+    "nom": "CBS / RSA",
+    "version": "2014",
+    "categorie": "Calcul structurel",
+    "URL": "https://www.autodesk.com",
+    "urlDrive": "https://drive.google.com/file/d/1g58nwX3jRYccT93-TVQYLs5QtvyJs4_Y/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence CBS / RSA 2014 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence CBS / RSA 2014 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fwww.autodesk.com%2Fproducts%2Frobot-structural-analysis&size=256",
+    "nom": "CBS / RSA",
+    "version": "2015",
+    "categorie": "Calcul structurel",
+    "URL": "https://www.autodesk.com",
+    "urlDrive": "https://drive.google.com/file/d/1Xrn3bCEWhgjtt8fYIpwqgTaWrOVbmQfT/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence CBS / RSA 2015 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence CBS / RSA 2015 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fwww.csiamerica.com&size=256",
+    "nom": "CSI Bridge",
+    "version": "25",
+    "categorie": "Ponts & ouvrages d'art",
+    "URL": "https://www.csiamerica.com",
+    "urlDrive": "https://drive.google.com/file/d/1fP1KuFLNyzoHaobDpaNXmptmXMlo6VNx/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence CSI Bridge 25 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence CSI Bridge 25 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fwww.cype.com&size=256",
+    "nom": "CYPE",
+    "version": "2017",
+    "categorie": "Calcul structure & BIM",
+    "URL": "https://www.cype.com",
+    "urlDrive": "https://drive.google.com/file/d/1gsypzIMhGuJ0QNmLACrUgMJd1bCxk53G/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence CYPE 2017 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence CYPE 2017 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fwww.cype.com&size=256",
+    "nom": "CYPE",
+    "version": "2018",
+    "categorie": "Calcul structure & BIM",
+    "URL": "https://www.cype.com",
+    "urlDrive": "https://drive.google.com/file/d/1gsypzIMhGuJ0QNmLACrUgMJd1bCxk53G/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence CYPE 2018 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence CYPE 2018 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fwww.schemaplic.com&size=256",
+    "nom": "Schemaplic",
+    "version": "V7",
+    "categorie": "Schémas électriques",
+    "URL": "https://www.schemaplic.com",
+    "urlDrive": "https://drive.google.com/file/d/1ZiwQDhwDG5Z416gx8QxPxPgyV-oIGrkG/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence Schemaplic V7 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence Schemaplic V7 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fwww.bluemarblegeo.com&size=256",
+    "nom": "Global Mapper",
+    "version": "2026",
+    "categorie": "Cartographie & SIG",
+    "URL": "https://www.bluemarblegeo.com",
+    "urlDrive": "https://drive.google.com/file/d/1_FRVZmwhdV2AUedAAy4Uk-BIsIC_Izyk/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence Global Mapper 2026 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence Global Mapper 2026 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fwww.bluemarblegeo.com&size=256",
+    "nom": "Global Mapper",
+    "version": "2024",
+    "categorie": "Cartographie & SIG",
+    "URL": "https://www.bluemarblegeo.com",
+    "urlDrive": "https://drive.google.com/file/d/19_IWU97zBEPdB8gqCYX1MPFXwk8Tp5mj/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence Global Mapper 2024 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence Global Mapper 2024 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fwww.homerenergy.com&size=256",
+    "nom": "Homer Pro",
+    "version": "V3",
+    "categorie": "Énergie solaire",
+    "URL": "https://www.homerenergy.com",
+    "urlDrive": "https://drive.google.com/file/d/10Zrh9_mbmOX0nTbkO-wkws7mXsTX7Zys/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence Homer Pro V3 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence Homer Pro V3 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fwww.hypertherm.com&size=256",
+    "nom": "ProNest",
+    "version": "2021",
+    "categorie": "Découpe & chaudronnerie",
+    "URL": "https://www.hypertherm.com",
+    "urlDrive": "https://drive.google.com/file/d/1LryWuapVbRSdMF7W3ZSZqJ42sQnUqpPw/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence ProNest 2021 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence ProNest 2021 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Flumion.com&size=256",
+    "nom": "Lumion",
+    "version": "12.5",
+    "categorie": "Visualisation architecturale",
+    "URL": "https://lumion.com",
+    "urlDrive": "https://drive.google.com/file/d/1ZPIH1PUJ1--edpouhqOayRc4GcHVUw-O/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence Lumion 12.5 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence Lumion 12.5 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fwww.maxon.net%2Fen%2Fcinema-4d&size=256",
+    "nom": "Cinema 4D",
+    "version": "2025",
+    "categorie": "Modélisation 3D",
+    "URL": "https://www.maxon.net",
+    "urlDrive": "https://drive.google.com/file/d/1C2mhATuG4RXYaETE45UNemIArdjDot--/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence Cinema 4D 2025 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence Cinema 4D 2025 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fwww.autodesk.com%2Fproducts%2Fautocad-mechanical&size=256",
+    "nom": "AutoCAD Mechanical",
+    "version": "2021",
+    "categorie": "CAO mécanique",
+    "URL": "https://www.autodesk.com/products/autocad-mechanical",
+    "urlDrive": "https://drive.google.com/file/d/1YNT03Js1nJ3ym23_n-PznHFctmZY71FN/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence AutoCAD Mechanical 2021 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence AutoCAD Mechanical 2021 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fwww.mensura.be&size=256",
+    "nom": "Mensura",
+    "version": "",
+    "categorie": "Métré & estimation",
+    "URL": "https://www.mensura.be",
+    "urlDrive": "https://drive.google.com/file/d/1ifGy-g48dJhJpPUmuHZWhsjA-fFcm5qf/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence Mensura : livraison numérique.",
+    "descriptionAvecAssistace": "Licence Mensura : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fwww.pdfforge.org&size=256",
+    "nom": "PDF Creator",
+    "version": "2_3_0",
+    "categorie": "Utilitaire PDF",
+    "URL": "https://www.pdfforge.org",
+    "urlDrive": "https://drive.google.com/file/d/1hfH60dSPPEQnXlOerX9ab1A6nkfVKpeg/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence PDF Creator 2_3_0 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence PDF Creator 2_3_0 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://upload.wikimedia.org/wikipedia/commons/a/af/Adobe_Photoshop_CC_icon.svg",
+    "nom": "Adobe Photoshop",
+    "version": "2021",
+    "categorie": "PAO",
+    "URL": "https://www.adobe.com/products/photoshop.html",
+    "urlDrive": "https://drive.google.com/file/d/1CJgMvFMbt3JOHOZKrL_AO6oNxGlFojqB/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence Adobe Photoshop 2021 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence Adobe Photoshop 2021 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://upload.wikimedia.org/wikipedia/commons/4/40/Adobe_Premiere_Pro_CC_icon.svg",
+    "nom": "Adobe Premiere Pro",
+    "version": "2021",
+    "categorie": "Montage vidéo",
+    "URL": "https://www.adobe.com/products/premiere.html",
+    "urlDrive": "https://drive.google.com/file/d/1fmIo3w_xpXMiGod74vwtxgOPNMsaarPz/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence Adobe Premiere Pro 2021 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence Adobe Premiere Pro 2021 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fwww.pvsyst.com&size=256",
+    "nom": "PVsyst",
+    "version": "7",
+    "categorie": "Énergie solaire",
+    "URL": "https://www.pvsyst.com",
+    "urlDrive": "https://drive.google.com/file/d/1LZnfhCPpQ8V3_4949ZFK5pz2bott9g91/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence PVsyst 7 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence PVsyst 7 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fwww.qoter.com&size=256",
+    "nom": "Qoter Plan",
+    "version": "3.0.17",
+    "categorie": "Plans & métré",
+    "URL": "https://www.qoter.com",
+    "urlDrive": "https://drive.google.com/file/d/1wltndEihAf85wbaIsTepVNM8FsUVOV1t/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence Qoter Plan 3.0.17 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence Qoter Plan 3.0.17 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fwww.autodesk.com%2Fproducts%2Frevit&size=256",
+    "nom": "Revit",
+    "version": "2026",
+    "categorie": "Architecture BIM",
+    "URL": "https://www.autodesk.com/products/revit",
+    "urlDrive": "https://drive.google.com/file/d/1ocCbLbDxm8qGuPIVoUt7lt_obyewNouG/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence Revit 2026 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence Revit 2026 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://damassets.autodesk.net/content/dam/autodesk/www/products/responsive-imagery/responsive-badges-free-trial/2017/robot-structural-analysis-professional-badge-150x150.png",
+    "nom": "Robot Structural Analysis",
+    "version": "2026",
+    "categorie": "Calcul structurel",
+    "URL": "https://www.autodesk.com/products/robot-structural-analysis",
+    "urlDrive": "https://drive.google.com/file/d/1dOmSIxvErFfLgYvwFgWe1lB0gDCDGa2Q/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence Robot Structural Analysis 2026 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence Robot Structural Analysis 2026 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fwww.sketchup.com&size=256",
+    "nom": "SketchUp",
+    "version": "2024",
+    "categorie": "Modélisation 3D",
+    "URL": "https://www.sketchup.com",
+    "urlDrive": "https://drive.google.com/file/d/1AS2XkOtKdBD-eR13gp_lVENUTMPWZp5W/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence SketchUp 2024 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence SketchUp 2024 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fwww.sketchup.com&size=256",
+    "nom": "SketchUp",
+    "version": "2025",
+    "categorie": "Modélisation 3D",
+    "URL": "https://www.sketchup.com",
+    "urlDrive": "https://drive.google.com/file/d/1cvZxUBsdzYgW1TLRJshxEyrrPDY9wVII/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence SketchUp 2025 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence SketchUp 2025 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fwww.sketchup.com&size=256",
+    "nom": "SketchUp",
+    "version": "2026",
+    "categorie": "Modélisation 3D",
+    "URL": "https://www.sketchup.com",
+    "urlDrive": "https://drive.google.com/file/d/1dCgKCycbyp2hsoQOWWyiMDF7A0_rOxIN/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence SketchUp 2026 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence SketchUp 2026 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fwww.sketchup.com&size=256",
+    "nom": "SketchUp",
+    "version": "2023",
+    "categorie": "Modélisation 3D",
+    "URL": "https://www.sketchup.com",
+    "urlDrive": "https://drive.google.com/file/d/1sMrfRm06Yj1G1TBLTRYcSKK1Rs_XEfbq/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence SketchUp 2023 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence SketchUp 2023 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fwww.solidworks.com&size=256",
+    "nom": "SolidWorks",
+    "version": "2025",
+    "categorie": "CAO mécanique",
+    "URL": "https://www.solidworks.com",
+    "urlDrive": "https://drive.google.com/file/d/1whTn4Cw4KymDL5tgbsaBQpIK7AbJyJiV/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence SolidWorks 2025 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence SolidWorks 2025 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fwww.tekla.com&size=256",
+    "nom": "Tekla Structures",
+    "version": "2024",
+    "categorie": "Ingénierie structure BIM",
+    "URL": "https://www.tekla.com",
+    "urlDrive": "https://drive.google.com/file/d/1_C2fon-vbo_KRN4ILC3Z7JNZl_Wpo4dA/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence Tekla Structures 2024 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence Tekla Structures 2024 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fwww.autofluid.com&size=256",
+    "nom": "AutoFLUID",
+    "version": "",
+    "categorie": "Fluides & CVC",
+    "URL": "https://www.autofluid.com",
+    "urlDrive": "https://drive.google.com/file/d/1zXzQ-xQYTrSt1A3E36nyS6aQVVAswDnj/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence AutoFLUID : livraison numérique.",
+    "descriptionAvecAssistace": "Licence AutoFLUID : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fwww.twinmotion.com&size=256",
+    "nom": "Twinmotion",
+    "version": "2023",
+    "categorie": "Visualisation architecturale",
+    "URL": "https://www.twinmotion.com",
+    "urlDrive": "https://drive.google.com/file/d/1z0oX4xqMdwF9sLQidNXEikFNAAukH3C2/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence Twinmotion 2023 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence Twinmotion 2023 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fwww.chaos.com%2Fvray&size=256",
+    "nom": "V-Ray",
+    "version": "7.10",
+    "categorie": "Rendu 3D",
+    "URL": "https://www.chaos.com/vray",
+    "urlDrive": "https://drive.google.com/file/d/1ZFUoMGS-GDHDwtC0eyMumjuUGizhbRun/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence V-Ray 7.10 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence V-Ray 7.10 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
+  },
+  {
+    "urlImage": "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https%3A%2F%2Fwww.chaos.com%2Fvray&size=256",
+    "nom": "V-Ray",
+    "version": "7.00",
+    "categorie": "Rendu 3D",
+    "URL": "https://www.chaos.com/vray",
+    "urlDrive": "https://drive.google.com/file/d/13LIWqWMUPU53zYPmDb9qdQIK2a1p6BI6/view?usp=sharing",
+    "prix": 5000,
+    "description": "Licence V-Ray 7.00 : livraison numérique.",
+    "descriptionAvecAssistace": "Licence V-Ray 7.00 : livraison numérique.",
+    "prixAvecAssistace": 10000,
+    "tel": "+225 05 00 00 00 01",
+    "elementsSansAssistance": [
+      "Téléchargement du logiciel",
+      "Pas d'assistance à l'installation"
+    ],
+    "elementsAvecAssistance": [
+      "Téléchargement du logiciel",
+      "Assistance téléphonique pour installation du logiciel"
+    ]
   }
 ]

@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+import { ELLADARIE_DEFAULT_LOGO, resolveArticleImageUrl } from '../constants/ts/Brand.constant';
 import { COULEUR_BLANC, COULEUR_NOIR, COULEUR_PRINCIPALE } from '../constants/ts/Couleur.constant';
 
 type CardProps = {
@@ -25,13 +27,18 @@ export const Card = ({
   onOpen,
   triggerLabel,
 }: CardProps) => {
+  const [imgSrc, setImgSrc] = useState(() => resolveArticleImageUrl(imageUrl));
+
+  useEffect(() => {
+    setImgSrc(resolveArticleImageUrl(imageUrl));
+  }, [imageUrl]);
+
   return (
     <div
-      className="el-item d-flex flex-column flex-sm-row h-100 overflow-hidden border border-2 rounded-3 shadow-sm cursor-pointer"
+      className="el-item el-item-catalog-card d-flex flex-column flex-sm-row overflow-hidden border border-2 rounded-3 shadow-sm cursor-pointer"
       style={{
         backgroundColor: COULEUR_BLANC,
         borderColor: COULEUR_NOIR,
-        minHeight: 110,
       }}
       role="button"
       tabIndex={0}
@@ -45,31 +52,26 @@ export const Card = ({
       }}
     >
       <div
-        className="d-flex align-items-center justify-content-center flex-shrink-0 border-bottom border-sm-0 border-sm-end"
+        className="el-item-catalog-card__media d-flex align-items-center justify-content-center flex-shrink-0 border-bottom border-sm-0 border-sm-end"
         style={{
           borderColor: COULEUR_NOIR,
           backgroundColor: COULEUR_BLANC,
-          flex: '1 1 42%',
-          minHeight: 90,
         }}
       >
         <img
-          src={imageUrl}
+          src={imgSrc}
           alt={imageAlt}
-          className="w-100 h-100 p-1"
-          style={{ objectFit: 'contain', maxHeight: 110 }}
+          className="el-item-catalog-card__img p-1"
           loading="lazy"
+          onError={() => setImgSrc(ELLADARIE_DEFAULT_LOGO)}
         />
       </div>
 
       <div
-        className="d-flex flex-column flex-grow-1 p-3 p-sm-2 "
-        style={{ backgroundColor: COULEUR_PRINCIPALE, flex: '1 1 58%', minWidth: 0 }}
+        className="el-item-catalog-card__panel d-flex flex-column p-3 p-sm-2"
+        style={{ backgroundColor: COULEUR_PRINCIPALE, minWidth: 0 }}
       >
-        <h2
-          className="fw-bold text-uppercase mb-2 lh-sm text-break"
-          style={{ color: COULEUR_BLANC, fontSize: 'clamp(1rem, 2.6vw + 0.35rem, 1.45rem)' }}
-        >
+        <h2 className="el-item-catalog-card__title fw-bold text-uppercase mb-2 lh-sm text-break">
           {title}
         </h2>
         {category ? (
@@ -92,7 +94,7 @@ export const Card = ({
             ) : null}
           </>
         ) : null}
-        <p className="flex-grow-1 mb-1" style={{ color: COULEUR_NOIR, lineHeight: 1.3, fontSize: '0.65rem' }}>
+        <p className="mb-1" style={{ color: COULEUR_NOIR, lineHeight: 1.3, fontSize: '0.65rem' }}>
           {subtitle}
         </p>
 

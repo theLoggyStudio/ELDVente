@@ -1,6 +1,8 @@
 export type ArticleItem = {
   urlImage: string;
   nom: string;
+  /** Version ou année du logiciel (ex. 2024, 6.1). */
+  version: string;
   /** Sous-titre court (ex. domaine métier), affiché sous le titre en noir. */
   categorie: string;
   URL: string;
