@@ -18,7 +18,7 @@ const paydunyaProxy = {
 
 export default defineConfig({
   plugins: [react()],
-  envPrefix: ['VITE_', 'PAYDUNIA_', 'EMAILJS_'],
+  envPrefix: ['VITE_', 'PAYDUNIA_'],
   server: {
     proxy: { ...paydunyaProxy },
   },

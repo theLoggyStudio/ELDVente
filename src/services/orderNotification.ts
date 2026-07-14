@@ -8,7 +8,7 @@ export type PendingDeliveryPayload = {
   assisted: boolean;
   totalAmount: number;
   optionsSummary: string;
-  buyerEmail: string;
+  buyerEmail?: string;
 };
 
 export const savePendingDelivery = (p: PendingDeliveryPayload): void => {

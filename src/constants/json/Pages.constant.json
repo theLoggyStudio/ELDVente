@@ -25,10 +25,10 @@
     "La messagerie ne s’est pas ouverte. Vérifiez les pop-up ou réessayez.",
     "Adresse e-mail de livraison manquante ou invalide : rouvrez le détail et vérifiez votre saisie.",
     "",
-    "E-mail pour recevoir le lien Drive",
+    "E-mail (figurera sur le reçu)",
     "vous@exemple.com",
     "Adresse e-mail invalide.",
-    "Une adresse e-mail est requise pour la livraison.",
+    "Une adresse e-mail est requise pour le reçu.",
     "Le lien Google Drive n’est pas configuré pour cet article.",
     "Merci pour votre achat.",
     "Lien Google Drive (logiciel) : ",
@@ -103,6 +103,13 @@
     "Application",
     "Date",
     "Montant",
-    "Formule"
+    "Formule",
+    "Informations générales",
+    "Tarification",
+    "Image et aperçu",
+    "Liens et contact",
+    "Formules proposées",
+    "Aperçu de l’illustration",
+    "Séparez chaque élément par | (ex. : élément 1|élément 2)"
   ]
 }

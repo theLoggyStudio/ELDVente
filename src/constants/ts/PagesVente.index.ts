@@ -105,4 +105,11 @@ export const PAGE_VENTE = {
   receiptPdfDateLabel: 102,
   receiptPdfAmountLabel: 103,
   receiptPdfOptionsLabel: 104,
+  adminArticleSectionGeneral: 105,
+  adminArticleSectionPricing: 106,
+  adminArticleSectionMedia: 107,
+  adminArticleSectionLinks: 108,
+  adminArticleSectionFormulas: 109,
+  adminImagePreviewLabel: 110,
+  adminElementsPipeHint: 111,
 } as const;

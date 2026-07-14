@@ -19,12 +19,4 @@ interface ImportMetaEnv {
   readonly PAYDUNIA_PRODUCTION_PRIVATE_KEY: string;
   readonly PAYDUNIA_PRODUCTION_TOKEN: string;
   readonly PAYDUNIA_MODE: string;
-  readonly PAYDUNIA_NOTIFICATION_URL: string;
-
-  /** EmailJS — clé publique (compte → API keys). */
-  readonly EMAILJS_PUBLIC_KEY?: string;
-  /** EmailJS — identifiant du service mail. */
-  readonly EMAILJS_SERVICE_ID?: string;
-  /** EmailJS — identifiant du modèle de message. */
-  readonly EMAILJS_TEMPLATE_ID?: string;
 }

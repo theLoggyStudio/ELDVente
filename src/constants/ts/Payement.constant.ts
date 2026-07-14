@@ -21,9 +21,6 @@ export const PAYDUNIA_STORE_NOM = trimStr(env.PAYDUNIA_STORE_NOM as string | und
 export const PAYDUNIA_PRODUIT_NOM =
   trimStr(env.PAYDUNIA_PRODUIT_NOM as string | undefined) || 'Commande EllaDarie';
 
-/** POST JSON optionnel (backend qui envoie l’e-mail). Si vide, utilisation de `mailto:` vers le vendeur. */
-export const PAYDUNIA_NOTIFICATION_URL = (env.PAYDUNIA_NOTIFICATION_URL as string | undefined)?.trim() ?? '';
-
 export const PAYDUNIA_MASTER_KEY = (env.PAYDUNIA_MASTER_KEY as string | undefined) ?? '';
 
 export const PAYDUNIA_TEST_URL = (env.PAYDUNIA_TEST_URL as string | undefined) ?? '';

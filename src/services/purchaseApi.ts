@@ -7,7 +7,7 @@ export const purchaseApi = {
       headers: { Authorization: `Bearer ${token}` },
     }),
 
-  create: (payload: { buyerEmail: string; applicationName: string }) =>
+  create: (payload: { applicationName: string; buyerEmail?: string }) =>
     apiRequest<PurchaseItem>('/purchases', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

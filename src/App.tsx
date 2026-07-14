@@ -314,8 +314,8 @@ function App() {
   }, []);
 
   useEffect(() => {
-    setBuyerPhone('');
     setBuyerEmail('');
+    setBuyerPhone('');
   }, [selected]);
 
   /** Pays de paiement : au choix d’un article, reprendre la mémorisation ou la devise affichée. */
@@ -356,45 +356,41 @@ function App() {
     if (!payload) return;
 
     void (async () => {
+      let receiptId: string = crypto.randomUUID();
       const email = payload.buyerEmail?.trim() ?? '';
-      let receiptId = '';
 
-      if (email && emailPattern.test(email)) {
-        try {
-          const purchase = await purchaseApi.create({
-            buyerEmail: email,
-            applicationName: articleDisplayTitle(payload.article),
-          });
-          receiptId = purchase.receiptId;
-        } catch {
-          /* historique non bloquant pour la livraison */
-        }
+      try {
+        const purchase = await purchaseApi.create({
+          applicationName: articleDisplayTitle(payload.article),
+          ...(email ? { buyerEmail: email } : {}),
+        });
+        receiptId = purchase.receiptId;
+      } catch {
+        /* historique non bloquant pour la livraison */
       }
 
-      if (receiptId) {
-        try {
-          downloadReceiptPdf({
-            receiptId,
-            brandName: PAYDUNIA_STORE_NOM,
-            buyerEmail: email,
-            applicationName: articleDisplayTitle(payload.article),
-            purchasedAt: new Date(),
-            totalAmount: payload.totalAmount,
-            optionsSummary: payload.optionsSummary,
-            labels: {
-              title: vente[PAGE_VENTE.receiptPdfTitle],
-              thanks: vente[PAGE_VENTE.receiptPdfThanks],
-              id: vente[PAGE_VENTE.receiptPdfIdLabel],
-              email: vente[PAGE_VENTE.receiptPdfEmailLabel],
-              application: vente[PAGE_VENTE.receiptPdfAppLabel],
-              date: vente[PAGE_VENTE.receiptPdfDateLabel],
-              amount: vente[PAGE_VENTE.receiptPdfAmountLabel],
-              options: vente[PAGE_VENTE.receiptPdfOptionsLabel],
-            },
-          });
-        } catch {
-          /* PDF non bloquant pour la livraison */
-        }
+      try {
+        downloadReceiptPdf({
+          receiptId,
+          brandName: PAYDUNIA_STORE_NOM,
+          ...(email ? { buyerEmail: email } : {}),
+          applicationName: articleDisplayTitle(payload.article),
+          purchasedAt: new Date(),
+          totalAmount: payload.totalAmount,
+          optionsSummary: payload.optionsSummary,
+          labels: {
+            title: vente[PAGE_VENTE.receiptPdfTitle],
+            thanks: vente[PAGE_VENTE.receiptPdfThanks],
+            id: vente[PAGE_VENTE.receiptPdfIdLabel],
+            email: vente[PAGE_VENTE.receiptPdfEmailLabel],
+            application: vente[PAGE_VENTE.receiptPdfAppLabel],
+            date: vente[PAGE_VENTE.receiptPdfDateLabel],
+            amount: vente[PAGE_VENTE.receiptPdfAmountLabel],
+            options: vente[PAGE_VENTE.receiptPdfOptionsLabel],
+          },
+        });
+      } catch {
+        /* PDF non bloquant pour la livraison */
       }
 
       setDriveLinkCopied(false);
@@ -796,10 +792,8 @@ function App() {
               assisted={assisted}
             />
             <div className="mb-3">
-              <div className="mb-2 small fw-semibold" style={{ color: COULEUR_NOIR }}>
-                {vente[PAGE_VENTE.deliveryEmailLabel]}
-              </div>
               <Input
+                label={vente[PAGE_VENTE.deliveryEmailLabel]}
                 type="email"
                 autoComplete="email"
                 value={buyerEmail}
@@ -1308,77 +1302,188 @@ function App() {
         onClose={() => setShowArticleModal(false)}
         footer={<Button onClick={() => void saveArticle()}>{vente[PAGE_VENTE.adminSaveButton]}</Button>}
       >
-        <div className="row g-2">
-          <div className="col-md-6">
-            <Input value={articleForm.nom} onChange={(v) => setArticleForm((p) => ({ ...p, nom: v }))} placeholder={vente[PAGE_VENTE.adminNameLabel]} ariaLabel={vente[PAGE_VENTE.adminNameLabel]} type="text" />
-          </div>
-          <div className="col-12 col-md-6">
-            <Input value={articleForm.version} onChange={(v) => setArticleForm((p) => ({ ...p, version: v }))} placeholder={vente[PAGE_VENTE.adminVersionLabel]} ariaLabel={vente[PAGE_VENTE.adminVersionLabel]} type="text" />
-          </div>
-          <div className="col-md-6">
-            <Input value={articleForm.categorie} onChange={(v) => setArticleForm((p) => ({ ...p, categorie: v }))} placeholder={vente[PAGE_VENTE.adminCategoryLabel]} ariaLabel={vente[PAGE_VENTE.adminCategoryLabel]} type="text" />
-          </div>
-          <div className="col-md-6">
-            <Input value={String(articleForm.prix)} onChange={(v) => setArticleForm((p) => ({ ...p, prix: Number(v) || 0 }))} placeholder={vente[PAGE_VENTE.adminPriceLabel]} ariaLabel={vente[PAGE_VENTE.adminPriceLabel]} type="text" />
-          </div>
-          <div className="col-md-6">
-            <Input value={String(articleForm.prixAvecAssistace)} onChange={(v) => setArticleForm((p) => ({ ...p, prixAvecAssistace: Number(v) || 0 }))} placeholder={vente[PAGE_VENTE.adminPriceAssistLabel]} ariaLabel={vente[PAGE_VENTE.adminPriceAssistLabel]} type="text" />
-          </div>
-          <div className="col-md-6">
-            <Input value={articleForm.urlImage} onChange={(v) => setArticleForm((p) => ({ ...p, urlImage: v }))} placeholder={vente[PAGE_VENTE.adminImageUrlLabel]} ariaLabel={vente[PAGE_VENTE.adminImageUrlLabel]} type="text" />
-          </div>
-          <div className="col-md-6 d-flex flex-column">
-            <span className="small fw-semibold mb-1" style={{ color: COULEUR_NOIR }}>
-              Aperçu
-            </span>
-            <div
-              className="border border-2 rounded-3 p-2 flex-grow-1 d-flex align-items-center justify-content-center"
-              style={{
-                borderColor: COULEUR_NOIR,
-                minHeight: 120,
-                backgroundColor: COULEUR_BLANC,
-              }}
-            >
-              {articleForm.urlImage.trim() ? (
-                articleImagePreviewError ? (
-                  <img
-                    src={ELLADARIE_DEFAULT_LOGO}
-                    alt="Logo EllaDarie par défaut"
-                    className="img-fluid"
-                    style={{ maxHeight: 160, maxWidth: '100%', objectFit: 'contain' }}
-                  />
-                ) : (
-                  <img
-                    src={articleForm.urlImage.trim()}
-                    alt="Aperçu de l’illustration de l’article"
-                    className="img-fluid"
-                    style={{ maxHeight: 160, maxWidth: '100%', objectFit: 'contain' }}
-                    onLoad={() => setArticleImagePreviewError(false)}
-                    onError={() => setArticleImagePreviewError(true)}
-                  />
-                )
-              ) : (
-                <img
-                  src={ELLADARIE_DEFAULT_LOGO}
-                  alt="Logo EllaDarie par défaut"
-                  className="img-fluid"
-                  style={{ maxHeight: 160, maxWidth: '100%', objectFit: 'contain' }}
+        <div className="d-flex flex-column gap-4">
+          <section>
+            <h6 className="text-uppercase small fw-bold text-secondary mb-3">{vente[PAGE_VENTE.adminArticleSectionGeneral]}</h6>
+            <div className="row g-3">
+              <div className="col-md-6">
+                <Input
+                  label={vente[PAGE_VENTE.adminNameLabel]}
+                  value={articleForm.nom}
+                  onChange={(v) => setArticleForm((p) => ({ ...p, nom: v }))}
+                  placeholder="Ex. : 3ds Max"
+                  ariaLabel={vente[PAGE_VENTE.adminNameLabel]}
+                  type="text"
                 />
-              )}
+              </div>
+              <div className="col-md-6">
+                <Input
+                  label={vente[PAGE_VENTE.adminVersionLabel]}
+                  value={articleForm.version}
+                  onChange={(v) => setArticleForm((p) => ({ ...p, version: v }))}
+                  placeholder="Ex. : 2025"
+                  ariaLabel={vente[PAGE_VENTE.adminVersionLabel]}
+                  type="text"
+                />
+              </div>
+              <div className="col-12">
+                <Input
+                  label={vente[PAGE_VENTE.adminCategoryLabel]}
+                  value={articleForm.categorie}
+                  onChange={(v) => setArticleForm((p) => ({ ...p, categorie: v }))}
+                  placeholder="Ex. : Modélisation 3D"
+                  ariaLabel={vente[PAGE_VENTE.adminCategoryLabel]}
+                  type="text"
+                />
+              </div>
             </div>
-          </div>
-          <div className="col-md-6">
-            <Input value={articleForm.urlDrive} onChange={(v) => setArticleForm((p) => ({ ...p, urlDrive: v }))} placeholder={vente[PAGE_VENTE.adminDriveUrlLabel]} ariaLabel={vente[PAGE_VENTE.adminDriveUrlLabel]} type="text" />
-          </div>
-          <div className="col-md-6">
-            <Input value={articleForm.tel} onChange={(v) => setArticleForm((p) => ({ ...p, tel: v }))} placeholder={vente[PAGE_VENTE.adminPhoneLabel]} ariaLabel={vente[PAGE_VENTE.adminPhoneLabel]} type="text" />
-          </div>
-          <div className="col-md-12">
-            <Input value={articleForm.elementsSansAssistance.join('|')} onChange={(v) => setArticleForm((p) => ({ ...p, elementsSansAssistance: v.split('|').map((x) => x.trim()).filter(Boolean) }))} placeholder={vente[PAGE_VENTE.adminElementsSansLabel]} ariaLabel={vente[PAGE_VENTE.adminElementsSansLabel]} type="text" />
-          </div>
-          <div className="col-md-12">
-            <Input value={articleForm.elementsAvecAssistance.join('|')} onChange={(v) => setArticleForm((p) => ({ ...p, elementsAvecAssistance: v.split('|').map((x) => x.trim()).filter(Boolean) }))} placeholder={vente[PAGE_VENTE.adminElementsAvecLabel]} ariaLabel={vente[PAGE_VENTE.adminElementsAvecLabel]} type="text" />
-          </div>
+          </section>
+
+          <section>
+            <h6 className="text-uppercase small fw-bold text-secondary mb-3">{vente[PAGE_VENTE.adminArticleSectionPricing]}</h6>
+            <div className="row g-3">
+              <div className="col-md-6">
+                <Input
+                  label={vente[PAGE_VENTE.adminPriceLabel]}
+                  value={String(articleForm.prix)}
+                  onChange={(v) => setArticleForm((p) => ({ ...p, prix: Number(v) || 0 }))}
+                  placeholder="Ex. : 5000"
+                  ariaLabel={vente[PAGE_VENTE.adminPriceLabel]}
+                  type="text"
+                />
+              </div>
+              <div className="col-md-6">
+                <Input
+                  label={vente[PAGE_VENTE.adminPriceAssistLabel]}
+                  value={String(articleForm.prixAvecAssistace)}
+                  onChange={(v) => setArticleForm((p) => ({ ...p, prixAvecAssistace: Number(v) || 0 }))}
+                  placeholder="Ex. : 10000"
+                  ariaLabel={vente[PAGE_VENTE.adminPriceAssistLabel]}
+                  type="text"
+                />
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h6 className="text-uppercase small fw-bold text-secondary mb-3">{vente[PAGE_VENTE.adminArticleSectionMedia]}</h6>
+            <div className="row g-3">
+              <div className="col-12">
+                <Input
+                  label={vente[PAGE_VENTE.adminImageUrlLabel]}
+                  value={articleForm.urlImage}
+                  onChange={(v) => setArticleForm((p) => ({ ...p, urlImage: v }))}
+                  placeholder="https://…"
+                  ariaLabel={vente[PAGE_VENTE.adminImageUrlLabel]}
+                  type="text"
+                />
+              </div>
+              <div className="col-12">
+                <span className="form-label small fw-semibold mb-1 d-block" style={{ color: COULEUR_NOIR }}>
+                  {vente[PAGE_VENTE.adminImagePreviewLabel]}
+                </span>
+                <div
+                  className="border border-2 rounded-3 p-3 d-flex align-items-center justify-content-center"
+                  style={{
+                    borderColor: COULEUR_NOIR,
+                    minHeight: 140,
+                    backgroundColor: COULEUR_BLANC,
+                  }}
+                >
+                  {articleForm.urlImage.trim() ? (
+                    articleImagePreviewError ? (
+                      <img
+                        src={ELLADARIE_DEFAULT_LOGO}
+                        alt="Logo EllaDarie par défaut"
+                        className="img-fluid"
+                        style={{ maxHeight: 160, maxWidth: '100%', objectFit: 'contain' }}
+                      />
+                    ) : (
+                      <img
+                        src={articleForm.urlImage.trim()}
+                        alt="Aperçu de l’illustration de l’article"
+                        className="img-fluid"
+                        style={{ maxHeight: 160, maxWidth: '100%', objectFit: 'contain' }}
+                        onLoad={() => setArticleImagePreviewError(false)}
+                        onError={() => setArticleImagePreviewError(true)}
+                      />
+                    )
+                  ) : (
+                    <img
+                      src={ELLADARIE_DEFAULT_LOGO}
+                      alt="Logo EllaDarie par défaut"
+                      className="img-fluid"
+                      style={{ maxHeight: 160, maxWidth: '100%', objectFit: 'contain' }}
+                    />
+                  )}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h6 className="text-uppercase small fw-bold text-secondary mb-3">{vente[PAGE_VENTE.adminArticleSectionLinks]}</h6>
+            <div className="row g-3">
+              <div className="col-12">
+                <Input
+                  label={vente[PAGE_VENTE.adminDriveUrlLabel]}
+                  value={articleForm.urlDrive}
+                  onChange={(v) => setArticleForm((p) => ({ ...p, urlDrive: v }))}
+                  placeholder="https://drive.google.com/…"
+                  ariaLabel={vente[PAGE_VENTE.adminDriveUrlLabel]}
+                  type="text"
+                />
+              </div>
+              <div className="col-md-6">
+                <Input
+                  label={vente[PAGE_VENTE.adminPhoneLabel]}
+                  value={articleForm.tel}
+                  onChange={(v) => setArticleForm((p) => ({ ...p, tel: v }))}
+                  placeholder="Ex. : +225 05 00 00 00 01"
+                  ariaLabel={vente[PAGE_VENTE.adminPhoneLabel]}
+                  type="tel"
+                />
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h6 className="text-uppercase small fw-bold text-secondary mb-3">{vente[PAGE_VENTE.adminArticleSectionFormulas]}</h6>
+            <div className="row g-3">
+              <div className="col-12">
+                <Input
+                  label={vente[PAGE_VENTE.adminElementsSansLabel]}
+                  hint={vente[PAGE_VENTE.adminElementsPipeHint]}
+                  value={articleForm.elementsSansAssistance.join('|')}
+                  onChange={(v) =>
+                    setArticleForm((p) => ({
+                      ...p,
+                      elementsSansAssistance: v.split('|').map((x) => x.trim()).filter(Boolean),
+                    }))
+                  }
+                  placeholder="Téléchargement du logiciel|Pas d'assistance à l'installation"
+                  ariaLabel={vente[PAGE_VENTE.adminElementsSansLabel]}
+                  type="text"
+                />
+              </div>
+              <div className="col-12">
+                <Input
+                  label={vente[PAGE_VENTE.adminElementsAvecLabel]}
+                  hint={vente[PAGE_VENTE.adminElementsPipeHint]}
+                  value={articleForm.elementsAvecAssistance.join('|')}
+                  onChange={(v) =>
+                    setArticleForm((p) => ({
+                      ...p,
+                      elementsAvecAssistance: v.split('|').map((x) => x.trim()).filter(Boolean),
+                    }))
+                  }
+                  placeholder="Téléchargement du logiciel|Assistance pour installation du logiciel"
+                  ariaLabel={vente[PAGE_VENTE.adminElementsAvecLabel]}
+                  type="text"
+                />
+              </div>
+            </div>
+          </section>
         </div>
       </Modal>
 

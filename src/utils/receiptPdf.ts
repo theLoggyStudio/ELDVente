@@ -16,7 +16,7 @@ export type ReceiptPdfLabels = {
 export type ReceiptPdfInput = {
   receiptId: string;
   brandName: string;
-  buyerEmail: string;
+  buyerEmail?: string;
   applicationName: string;
   purchasedAt: Date;
   totalAmount: number;
@@ -32,7 +32,7 @@ const hexToRgb = (hex: string): [number, number, number] => {
 const wrapText = (doc: jsPDF, text: string, maxWidth: number): string[] =>
   doc.splitTextToSize(text, maxWidth) as string[];
 
-/** Reçu pleine page (fond jaune bord à bord), couleurs du site, téléchargement immédiat. */
+/** Télécharge le reçu PDF dans le dossier de téléchargement par défaut du navigateur. */
 export const downloadReceiptPdf = (input: ReceiptPdfInput): void => {
   const doc = new jsPDF({ unit: 'mm', format: 'a4', compress: true });
   const pageW = doc.internal.pageSize.getWidth();
@@ -71,7 +71,9 @@ export const downloadReceiptPdf = (input: ReceiptPdfInput): void => {
   const dateStr = input.purchasedAt.toLocaleString('fr-FR');
   const lines: Array<[string, string]> = [
     [input.labels.id, input.receiptId],
-    [input.labels.email, input.buyerEmail],
+    ...(input.buyerEmail?.trim()
+      ? ([[input.labels.email, input.buyerEmail.trim()]] as Array<[string, string]>)
+      : []),
     [input.labels.application, input.applicationName],
     [input.labels.date, dateStr],
     [input.labels.amount, formatPrice(input.totalAmount)],
