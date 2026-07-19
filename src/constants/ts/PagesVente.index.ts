@@ -112,4 +112,12 @@ export const PAGE_VENTE = {
   adminArticleSectionFormulas: 109,
   adminImagePreviewLabel: 110,
   adminElementsPipeHint: 111,
+  deliveryModalDownloadStarted: 112,
+  deliveryModalOneTimeHint: 113,
+  deliveryModalTokenMissing: 114,
+  receiptPdfAppSection: 115,
+  receiptPdfWebsiteLabel: 116,
+  receiptPdfAssistanceLabel: 117,
+  receiptPdfIncludedLabel: 118,
+  receiptPdfPaymentSection: 119,
 } as const;

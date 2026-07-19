@@ -24,13 +24,19 @@ import {
   type PendingDeliveryPayload,
 } from './services/orderNotification';
 import { paymentApi } from './services/paymentApi';
-import { purchaseApi } from './services/purchaseApi';
+import { oneTimeDownloadUrl, purchaseApi } from './services/purchaseApi';
 import { articleApi } from './services/articleApi';
+import {
+  catalogCacheKey,
+  getCatalogCache,
+  invalidateCatalogCache,
+} from './services/articleCatalogCache';
 import { authApi } from './services/authApi';
 import { userApi } from './services/userApi';
 import {
   ELEMENTS_AVEC_ASSISTANCE_DEFAUT,
   ELEMENTS_SANS_ASSISTANCE_DEFAUT,
+  TEL_ARTICLE_DEFAUT,
 } from './constants/ts/ArticleFormulesDefault.constant';
 import type { ArticleItem } from './types/Article';
 import type { PurchaseItem } from './types/Purchase';
@@ -57,6 +63,7 @@ const selecteurTuple = selecteurOptions as [
 
 const CATALOG_ARTICLES_PER_PAGE = 6;
 const HISTORY_ROWS_PER_PAGE = 10;
+const CATALOG_SEARCH_DEBOUNCE_MS = 280;
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 type HistorySortKey = 'receiptId' | 'buyerEmail' | 'applicationName' | 'purchasedAt';
@@ -106,16 +113,46 @@ const compareArticleNomFr = (a: Pick<ArticleItem, 'nom' | 'version'>, b: Pick<Ar
 const articleDisplayTitle = (article: Pick<ArticleItem, 'nom' | 'version'>): string =>
   article.version?.trim() ? `${article.nom} (${article.version})` : article.nom;
 
+const paginateStaticArticles = (
+  source: ArticleItem[],
+  page: number,
+  pageSize: number,
+  q: string,
+): { items: ArticleItem[]; total: number } => {
+  const needle = q.trim().toLowerCase();
+  const base = !needle
+    ? source
+    : source.filter(
+        (a) =>
+          a.nom.toLowerCase().includes(needle) ||
+          (a.version ?? '').toLowerCase().includes(needle) ||
+          a.categorie.toLowerCase().includes(needle),
+      );
+  const sorted = [...base].sort(compareArticleNomFr);
+  const start = (Math.max(1, page) - 1) * pageSize;
+  return {
+    items: sorted.slice(start, start + pageSize),
+    total: sorted.length,
+  };
+};
+
 function App() {
   const [query, setQuery] = useState('');
+  const [debouncedQuery, setDebouncedQuery] = useState('');
   const [catalogPage, setCatalogPage] = useState(1);
+  const [catalogItems, setCatalogItems] = useState<Array<ArticleItem & { id?: number }>>([]);
+  const [catalogTotal, setCatalogTotal] = useState(0);
+  const [catalogLoading, setCatalogLoading] = useState(true);
+  const [catalogRefreshing, setCatalogRefreshing] = useState(false);
   const [list, setList] = useState<Array<ArticleItem & { id?: number }>>([]);
-  const [selected, setSelected] = useState<ArticleItem | null>(null);
+  const [selected, setSelected] = useState<(ArticleItem & { id?: number }) | null>(null);
   const [assisted, setAssisted] = useState(false);
   const [buyerEmail, setBuyerEmail] = useState('');
   const [buyerPhone, setBuyerPhone] = useState('');
-  const [deliveryResult, setDeliveryResult] = useState<PendingDeliveryPayload | null>(null);
-  const [driveLinkCopied, setDriveLinkCopied] = useState(false);
+  const [deliveryResult, setDeliveryResult] = useState<
+    (PendingDeliveryPayload & { downloadToken: string | null }) | null
+  >(null);
+  const [downloadStarted, setDownloadStarted] = useState(false);
   const [billingCurrency, setBillingCurrency] = useState<BillingCurrency>(() => readStoredCurrency());
   const [checkoutCountryCode, setCheckoutCountryCode] = useState(() => {
     const stored = readStoredCheckoutCountry();
@@ -159,7 +196,7 @@ function App() {
     description: '',
     descriptionAvecAssistace: '',
     prixAvecAssistace: 0,
-    tel: '',
+    tel: TEL_ARTICLE_DEFAUT,
     elementsSansAssistance: [...ELEMENTS_SANS_ASSISTANCE_DEFAUT],
     elementsAvecAssistance: [...ELEMENTS_AVEC_ASSISTANCE_DEFAUT],
   });
@@ -173,27 +210,23 @@ function App() {
   const offcanvasRef = useRef<HTMLDivElement | null>(null);
   const postPayHandledRef = useRef(false);
   const dismissToast = useCallback(() => setToast(null), []);
-
-  const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    const base = !q
-      ? list
-      : list.filter(
-          (a) =>
-            a.nom.toLowerCase().includes(q) ||
-            (a.version ?? '').toLowerCase().includes(q) ||
-            a.categorie.toLowerCase().includes(q),
-        );
-    return [...base].sort(compareArticleNomFr);
-  }, [query, list]);
+  const catalogRequestIdRef = useRef(0);
+  const catalogHasItemsRef = useRef(false);
 
   const articlesSortedByNom = useMemo(() => [...list].sort(compareArticleNomFr), [list]);
 
-  const catalogTotalPages = Math.max(1, Math.ceil(filtered.length / CATALOG_ARTICLES_PER_PAGE));
-  const paginatedCatalog = useMemo(() => {
-    const start = (catalogPage - 1) * CATALOG_ARTICLES_PER_PAGE;
-    return filtered.slice(start, start + CATALOG_ARTICLES_PER_PAGE);
-  }, [filtered, catalogPage]);
+  const catalogTotalPages = Math.max(1, Math.ceil(catalogTotal / CATALOG_ARTICLES_PER_PAGE));
+
+  useEffect(() => {
+    catalogHasItemsRef.current = catalogItems.length > 0;
+  }, [catalogItems.length]);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setDebouncedQuery(query.trim());
+    }, CATALOG_SEARCH_DEBOUNCE_MS);
+    return () => window.clearTimeout(timer);
+  }, [query]);
 
   useEffect(() => {
     setArticleImagePreviewError(false);
@@ -201,7 +234,7 @@ function App() {
 
   useEffect(() => {
     setCatalogPage(1);
-  }, [query]);
+  }, [debouncedQuery]);
 
   useEffect(() => {
     setCatalogPage((p: number) => Math.min(Math.max(1, p), catalogTotalPages));
@@ -216,16 +249,82 @@ function App() {
     }
   }, [catalogPage]);
 
+  const loadCatalogPage = useCallback(async (page: number, q: string) => {
+    const requestId = ++catalogRequestIdRef.current;
+    const cached = getCatalogCache(catalogCacheKey(page, CATALOG_ARTICLES_PER_PAGE, q));
+    if (cached) {
+      setCatalogItems(cached.items ?? []);
+      setCatalogTotal(cached.total ?? 0);
+      setCatalogLoading(false);
+      setCatalogRefreshing(false);
+      if (page * CATALOG_ARTICLES_PER_PAGE < (cached.total ?? 0)) {
+        void articleApi.listPage({
+          page: page + 1,
+          limit: CATALOG_ARTICLES_PER_PAGE,
+          q,
+        });
+      }
+      return;
+    }
+
+    if (catalogHasItemsRef.current) {
+      setCatalogRefreshing(true);
+    } else {
+      setCatalogLoading(true);
+    }
+
+    try {
+      const result = await articleApi.listPage({
+        page,
+        limit: CATALOG_ARTICLES_PER_PAGE,
+        q,
+      });
+      if (requestId !== catalogRequestIdRef.current) return;
+      setCatalogItems(result.items ?? []);
+      setCatalogTotal(result.total ?? 0);
+      setApiError('');
+
+      if (page * CATALOG_ARTICLES_PER_PAGE < (result.total ?? 0)) {
+        void articleApi.listPage({
+          page: page + 1,
+          limit: CATALOG_ARTICLES_PER_PAGE,
+          q,
+        });
+      }
+    } catch (error) {
+      if (requestId !== catalogRequestIdRef.current) return;
+      const fallback = paginateStaticArticles(
+        staticArticles as ArticleItem[],
+        page,
+        CATALOG_ARTICLES_PER_PAGE,
+        q,
+      );
+      setCatalogItems(fallback.items);
+      setCatalogTotal(fallback.total);
+      setApiError(`${vente[PAGE_VENTE.adminApiErrorPrefix]}${(error as Error).message}`);
+    } finally {
+      if (requestId === catalogRequestIdRef.current) {
+        setCatalogLoading(false);
+        setCatalogRefreshing(false);
+      }
+    }
+  }, []);
+
   const loadArticles = useCallback(async () => {
     try {
-      const rows = await articleApi.list();
-      setList(rows);
+      const rows = await articleApi.listAll(token ?? undefined);
+      setList(rows ?? []);
       setApiError('');
     } catch (error) {
       setList(staticArticles as ArticleItem[]);
       setApiError(`${vente[PAGE_VENTE.adminApiErrorPrefix]}${(error as Error).message}`);
     }
-  }, []);
+  }, [token]);
+
+  const refreshCatalog = useCallback(async () => {
+    invalidateCatalogCache();
+    await loadCatalogPage(catalogPage, debouncedQuery);
+  }, [catalogPage, debouncedQuery, loadCatalogPage]);
 
   const loadUsers = useCallback(async () => {
     if (!token) return;
@@ -250,8 +349,14 @@ function App() {
   }, [token]);
 
   useEffect(() => {
-    void loadArticles();
-  }, [loadArticles]);
+    void loadCatalogPage(catalogPage, debouncedQuery);
+  }, [catalogPage, debouncedQuery, loadCatalogPage]);
+
+  useEffect(() => {
+    if (openAdminSection === 'articles' && token) {
+      void loadArticles();
+    }
+  }, [openAdminSection, token, loadArticles]);
 
   useEffect(() => {
     if (openAdminSection === 'history' && token) {
@@ -357,20 +462,23 @@ function App() {
 
     void (async () => {
       let receiptId: string = crypto.randomUUID();
+      let downloadToken: string | null = null;
       const email = payload.buyerEmail?.trim() ?? '';
 
       try {
         const purchase = await purchaseApi.create({
           applicationName: articleDisplayTitle(payload.article),
           ...(email ? { buyerEmail: email } : {}),
+          ...(payload.articleId ? { articleId: payload.articleId } : {}),
         });
         receiptId = purchase.receiptId;
+        downloadToken = purchase.downloadToken ?? null;
       } catch {
         /* historique non bloquant pour la livraison */
       }
 
       try {
-        downloadReceiptPdf({
+        await downloadReceiptPdf({
           receiptId,
           brandName: PAYDUNIA_STORE_NOM,
           ...(email ? { buyerEmail: email } : {}),
@@ -378,6 +486,21 @@ function App() {
           purchasedAt: new Date(),
           totalAmount: payload.totalAmount,
           optionsSummary: payload.optionsSummary,
+          article: {
+            nom: payload.article.nom,
+            version: payload.article.version,
+            categorie: payload.article.categorie,
+            description: payload.assisted
+              ? payload.article.descriptionAvecAssistace
+              : payload.article.description,
+            siteUrl: payload.article.URL,
+            // Numéro d'assistance uniquement pour la formule « avec assistance ».
+            ...(payload.assisted ? { tel: payload.article.tel } : {}),
+            imageUrl: payload.article.urlImage,
+            elements: payload.assisted
+              ? payload.article.elementsAvecAssistance
+              : payload.article.elementsSansAssistance,
+          },
           labels: {
             title: vente[PAGE_VENTE.receiptPdfTitle],
             thanks: vente[PAGE_VENTE.receiptPdfThanks],
@@ -387,29 +510,40 @@ function App() {
             date: vente[PAGE_VENTE.receiptPdfDateLabel],
             amount: vente[PAGE_VENTE.receiptPdfAmountLabel],
             options: vente[PAGE_VENTE.receiptPdfOptionsLabel],
+            paymentSection: vente[PAGE_VENTE.receiptPdfPaymentSection],
+            appSection: vente[PAGE_VENTE.receiptPdfAppSection],
+            category: vente[PAGE_VENTE.adminCategoryLabel],
+            description: vente[PAGE_VENTE.adminDescriptionLabel],
+            website: vente[PAGE_VENTE.receiptPdfWebsiteLabel],
+            assistance: vente[PAGE_VENTE.receiptPdfAssistanceLabel],
+            included: vente[PAGE_VENTE.receiptPdfIncludedLabel],
           },
         });
       } catch {
         /* PDF non bloquant pour la livraison */
       }
 
-      setDriveLinkCopied(false);
-      setDeliveryResult(payload);
+      // Téléchargement automatique via le lien à usage unique (l'URL réelle reste côté serveur).
+      let started = false;
+      if (downloadToken) {
+        const win = window.open(oneTimeDownloadUrl(downloadToken), '_blank', 'noopener');
+        started = Boolean(win);
+      }
+      setDownloadStarted(started);
+      setDeliveryResult({ ...payload, downloadToken });
     })();
   }, []);
 
   const closeDeliveryModal = () => {
     setDeliveryResult(null);
-    setDriveLinkCopied(false);
+    setDownloadStarted(false);
   };
 
-  const copyDriveLink = async (url: string) => {
-    try {
-      await navigator.clipboard.writeText(url);
-      setDriveLinkCopied(true);
-    } catch {
-      setDriveLinkCopied(false);
-    }
+  const startOneTimeDownload = () => {
+    const token = deliveryResult?.downloadToken;
+    if (!token || downloadStarted) return;
+    const win = window.open(oneTimeDownloadUrl(token), '_blank', 'noopener');
+    if (win) setDownloadStarted(true);
   };
 
   const currentPrice = selected
@@ -463,8 +597,9 @@ function App() {
 
   const handlePay = async () => {
     if (!selected) return;
-    const drive = selected.urlDrive?.trim() ?? '';
-    if (!drive || drive.includes('REMPLACER_PAR_VOTRE_LIEN_DRIVE')) {
+    // Le lien de livraison reste côté serveur : l'id de l'article suffit pour générer le jeton unique.
+    const articleId = selected.id;
+    if (!articleId) {
       setToast({ variant: 'error', message: vente[PAGE_VENTE.deliveryDriveMissing] });
       return;
     }
@@ -506,6 +641,7 @@ function App() {
       }`;
       savePendingDelivery({
         article: selected,
+        articleId,
         assisted,
         totalAmount: currentPrice,
         optionsSummary,
@@ -535,7 +671,7 @@ function App() {
       description: '',
       descriptionAvecAssistace: '',
       prixAvecAssistace: 0,
-      tel: '',
+      tel: TEL_ARTICLE_DEFAUT,
       elementsSansAssistance: [...ELEMENTS_SANS_ASSISTANCE_DEFAUT],
       elementsAvecAssistance: [...ELEMENTS_AVEC_ASSISTANCE_DEFAUT],
     });
@@ -558,6 +694,7 @@ function App() {
       }
       setShowArticleModal(false);
       await loadArticles();
+      await refreshCatalog();
     } catch (error) {
       setApiError(`${vente[PAGE_VENTE.adminApiErrorPrefix]}${(error as Error).message}`);
     }
@@ -568,6 +705,7 @@ function App() {
     try {
       await articleApi.remove(id, token);
       await loadArticles();
+      await refreshCatalog();
     } catch (error) {
       setApiError(`${vente[PAGE_VENTE.adminApiErrorPrefix]}${(error as Error).message}`);
     }
@@ -686,15 +824,26 @@ function App() {
       </Header>
 
       <main className="container py-4 flex-grow-1">
-        {filtered.length === 0 ? (
+        {catalogLoading && catalogItems.length === 0 ? (
+          <div className="el-item-catalog-grid" aria-busy="true" aria-label={vente[PAGE_VENTE.catalogPricesLoading]}>
+            {Array.from({ length: CATALOG_ARTICLES_PER_PAGE }, (_, i) => (
+              <div className="el-item-catalog-col el-item-catalog-col--loading" key={`skeleton-${i}`}>
+                <div className="el-item-catalog-skeleton" />
+              </div>
+            ))}
+          </div>
+        ) : catalogTotal === 0 ? (
           <p className="mb-0" style={{ color: COULEUR_NOIR }}>
             {vente[PAGE_VENTE.noResults]}
           </p>
         ) : (
           <>
-            <div className="el-item-catalog-grid">
-              {paginatedCatalog.map((article) => (
-                <div className="el-item-catalog-col" key={`${article.nom}-${article.version ?? ''}-${article.URL}`}>
+            <div
+              className={`el-item-catalog-grid${catalogRefreshing ? ' el-item-catalog-grid--refreshing' : ''}`}
+              aria-busy={catalogRefreshing}
+            >
+              {catalogItems.map((article) => (
+                <div className="el-item-catalog-col" key={`${article.id ?? article.nom}-${article.version ?? ''}-${article.URL}`}>
                   <Card
                     title={articleDisplayTitle(article)}
                     category={article.categorie}
@@ -719,7 +868,7 @@ function App() {
                   type="button"
                   variant="primary"
                   className="px-3"
-                  disabled={catalogPage <= 1}
+                  disabled={catalogPage <= 1 || catalogRefreshing}
                   onClick={() => setCatalogPage((p: number) => Math.max(1, p - 1))}
                 >
                   {vente[PAGE_VENTE.catalogPaginationPrev]}
@@ -732,7 +881,7 @@ function App() {
                   type="button"
                   variant="primary"
                   className="px-3"
-                  disabled={catalogPage >= catalogTotalPages}
+                  disabled={catalogPage >= catalogTotalPages || catalogRefreshing}
                   onClick={() => setCatalogPage((p: number) => Math.min(catalogTotalPages, p + 1))}
                 >
                   {vente[PAGE_VENTE.catalogPaginationNext]}
@@ -939,40 +1088,42 @@ function App() {
             <p className="mb-0 fw-semibold" style={{ color: COULEUR_NOIR }}>
               {articleDisplayTitle(deliveryResult.article)}
             </p>
-            <p className="mb-0 small" style={{ color: COULEUR_NOIR }}>
-              {vente[PAGE_VENTE.deliveryModalIntro]}
-            </p>
-            <div className="d-flex flex-column flex-sm-row gap-2">
-              <a
-                href={deliveryResult.article.urlDrive.trim()}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn fw-semibold text-decoration-none"
-                style={{ backgroundColor: COULEUR_PRINCIPALE, color: COULEUR_NOIR, border: `2px solid ${COULEUR_NOIR}` }}
-              >
-                {vente[PAGE_VENTE.deliveryModalOpenDrive]}
-              </a>
-              <Button
-                type="button"
-                onClick={() => void copyDriveLink(deliveryResult.article.urlDrive.trim())}
-              >
-                {vente[PAGE_VENTE.deliveryModalCopyDrive]}
-              </Button>
-            </div>
-            {driveLinkCopied ? (
-              <p className="mb-0 small fw-semibold" style={{ color: COULEUR_NOIR }}>
-                {vente[PAGE_VENTE.deliveryModalCopyDone]}
+            {deliveryResult.downloadToken ? (
+              <>
+                <p className="mb-0 small" style={{ color: COULEUR_NOIR }}>
+                  {vente[PAGE_VENTE.deliveryModalIntro]}
+                </p>
+                {downloadStarted ? (
+                  <p className="mb-0 fw-semibold" style={{ color: COULEUR_NOIR }}>
+                    {vente[PAGE_VENTE.deliveryModalDownloadStarted]}
+                  </p>
+                ) : (
+                  <div className="d-flex flex-column flex-sm-row gap-2">
+                    <button
+                      type="button"
+                      onClick={startOneTimeDownload}
+                      className="btn fw-semibold"
+                      style={{ backgroundColor: COULEUR_PRINCIPALE, color: COULEUR_NOIR, border: `2px solid ${COULEUR_NOIR}` }}
+                    >
+                      {vente[PAGE_VENTE.deliveryModalOpenDrive]}
+                    </button>
+                  </div>
+                )}
+                <p className="mb-0 small" style={{ color: COULEUR_NOIR }}>
+                  {vente[PAGE_VENTE.deliveryModalOneTimeHint]}
+                </p>
+              </>
+            ) : (
+              <p className="mb-0 small" style={{ color: COULEUR_NOIR }}>
+                {vente[PAGE_VENTE.deliveryModalTokenMissing]}
               </p>
-            ) : null}
+            )}
             {deliveryResult.assisted ? (
               <p className="mb-0 small" style={{ color: COULEUR_NOIR }}>
                 {vente[PAGE_VENTE.mailLineAssistanceTel]}
                 {deliveryResult.article.tel}
               </p>
             ) : null}
-            <p className="mb-0 small text-break" style={{ color: COULEUR_NOIR, wordBreak: 'break-all' }}>
-              {deliveryResult.article.urlDrive.trim()}
-            </p>
           </div>
         ) : null}
       </Modal>
@@ -1427,7 +1578,7 @@ function App() {
               <div className="col-12">
                 <Input
                   label={vente[PAGE_VENTE.adminDriveUrlLabel]}
-                  value={articleForm.urlDrive}
+                  value={articleForm.urlDrive ?? ''}
                   onChange={(v) => setArticleForm((p) => ({ ...p, urlDrive: v }))}
                   placeholder="https://drive.google.com/…"
                   ariaLabel={vente[PAGE_VENTE.adminDriveUrlLabel]}
@@ -1439,7 +1590,7 @@ function App() {
                   label={vente[PAGE_VENTE.adminPhoneLabel]}
                   value={articleForm.tel}
                   onChange={(v) => setArticleForm((p) => ({ ...p, tel: v }))}
-                  placeholder="Ex. : +225 05 00 00 00 01"
+                  placeholder="Ex. : +221708984443"
                   ariaLabel={vente[PAGE_VENTE.adminPhoneLabel]}
                   type="tel"
                 />

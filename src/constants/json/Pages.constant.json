@@ -99,6 +99,7 @@
     "Nº de reçu",
     "Reçu de paiement",
     "Merci pour votre achat.",
+    "Nº de reçu",
     "E-mail",
     "Application",
     "Date",
@@ -110,6 +111,14 @@
     "Liens et contact",
     "Formules proposées",
     "Aperçu de l’illustration",
-    "Séparez chaque élément par | (ex. : élément 1|élément 2)"
+    "Séparez chaque élément par | (ex. : élément 1|élément 2)",
+    "Le téléchargement s’est ouvert dans un nouvel onglet.",
+    "Ce lien est sécurisé et à usage unique : il ne peut être ouvert qu’une seule fois.",
+    "Le lien de téléchargement n’a pas pu être généré. Contactez le support avec votre reçu.",
+    "Application téléchargée",
+    "Site de l’éditeur",
+    "Numéro d’assistance",
+    "Inclus dans la formule",
+    "Détails du paiement"
   ]
 }

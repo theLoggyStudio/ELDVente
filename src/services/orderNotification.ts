@@ -5,6 +5,8 @@ export const POST_PAY_DELIVERY_STORAGE_KEY = 'elladarie_post_pay_delivery';
 
 export type PendingDeliveryPayload = {
   article: ArticleItem;
+  /** Id BDD de l'article, requis pour générer le lien de téléchargement à usage unique. */
+  articleId?: number;
   assisted: boolean;
   totalAmount: number;
   optionsSummary: string;

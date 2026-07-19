@@ -9,12 +9,12 @@
       "supportsXafSettlement": true,
       "requiresConversionFromXof": false,
       "envKeys": [
-        "PAYDUNYA_MODE",
-        "PAYDUNIA_MASTER_KEY",
-        "PAYDUNIA_TEST_PRIVATE_KEY",
-        "PAYDUNIA_TEST_TOKEN",
-        "PAYDUNIA_PRODUCTION_PRIVATE_KEY",
-        "PAYDUNIA_PRODUCTION_TOKEN"
+        "ELDBack: PAYDUNYA_MODE",
+        "ELDBack: PAYDUNIA_MASTER_KEY",
+        "ELDBack: PAYDUNIA_TEST_PRIVATE_KEY",
+        "ELDBack: PAYDUNIA_TEST_TOKEN",
+        "ELDBack: PAYDUNIA_PRODUCTION_PRIVATE_KEY",
+        "ELDBack: PAYDUNIA_PRODUCTION_TOKEN"
       ]
     },
     "paypal": {

@@ -62,7 +62,10 @@ export const Card = ({
           src={imgSrc}
           alt={imageAlt}
           className="el-item-catalog-card__img p-1"
+          width={100}
+          height={100}
           loading="lazy"
+          decoding="async"
           onError={() => setImgSrc(ELLADARIE_DEFAULT_LOGO)}
         />
       </div>

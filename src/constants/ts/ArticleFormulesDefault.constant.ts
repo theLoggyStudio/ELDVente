@@ -1,3 +1,6 @@
+/** Téléphone d’assistance par défaut (catalogue + création d’article). */
+export const TEL_ARTICLE_DEFAUT = '+221708984443';
+
 /** Lignes affichées pour les formules « sans / avec assistance » (défaut catalogue + création d’article). */
 export const ELEMENTS_SANS_ASSISTANCE_DEFAUT: string[] = [
   'Téléchargement du logiciel',
