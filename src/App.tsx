@@ -4,7 +4,7 @@ import pages from './constants/json/Pages.constant.json';
 import selecteurOptions from './constants/json/Selecteur.constant.json';
 import staticArticles from './constants/json/article.json';
 import { PAGE_VENTE } from './constants/ts/PagesVente.index';
-import { COULEUR_BLANC, COULEUR_NOIR, COULEUR_PRINCIPALE } from './constants/ts/Couleur.constant';
+import { COULEUR_BLANC, COULEUR_NOIR, COULEUR_PRINCIPALE, COULEUR_TEXTE_CLAIR } from './constants/ts/Couleur.constant';
 import { ELLADARIE_DEFAULT_LOGO, resolveArticleImageUrl } from './constants/ts/Brand.constant';
 import { PAYDUNIA_PRODUIT_NOM, PAYDUNIA_STORE_NOM, SUPPLEMENT_ASSISTANCE_FCFA } from './constants/ts/Payement.constant';
 import { Alert } from './items/Alert';
@@ -13,7 +13,6 @@ import { Card } from './items/Card';
 import { Footer } from './items/Footer';
 import { Header } from './items/Header';
 import { Input } from './items/Input';
-import { FormuleComparaison } from './items/FormuleComparaison';
 import { Offcanvas } from './items/Offcanvas';
 import { Selecteur } from './items/Selecteur';
 import { Modal } from './items/Modal';
@@ -30,6 +29,7 @@ import {
   catalogCacheKey,
   getCatalogCache,
   invalidateCatalogCache,
+  setCatalogCache,
 } from './services/articleCatalogCache';
 import { authApi } from './services/authApi';
 import { userApi } from './services/userApi';
@@ -64,8 +64,6 @@ const selecteurTuple = selecteurOptions as [
 const CATALOG_ARTICLES_PER_PAGE = 6;
 const HISTORY_ROWS_PER_PAGE = 10;
 const CATALOG_SEARCH_DEBOUNCE_MS = 280;
-const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
 type HistorySortKey = 'receiptId' | 'buyerEmail' | 'applicationName' | 'purchasedAt';
 type HistorySortDir = 'asc' | 'desc';
 
@@ -147,7 +145,6 @@ function App() {
   const [list, setList] = useState<Array<ArticleItem & { id?: number }>>([]);
   const [selected, setSelected] = useState<(ArticleItem & { id?: number }) | null>(null);
   const [assisted, setAssisted] = useState(false);
-  const [buyerEmail, setBuyerEmail] = useState('');
   const [buyerPhone, setBuyerPhone] = useState('');
   const [deliveryResult, setDeliveryResult] = useState<
     (PendingDeliveryPayload & { downloadToken: string | null }) | null
@@ -192,10 +189,10 @@ function App() {
     categorie: '',
     URL: '',
     urlDrive: '',
-    prix: 0,
+    prix: 4000,
     description: '',
     descriptionAvecAssistace: '',
-    prixAvecAssistace: 0,
+    prixAvecAssistace: 6000,
     tel: TEL_ARTICLE_DEFAUT,
     elementsSansAssistance: [...ELEMENTS_SANS_ASSISTANCE_DEFAUT],
     elementsAvecAssistance: [...ELEMENTS_AVEC_ASSISTANCE_DEFAUT],
@@ -251,34 +248,39 @@ function App() {
 
   const loadCatalogPage = useCallback(async (page: number, q: string) => {
     const requestId = ++catalogRequestIdRef.current;
-    const cached = getCatalogCache(catalogCacheKey(page, CATALOG_ARTICLES_PER_PAGE, q));
+    const cacheKey = catalogCacheKey(page, CATALOG_ARTICLES_PER_PAGE, q);
+    const cached = getCatalogCache(cacheKey);
+
+    // 1) Afficher d’abord le JSON local (ou le cache) pour un rendu immédiat.
     if (cached) {
       setCatalogItems(cached.items ?? []);
       setCatalogTotal(cached.total ?? 0);
       setCatalogLoading(false);
-      setCatalogRefreshing(false);
-      if (page * CATALOG_ARTICLES_PER_PAGE < (cached.total ?? 0)) {
-        void articleApi.listPage({
-          page: page + 1,
-          limit: CATALOG_ARTICLES_PER_PAGE,
-          q,
-        });
-      }
-      return;
-    }
-
-    if (catalogHasItemsRef.current) {
-      setCatalogRefreshing(true);
     } else {
-      setCatalogLoading(true);
+      const local = paginateStaticArticles(
+        staticArticles as ArticleItem[],
+        page,
+        CATALOG_ARTICLES_PER_PAGE,
+        q,
+      );
+      setCatalogItems(local.items);
+      setCatalogTotal(local.total);
+      setCatalogLoading(false);
+      setCatalogCache(cacheKey, {
+        items: local.items,
+        total: local.total,
+        page,
+        pageSize: CATALOG_ARTICLES_PER_PAGE,
+      });
     }
 
+    // 2) Compléter avec le backend si disponible (ids, synchro admin, etc.).
+    setCatalogRefreshing(true);
     try {
-      const result = await articleApi.listPage({
-        page,
-        limit: CATALOG_ARTICLES_PER_PAGE,
-        q,
-      });
+      const result = await articleApi.listPage(
+        { page, limit: CATALOG_ARTICLES_PER_PAGE, q },
+        { bypassCache: true },
+      );
       if (requestId !== catalogRequestIdRef.current) return;
       setCatalogItems(result.items ?? []);
       setCatalogTotal(result.total ?? 0);
@@ -291,21 +293,15 @@ function App() {
           q,
         });
       }
-    } catch (error) {
-      if (requestId !== catalogRequestIdRef.current) return;
-      const fallback = paginateStaticArticles(
-        staticArticles as ArticleItem[],
-        page,
-        CATALOG_ARTICLES_PER_PAGE,
-        q,
-      );
-      setCatalogItems(fallback.items);
-      setCatalogTotal(fallback.total);
-      setApiError(`${vente[PAGE_VENTE.adminApiErrorPrefix]}${(error as Error).message}`);
+    } catch {
+      // Le catalogue JSON reste affiché ; pas d’erreur bloquante.
+      if (requestId === catalogRequestIdRef.current) {
+        setApiError('');
+      }
     } finally {
       if (requestId === catalogRequestIdRef.current) {
-        setCatalogLoading(false);
         setCatalogRefreshing(false);
+        setCatalogLoading(false);
       }
     }
   }, []);
@@ -411,7 +407,6 @@ function App() {
     const onHidden = () => {
       setSelected(null);
       setAssisted(false);
-      setBuyerEmail('');
       setBuyerPhone('');
     };
     el.addEventListener('hidden.bs.offcanvas', onHidden);
@@ -419,7 +414,6 @@ function App() {
   }, []);
 
   useEffect(() => {
-    setBuyerEmail('');
     setBuyerPhone('');
   }, [selected]);
 
@@ -437,10 +431,11 @@ function App() {
     }
   }, [selected, showOffcanvas]);
 
-  /** Retour `?paiement=ok` après PayDunya / Dohone : reçu PDF puis popup avec lien Drive. */
+  /** Retour `?paiement=ok` après PayDunya / Dohone : e-mail via confirm PayDunya, reçu PDF, popup Drive. */
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const status = params.get('paiement');
+    const paydunyaInvoiceToken = (params.get('token') ?? '').trim();
     const clearQuery = () => {
       window.history.replaceState({}, '', `${window.location.pathname}${window.location.hash || ''}`);
     };
@@ -463,7 +458,18 @@ function App() {
     void (async () => {
       let receiptId: string = crypto.randomUUID();
       let downloadToken: string | null = null;
-      const email = payload.buyerEmail?.trim() ?? '';
+
+      // E-mail saisi sur le formulaire PayDunya (plus de champ e-mail dans le détail).
+      let email = payload.buyerEmail?.trim() ?? '';
+      if (paydunyaInvoiceToken) {
+        try {
+          const confirmed = await paymentApi.confirmPaydunya(paydunyaInvoiceToken);
+          const fromPaydunya = confirmed.customerEmail?.trim() ?? '';
+          if (fromPaydunya) email = fromPaydunya;
+        } catch {
+          /* confirm non bloquant : on continue sans e-mail si PayDunya ne répond pas */
+        }
+      }
 
       try {
         const purchase = await purchaseApi.create({
@@ -530,7 +536,7 @@ function App() {
         started = Boolean(win);
       }
       setDownloadStarted(started);
-      setDeliveryResult({ ...payload, downloadToken });
+      setDeliveryResult({ ...payload, ...(email ? { buyerEmail: email } : {}), downloadToken });
     })();
   }, []);
 
@@ -607,15 +613,6 @@ function App() {
       setToast({ variant: 'error', message: vente[PAGE_VENTE.deliveryPhoneRequired] });
       return;
     }
-    const email = buyerEmail.trim();
-    if (!email) {
-      setToast({ variant: 'error', message: vente[PAGE_VENTE.deliveryEmailRequired] });
-      return;
-    }
-    if (!emailPattern.test(email)) {
-      setToast({ variant: 'error', message: vente[PAGE_VENTE.deliveryEmailInvalid] });
-      return;
-    }
     setToast(null);
     setPayBusy(true);
     const desc = `${PAYDUNIA_PRODUIT_NOM} : ${articleDisplayTitle(selected)} (${vente[PAGE_VENTE.formuleLabel]} : ${
@@ -645,7 +642,6 @@ function App() {
         assisted,
         totalAmount: currentPrice,
         optionsSummary,
-        buyerEmail: email,
       });
       window.location.assign(result.checkoutUrl);
     } catch (error) {
@@ -667,10 +663,10 @@ function App() {
       categorie: '',
       URL: '',
       urlDrive: '',
-      prix: 0,
+      prix: 4000,
       description: '',
       descriptionAvecAssistace: '',
-      prixAvecAssistace: 0,
+      prixAvecAssistace: 6000,
       tel: TEL_ARTICLE_DEFAUT,
       elementsSansAssistance: [...ELEMENTS_SANS_ASSISTANCE_DEFAUT],
       elementsAvecAssistance: [...ELEMENTS_AVEC_ASSISTANCE_DEFAUT],
@@ -916,40 +912,13 @@ function App() {
       >
         {selected ? (
           <>
-            <p className="small mb-3">
-              <a
-                href={selected.URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ color: COULEUR_NOIR }}
-              >
-                {vente[PAGE_VENTE.resourcesLink]}
-              </a>
-            </p>
-            <div className="mb-2 small fw-semibold" style={{ color: COULEUR_NOIR }}>
-              {vente[PAGE_VENTE.formuleLabel]}
-            </div>
+            {vente[PAGE_VENTE.formuleLabel]?.trim() ? (
+              <div className="mb-2 small fw-semibold" style={{ color: COULEUR_NOIR }}>
+                {vente[PAGE_VENTE.formuleLabel]}
+              </div>
+            ) : null}
             <div className="mb-3">
               <Selecteur options={selecteurTuple} assisted={assisted} onChange={setAssisted} />
-            </div>
-            <FormuleComparaison
-              sectionTitle={vente[PAGE_VENTE.modesComparatifTitre]}
-              titreColonneSans={selecteurTuple[0].nom}
-              titreColonneAvec={selecteurTuple[1].nom}
-              lignesSans={selected.elementsSansAssistance}
-              lignesAvec={selected.elementsAvecAssistance}
-              assisted={assisted}
-            />
-            <div className="mb-3">
-              <Input
-                label={vente[PAGE_VENTE.deliveryEmailLabel]}
-                type="email"
-                autoComplete="email"
-                value={buyerEmail}
-                onChange={setBuyerEmail}
-                placeholder={vente[PAGE_VENTE.deliveryEmailPlaceholder]}
-                ariaLabel={vente[PAGE_VENTE.deliveryEmailLabel]}
-              />
             </div>
             <div className="mb-3">
               <label
@@ -1029,7 +998,7 @@ function App() {
                               style={{
                                 cursor: 'pointer',
                                 backgroundColor: selected ? COULEUR_PRINCIPALE : COULEUR_BLANC,
-                                color: selected ? COULEUR_BLANC : COULEUR_NOIR,
+                                color: selected ? COULEUR_TEXTE_CLAIR : COULEUR_NOIR,
                                 borderColor: COULEUR_NOIR,
                               }}
                               onClick={() => setBillingCurrencyPersist(c.currency)}

@@ -1,4 +1,4 @@
 [
-  { "nom": "Sans assistance à l'installation", "estAssiste": false },
-  { "nom": "Avec assistance à l'installation", "estAssiste": true }
+  { "nom": "Installation guidée par vidéo étape par étape", "estAssiste": false },
+  { "nom": "Installation accompagnée par un expert pour une prise en main rapide et efficace", "estAssiste": true }
 ]

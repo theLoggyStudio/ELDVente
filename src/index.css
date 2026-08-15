@@ -1,11 +1,13 @@
 :root {
   font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --eld-surface: #f0f0f0;
 }
 
 html,
 body,
 #root {
   min-height: 100%;
+  background-color: var(--eld-surface);
 }
 
 #root {
@@ -13,7 +15,7 @@ body,
   flex-direction: column;
 }
 
-/* Bouton fermer : uniquement noir / blanc / jaune */
+/* Bouton fermer : uniquement noir / gris clair / jaune */
 .btn-close {
   filter: none;
   opacity: 1;
@@ -24,6 +26,20 @@ body,
 
 .offcanvas {
   --bs-offcanvas-width: min(100%, 420px);
+}
+
+/* Surfaces Bootstrap autrefois blanches */
+.form-control,
+.form-select,
+.modal-content,
+.modal-header,
+.modal-body,
+.modal-footer,
+.accordion-item,
+.accordion-button,
+.accordion-button:not(.collapsed),
+.table {
+  background-color: var(--eld-surface) !important;
 }
 
 .transition-transform {

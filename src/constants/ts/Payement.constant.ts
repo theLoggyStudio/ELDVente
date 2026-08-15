@@ -8,7 +8,7 @@ export const FORMAT_DECIMALS = 0;
 export const SEPARATEUR_DECIMAL = ',';
 
 /** Supplément FCFA appliqué lorsque la formule « avec assistance » est choisie. */
-export const SUPPLEMENT_ASSISTANCE_FCFA = 5000;
+export const SUPPLEMENT_ASSISTANCE_FCFA = 2000;
 
 /** Nom boutique (reçus PDF / libellés). */
 export const PAYDUNIA_STORE_NOM = 'EllaDarie';

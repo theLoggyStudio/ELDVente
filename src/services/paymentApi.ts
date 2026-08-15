@@ -15,6 +15,13 @@ export type PaymentQuote = {
 export type CheckoutResponse =
   | { provider: 'paydunya' | 'dohone'; checkoutUrl: string; hint?: string };
 
+export type PaydunyaConfirmResponse = {
+  status: string;
+  customerEmail: string;
+  customerName: string;
+  customerPhone: string;
+};
+
 const normalizeCountryCode = (countryCode: string): string => {
   const s = countryCode.trim().toUpperCase();
   return /^[A-Z]{2}$/u.test(s) ? s : 'SN';
@@ -46,4 +53,10 @@ export const paymentApi = {
         phone: params.phone?.trim() ?? '',
       }),
     }),
+
+  /** Récupère l’e-mail (et infos client) saisis sur la page de paiement PayDunya. */
+  confirmPaydunya: (invoiceToken: string) =>
+    apiRequest<PaydunyaConfirmResponse>(
+      `/payment/paydunya/confirm?token=${encodeURIComponent(invoiceToken.trim())}`,
+    ),
 };

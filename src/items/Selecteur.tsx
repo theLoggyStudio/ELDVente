@@ -1,4 +1,4 @@
-import { COULEUR_BLANC, COULEUR_NOIR, COULEUR_PRINCIPALE } from '../constants/ts/Couleur.constant';
+import { COULEUR_BLANC, COULEUR_NOIR, COULEUR_PRINCIPALE, COULEUR_TEXTE_CLAIR } from '../constants/ts/Couleur.constant';
 
 export type SelecteurOption = {
   nom: string;
@@ -9,7 +9,7 @@ type SelecteurProps = {
   options: [SelecteurOption, SelecteurOption];
   assisted: boolean;
   onChange: (assisted: boolean) => void;
-  /** Fond blanc sur panneau jaune (#F5C527) pour garder le contraste. */
+  /** Fond gris clair sur panneau jaune (#F5C527) pour garder le contraste. */
   variant?: 'default' | 'embed';
 };
 
@@ -26,7 +26,7 @@ export const Selecteur = ({ options, assisted, onChange, variant = 'default' }: 
         className="btn"
         style={{
           backgroundColor: !assisted ? COULEUR_NOIR : 'transparent',
-          color: !assisted ? COULEUR_BLANC : COULEUR_NOIR,
+          color: !assisted ? COULEUR_TEXTE_CLAIR : COULEUR_NOIR,
           borderColor: COULEUR_NOIR,
         }}
         onClick={() => onChange(false)}
@@ -39,7 +39,7 @@ export const Selecteur = ({ options, assisted, onChange, variant = 'default' }: 
         className="btn"
         style={{
           backgroundColor: assisted ? COULEUR_PRINCIPALE : 'transparent',
-          color: assisted ? COULEUR_BLANC : COULEUR_NOIR,
+          color: assisted ? COULEUR_TEXTE_CLAIR : COULEUR_NOIR,
           borderColor: COULEUR_NOIR,
         }}
         onClick={() => onChange(true)}

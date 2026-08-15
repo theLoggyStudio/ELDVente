@@ -1,5 +1,5 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
-import { COULEUR_BLANC, COULEUR_NOIR, COULEUR_PRINCIPALE } from '../constants/ts/Couleur.constant';
+import { COULEUR_NOIR, COULEUR_PRINCIPALE, COULEUR_TEXTE_CLAIR } from '../constants/ts/Couleur.constant';
 
 type ButtonProps = {
   children: ReactNode;
@@ -15,7 +15,7 @@ export const Button = ({
 }: ButtonProps) => {
   const baseStyle =
     variant === 'pay'
-      ? { backgroundColor: COULEUR_NOIR, borderColor: COULEUR_NOIR, color: COULEUR_BLANC }
+      ? { backgroundColor: COULEUR_NOIR, borderColor: COULEUR_NOIR, color: COULEUR_TEXTE_CLAIR }
       : { backgroundColor: COULEUR_PRINCIPALE, borderColor: COULEUR_NOIR, color: COULEUR_NOIR };
 
   return (

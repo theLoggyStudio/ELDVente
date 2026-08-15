@@ -1,4 +1,4 @@
-import { COULEUR_BLANC, COULEUR_NOIR, COULEUR_PRINCIPALE } from '../constants/ts/Couleur.constant';
+import { COULEUR_BLANC, COULEUR_NOIR, COULEUR_PRINCIPALE, COULEUR_TEXTE_CLAIR } from '../constants/ts/Couleur.constant';
 
 type FormuleComparaisonProps = {
   sectionTitle: string;
@@ -17,7 +17,7 @@ const ListePuces = ({ items, assisted }: { items: string[]; assisted: boolean })
         <li
           key={`${i}-${line.slice(0, 20)}`}
           className="list-group-item px-0 py-2 border-0 border-bottom"
-          style={{ backgroundColor: 'transparent', color: assisted ? COULEUR_BLANC : COULEUR_NOIR }}
+          style={{ backgroundColor: 'transparent', color: assisted ? COULEUR_TEXTE_CLAIR : COULEUR_NOIR }}
         >
           {line}
         </li>
@@ -37,7 +37,7 @@ export const FormuleComparaison = ({
   const titre = assisted ? titreColonneAvec : titreColonneSans;
   const lignes = assisted ? lignesAvec : lignesSans;
   const panelBg = assisted ? COULEUR_PRINCIPALE : COULEUR_BLANC;
-  const textColor = assisted ? COULEUR_BLANC : COULEUR_NOIR;
+  const textColor = assisted ? COULEUR_TEXTE_CLAIR : COULEUR_NOIR;
 
   return (
     <div className="mb-3 el-item card shadow-sm border-2" style={{ borderColor: COULEUR_NOIR }}>

@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { COULEUR_BLANC, COULEUR_NOIR } from '../constants/ts/Couleur.constant';
 
 type ModalProps = {
   show: boolean;
@@ -21,13 +22,20 @@ export const Modal = ({ show, title, closeLabel, children, footer, onClose }: Mo
       onClick={onClose}
     >
       <div className="modal-dialog modal-lg modal-dialog-scrollable" role="document" onClick={(e) => e.stopPropagation()}>
-        <div className="modal-content shadow">
-          <div className="modal-header">
+        <div
+          className="modal-content shadow"
+          style={{ backgroundColor: COULEUR_BLANC, borderColor: COULEUR_NOIR, color: COULEUR_NOIR }}
+        >
+          <div className="modal-header" style={{ backgroundColor: COULEUR_BLANC, borderColor: COULEUR_NOIR }}>
             <h5 className="modal-title">{title}</h5>
             <button type="button" className="btn-close" aria-label={closeLabel} onClick={onClose} />
           </div>
-          <div className="modal-body">{children}</div>
-          {footer ? <div className="modal-footer">{footer}</div> : null}
+          <div className="modal-body" style={{ backgroundColor: COULEUR_BLANC }}>{children}</div>
+          {footer ? (
+            <div className="modal-footer" style={{ backgroundColor: COULEUR_BLANC, borderColor: COULEUR_NOIR }}>
+              {footer}
+            </div>
+          ) : null}
         </div>
       </div>
     </div>
