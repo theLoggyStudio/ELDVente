@@ -1,10 +1,11 @@
 /**
- * Aligné sur `ELDBack` → `PAYDUNYA_COUNTRY_CODES` (défaut UEMOA + partenaires).
- * Sert à l’indication « PayDunya » dans l’offcanvas (priorité Dohone gérée à part).
+ * Pays réellement couverts par PayDunya (doc officielle SoftPay) :
+ * Sénégal, Côte d’Ivoire, Bénin, Burkina Faso, Togo, Mali, Cameroun.
+ * Sert au sélecteur pays de l’offcanvas ; les autres pays passent par « Autre… » (carte FeexPay).
  */
 const raw =
   (import.meta.env.VITE_PAYDUNYA_COUNTRY_CODES as string | undefined)?.trim() ||
-  'SN,CI,ML,BJ,BF,TG,NE,GN,LR,SL,CM,GA,CG,TD,CF,CD,GH,NG';
+  'SN,CI,BJ,BF,TG,ML,CM';
 
 export const paydunyaCountryIsoCodes = new Set(
   raw

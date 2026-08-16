@@ -1,7 +1,9 @@
 import { jsPDF } from 'jspdf';
-import siteLogoUrl from '../assets/logo.png';
+import { ELLADARIE_DEFAULT_LOGO } from '../constants/ts/Brand.constant';
 import { COULEUR_NOIR, COULEUR_PRINCIPALE } from '../constants/ts/Couleur.constant';
 import { formatPrice } from './formatPrice';
+
+const siteLogoUrl = ELLADARIE_DEFAULT_LOGO;
 
 export type ReceiptPdfLabels = {
   title: string;

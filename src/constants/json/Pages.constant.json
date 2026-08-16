@@ -69,7 +69,7 @@
     "Erreur API : ",
     "Pays de facturation",
     "Équivalent (indicatif) :",
-    "Paiement par carte bancaire (hors couverture PayDunya) : configuration serveur requise.",
+    "Autre pays : paiement par carte bancaire (Visa / Mastercard) via FeexPay.",
     "Payer avec PayPal",
     "La validation du paiement PayPal a échoué. Réessayez ou contactez le support.",
     "Pays (affichage des prix et du paiement)",
@@ -119,6 +119,7 @@
     "Site de l’éditeur",
     "Numéro d’assistance",
     "Inclus dans la formule",
-    "Détails du paiement"
+    "Détails du paiement",
+    "Paiement par carte bancaire indisponible pour le moment. Contactez le support."
   ]
 }

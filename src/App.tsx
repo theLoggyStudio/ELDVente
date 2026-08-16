@@ -10,6 +10,7 @@ import { PAYDUNIA_PRODUIT_NOM, PAYDUNIA_STORE_NOM, SUPPLEMENT_ASSISTANCE_FCFA } 
 import { Alert } from './items/Alert';
 import { Button } from './items/Button';
 import { Card } from './items/Card';
+import { FeexPayCardButton, type FeexPayCardResult } from './items/FeexPayCardButton';
 import { Footer } from './items/Footer';
 import { Header } from './items/Header';
 import { Input } from './items/Input';
@@ -46,7 +47,8 @@ import {
   isDohoneCountry,
   paymentCountryFromBilling,
 } from './constants/ts/DohoneCountries.constant';
-import { PAYS_CHECKOUT_OFFCANVAS } from './constants/ts/OffcanvasPaysCheckout.constant';
+import { PAYS_AUTRE_CODE, PAYS_CHECKOUT_PAYDUNYA } from './constants/ts/OffcanvasPaysCheckout.constant';
+import { FEEXPAY_CONFIGURED } from './constants/ts/Feexpay.constant';
 import { isPaydunyaCountry } from './constants/ts/PaydunyaCountries.constant';
 import { formatCatalogPriceFromFcfa } from './utils/catalogCurrencyFromFcfa';
 import { formatPrice } from './utils/formatPrice';
@@ -152,9 +154,8 @@ function App() {
   const [downloadStarted, setDownloadStarted] = useState(false);
   const [billingCurrency, setBillingCurrency] = useState<BillingCurrency>(() => readStoredCurrency());
   const [checkoutCountryCode, setCheckoutCountryCode] = useState(() => {
-    const stored = readStoredCheckoutCountry();
-    if (stored) return stored;
-    return paymentCountryFromBilling(readStoredCurrency());
+    const candidate = readStoredCheckoutCountry() ?? paymentCountryFromBilling(readStoredCurrency());
+    return isPaydunyaCountry(candidate) ? candidate : PAYS_AUTRE_CODE;
   });
   const [payBusy, setPayBusy] = useState(false);
   const [toast, setToast] = useState<{
@@ -420,8 +421,8 @@ function App() {
   /** Pays de paiement : au choix d’un article, reprendre la mémorisation ou la devise affichée. */
   useEffect(() => {
     if (!selected) return;
-    const stored = readStoredCheckoutCountry();
-    setCheckoutCountryCode(stored ?? paymentCountryFromBilling(billingCurrency));
+    const candidate = readStoredCheckoutCountry() ?? paymentCountryFromBilling(billingCurrency);
+    setCheckoutCountryCode(isPaydunyaCountry(candidate) ? candidate : PAYS_AUTRE_CODE);
     // eslint-disable-next-line react-hooks/exhaustive-deps -- uniquement à l’ouverture d’un article (ne pas écraser le pays si l’utilisateur change Euro/CFA après)
   }, [selected]);
 
@@ -577,16 +578,7 @@ function App() {
     ];
   }, [currentPrice]);
 
-  const paysCheckoutOptions = useMemo(() => {
-    const codes = new Set(PAYS_CHECKOUT_OFFCANVAS.map((p) => p.code));
-    if (checkoutCountryCode && !codes.has(checkoutCountryCode)) {
-      return [
-        ...PAYS_CHECKOUT_OFFCANVAS,
-        { code: checkoutCountryCode, libelle: checkoutCountryCode },
-      ].sort((a, b) => a.libelle.localeCompare(b.libelle, 'fr'));
-    }
-    return PAYS_CHECKOUT_OFFCANVAS;
-  }, [checkoutCountryCode]);
+  const paysCheckoutOptions = PAYS_CHECKOUT_PAYDUNYA;
 
   const setBillingCurrencyPersist = useCallback((v: BillingCurrency) => {
     setBillingCurrency(v);
@@ -607,6 +599,11 @@ function App() {
     const articleId = selected.id;
     if (!articleId) {
       setToast({ variant: 'error', message: vente[PAGE_VENTE.deliveryDriveMissing] });
+      return;
+    }
+    if (checkoutCountryCode === PAYS_AUTRE_CODE) {
+      // Ne devrait pas arriver : le bouton FeexPay remplace « Payer » quand la config est présente.
+      setToast({ variant: 'error', message: vente[PAGE_VENTE.feexpayUnavailable] });
       return;
     }
     if (isDohoneCountry(checkoutCountryCode) && !buyerPhone.trim()) {
@@ -653,6 +650,46 @@ function App() {
       setPayBusy(false);
     }
   };
+
+  /** Description FeexPay : texte simple, sans caractères spéciaux (exigence FeexPay). */
+  const feexpayDescription = selected
+    ? `${PAYDUNIA_PRODUIT_NOM} ${articleDisplayTitle(selected)} ${
+        assisted ? selecteurTuple[1].nom : selecteurTuple[0].nom
+      }`
+        .replace(/[^\p{L}\p{N} .-]/gu, ' ')
+        .replace(/\s+/gu, ' ')
+        .trim()
+    : '';
+
+  /** Fin du paiement carte FeexPay (« Autre… ») : succès → même flux de livraison que PayDunya. */
+  const handleFeexpayResult = useCallback(
+    (result: FeexPayCardResult) => {
+      if (!selected?.id) return;
+      if (!result.ok) {
+        setToast({
+          variant: 'error',
+          message: `${vente[PAGE_VENTE.paymentError]}${result.message ? ` (${result.message})` : ''}`.trim(),
+        });
+        return;
+      }
+      const optionsSummary = `${vente[PAGE_VENTE.formuleLabel]}: ${
+        assisted ? selecteurTuple[1].nom : selecteurTuple[0].nom
+      }`;
+      // L'e-mail est saisi dans la modale FeexPay : il alimente le reçu et l'historique.
+      savePendingDelivery({
+        article: selected,
+        articleId: selected.id,
+        assisted,
+        totalAmount: currentPrice,
+        optionsSummary,
+        ...(result.email ? { buyerEmail: result.email } : {}),
+      });
+      const path = window.location.pathname || '/';
+      const normalized = path.startsWith('/') ? path : `/${path}`;
+      window.location.assign(`${window.location.origin}${normalized.split('?')[0]}?paiement=ok`);
+    },
+    [selected, assisted, currentPrice],
+  );
 
   const openNewArticleModal = () => {
     setEditingArticleId(null);
@@ -898,15 +935,25 @@ function App() {
         closeLabel={vente[PAGE_VENTE.closeAria]}
         footer={
           <div className="d-flex flex-column gap-2 w-100">
-            <Button
-              variant="pay"
-              className="w-100 py-2"
-              type="button"
-              disabled={payBusy}
-              onClick={() => void handlePay()}
-            >
-              {payBusy ? vente[PAGE_VENTE.paymentRedirecting] : vente[PAGE_VENTE.payButton]}
-            </Button>
+            {selected?.id && checkoutCountryCode === PAYS_AUTRE_CODE && FEEXPAY_CONFIGURED ? (
+              // « Autre… » : widget FeexPay (carte bancaire) qui collecte lui-même nom / e-mail / téléphone.
+              <FeexPayCardButton
+                amount={currentPrice}
+                description={feexpayDescription}
+                buttonText={vente[PAGE_VENTE.payButtonInternationalCard]}
+                onResult={handleFeexpayResult}
+              />
+            ) : (
+              <Button
+                variant="pay"
+                className="w-100 py-2"
+                type="button"
+                disabled={payBusy}
+                onClick={() => void handlePay()}
+              >
+                {payBusy ? vente[PAGE_VENTE.paymentRedirecting] : vente[PAGE_VENTE.payButton]}
+              </Button>
+            )}
           </div>
         }
       >
@@ -951,11 +998,13 @@ function App() {
                 ))}
               </select>
               <p className="small mt-2 mb-0" style={{ color: COULEUR_NOIR }}>
-                {isDohoneCountry(checkoutCountryCode)
-                  ? vente[PAGE_VENTE.paymentRedirectDohoneHint]
-                  : isPaydunyaCountry(checkoutCountryCode)
-                    ? vente[PAGE_VENTE.paymentRedirectPaydunyaHint]
-                    : vente[PAGE_VENTE.paymentCountryUnavailableHint]}
+                {checkoutCountryCode === PAYS_AUTRE_CODE
+                  ? vente[PAGE_VENTE.cardPaymentOutsidePaydunyaHint]
+                  : isDohoneCountry(checkoutCountryCode)
+                    ? vente[PAGE_VENTE.paymentRedirectDohoneHint]
+                    : isPaydunyaCountry(checkoutCountryCode)
+                      ? vente[PAGE_VENTE.paymentRedirectPaydunyaHint]
+                      : vente[PAGE_VENTE.paymentCountryUnavailableHint]}
               </p>
             </div>
             {currencyTableCells.length > 0 ? (

@@ -1,7 +1,7 @@
 /** Palette autorisée : jaune, gris clair (ex-blanc), noir */
 export const COULEUR_PRINCIPALE = '#F5C527';
-/** Fond / surfaces (remplace le blanc). */
-export const COULEUR_BLANC = '#F0F0F0';
+/** Fond / surfaces (remplace le blanc, nuance #DBDBDB). */
+export const COULEUR_BLANC = '#DBDBDB';
 /** Texte clair sur fond noir ou jaune (contraste). */
 export const COULEUR_TEXTE_CLAIR = '#FFFFFF';
 export const COULEUR_NOIR = '#000000';

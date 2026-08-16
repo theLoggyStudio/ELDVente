@@ -120,4 +120,5 @@ export const PAGE_VENTE = {
   receiptPdfAssistanceLabel: 117,
   receiptPdfIncludedLabel: 118,
   receiptPdfPaymentSection: 119,
+  feexpayUnavailable: 120,
 } as const;

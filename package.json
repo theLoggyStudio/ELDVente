@@ -12,7 +12,8 @@
     "bootstrap": "^5.3.3",
     "jspdf": "^4.2.1",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-sdk-feexpay": "^1.0.4"
   },
   "devDependencies": {
     "@types/bootstrap": "^5.2.10",

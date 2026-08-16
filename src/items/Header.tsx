@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
+import { ELLADARIE_DEFAULT_LOGO } from '../constants/ts/Brand.constant';
 import { COULEUR_NOIR, COULEUR_PRINCIPALE } from '../constants/ts/Couleur.constant';
-import logo from '../assets/logo.png';
 
 type HeaderProps = {
   title: string;
@@ -22,7 +22,7 @@ export const Header = ({ title, children }: HeaderProps) => {
             style={{ color: COULEUR_NOIR, lineHeight: 1.25 }}
           >
             <img
-              src={logo}
+              src={ELLADARIE_DEFAULT_LOGO}
               alt="Logo EllaDarie"
               style={{
                 width: '120px',
